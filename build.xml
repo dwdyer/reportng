@@ -1,0 +1,105 @@
+<project name="reportng" default="dist" basedir=".">
+  <description>Reporting plug-in for TestNG.</description>
+
+  
+<!-- ==================================================================
+     GLOBAL BUILD PROPERTIES
+=================================================================== -->
+  
+  <property name="src.dir" location="./src"/>
+  <property name="java.dir" location="${src.dir}/java" />
+  <property name="templates.dir" location="${src.dir}/templates" />
+
+  <property name="lib.dir"  location="./lib"/>
+
+  <property name="build.dir" location="./build"/>
+  <property name="classes.dir" location="${build.dir}/classes" />
+  <property name="test-results.dir" location="${build.dir}/test-results" />
+
+  <property name="dist.dir" location="./dist"/>
+
+  <property name="docs.dir"  location="./docs"/>
+  <property name="api.dir" location="${docs.dir}/api" />
+
+  <!-- Classpath for compilation and tests. -->
+  <path id="base.path">
+    <fileset dir="${lib.dir}">
+      <include name="**/*.jar" />
+    </fileset>
+  </path>
+
+<!-- ==================================================================
+     TARGETS FOR BUILDING THE SOFTWARE
+=================================================================== -->
+
+  <!-- Builds everything from scratch. -->
+  <target name="all" depends="clean, dist" description="Builds everything, excluding docs, from scratch."/>  
+  
+  
+  <!-- Deletes all directories and files created by the build process. -->
+  <target name="clean" description="Remove all files created by the build process." >
+    <delete dir="${build.dir}" />
+    <delete dir="${dist.dir}" />
+    <delete dir="${docs.dir}" />
+  </target>    
+  
+  
+  <!-- Build all Java code. -->
+  <target name="compile" description="Compile the source." >
+    <mkdir dir="${classes.dir}" />
+    <javac destdir="${classes.dir}"
+           classpathref="base.path"
+           debug="on"
+           deprecation="on"
+           optimize="on"
+           source="1.5"
+           target="1.5"
+           srcdir="${java.dir}">
+      <include name="org/uncommons/**/*.java" />
+      <compilerarg line="-Xlint:unchecked" />
+    </javac>
+  </target>
+
+
+  <!-- Build application JAR files. -->
+  <target name="jar" depends="compile" description="Create the application JAR files.">
+    <jar jarfile="${build.dir}/reportng.jar">
+      <fileset dir="${classes.dir}" >
+        <include name="org/uncommons/**/*.class" />
+      </fileset>
+      <fileset dir="${templates.dir}" includes="*" />
+      <manifest>
+        <attribute name="Class-Path" value="velocity-dep-1.4.jar"/>
+      </manifest>
+    </jar>
+  </target>
+  
+  
+  <!-- Copy all necessary files to deployment directory. -->
+  <target name="dist" depends="jar" description="Generate the deployment tree." >
+    <mkdir dir="${dist.dir}" />    
+    <!-- Deploy all application JARs, libraries and config files. -->
+    <copy todir="${dist.dir}">
+      <fileset dir="${build.dir}" includes="**/*.jar" />
+      <fileset dir="${lib.dir}" includes="*.jar" />
+    </copy>
+  </target>
+  
+  
+<!-- ==================================================================
+     TARGETS FOR GENERATING DOCUMENTATION
+=================================================================== -->
+  
+  <target name="docs" description="Generate API documentation for Java code.">
+    <javadoc sourcepath="${java.dir}"
+             destdir="${api.dir}"
+             classpathref="base.path"
+             source="1.5" >
+      <packageset dir="${java.dir}" >
+        <include name="org/uncommons/**/*" />
+      </packageset>
+      <link href="http://java.sun.com/j2se/1.5.0/docs/api/" />
+    </javadoc>
+  </target>
+    
+</project>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <title>Unit Test Results</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="description" content="TestNG unit test results." />
+    <link href="reportng.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="title">$suite.name</div>
+    #foreach( $result in $suite.results )
+<table class="summaryTable" width="100%">
+
+   #set ($notPassedTests = $result.testContext.skippedTests.size() + $result.testContext.failedTests.size())
+   #set ($totalTests = $result.testContext.passedTests.size() + $notPassedTests)
+
+   #if ($totalTests > 0)
+     #set ($passRate = (($totalTests - $notPassedTests) * 100 / $totalTests))
+     <tr class="header"><td colspan="2"><span class="passRate">&nbsp;$passRate%</span>$result.testContext.name</td></tr>
+   #else
+     <tr class="header"><td colspan="2"><span class="passRate">&nbsp;N/A</span>$result.testContext.name</td></tr>
+   #end
+   <tr class="small"><td>Started:</td><td style="text-align: right">$utils.formatDate($result.testContext.startDate)</td></tr>
+   <tr class="small"><td>Ended:</td><td style="text-align: right">$utils.formatDate($result.testContext.endDate)</td></tr>
+   <tr class="small"><td>Duration:</td><td style="text-align: right">$utils.formatDuration($result.testContext.startDate, $result.testContext.endDate)</td></tr>
+
+   #if ($result.testContext.passedTests.size() > 0)
+   <tr class="passed"><td>Tests Passed:</td><td style="text-align: right"><b>$result.testContext.passedTests.size()</b></td></tr>
+   #end
+
+   #if ($result.testContext.skippedTests.size() > 0)
+   <tr class="skipped"><td>Tests Skipped:</td><td style="text-align: right"><b>$result.testContext.skippedTests.size()</b></td></tr>
+   #end
+
+   #if ($result.testContext.failedTests.size() > 0)
+   <tr class="failed"><td>Tests Failed:</td><td style="text-align: right"><b>$result.testContext.failedTests.size()</b></td></tr>
+   #end
+
+   <tr><td colspan="2">[<a href="suite1_test${velocityCount}_results.html" target="main">Results</a>]</td></tr>
+</table>
+<div>&nbsp;</div>
+   #end
+</body>
+</html>
