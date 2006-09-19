@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <title>Unit Test Results</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="description" content="TestNG unit test results." />
+    <link href="reportng.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="title">$result.testContext.name</div>
+<table class="resultsTable" width="100%">
+#if( $result.testContext.failedTests.size() > 0 )
+    <tr><td colspan="3" class="header failed">Failed Tests / Configuration</td></tr>
+    #set ($sortedResults = $utils.sortByTestClass($result.testContext.failedTests) )
+    #foreach( $testClass in $sortedResults.keySet() )
+    <tr>
+        <td colspan="3" class="shaded"><b>$testClass.name</b></td>
+    </tr>
+
+    #foreach( $testResult in $sortedResults.get($testClass) )
+    <tr style="border-bottom: 1px solid #000000;">
+        <td>$testResult.name</td>
+        <td>$utils.formatDuration($testResult.startMillis, $testResult.endMillis)</td>
+        <td>
+            #if( $testResult.method.description.length() > 0 )
+            <i>$testResult.method.description</i><br />
+            #end
+            #set( $output = $utils.getTestOutput($testResult.method) )
+            #if( $output.size() > 0)
+                <div class="output">
+                #foreach( $line in $output )
+                $line<br />
+                #end
+                </div>
+            #end
+            <b>$utils.escapeString( $testResult.throwable.toString() )</b><br />
+            <div class="small">
+            #foreach( $element in $testResult.throwable.stackTrace )
+            $element<br />
+            #end
+            #set( $causes = $utils.getCauses($testResult.throwable) )
+            #foreach( $throwable in $causes )
+                <b>Caused by: </b> $utils.escapeString( $throwable.toString() )<br />
+                #foreach( $element in $throwable.stackTrace )
+                    $element<br />
+                #end
+            #end
+            </div>
+        </td>
+    </tr>
+    #end
+    #end
+#end
+
+#if( $result.testContext.skippedTests.size() > 0 )
+    <tr><td colspan="3" class="header skipped">Skipped Tests / Configuration</td></tr>
+    #set ($sortedResults = $utils.sortByTestClass($result.testContext.skippedTests) )
+    #foreach( $testClass in $sortedResults.keySet() )
+    <tr>
+        <td colspan="3" class="shaded"><b>$testClass.name</b></td>
+    </tr>
+    #foreach( $testResult in $sortedResults.get($testClass) )
+    <tr>
+        <td>$testResult.name</td>
+        <td>&nbsp;</td>
+        <td>
+            #if( $testResult.method.description.length() > 0 )
+            <i>$testResult.method.description</i><br />
+            #end
+        </td>
+    </tr>
+    #end
+    #end
+#end
+
+#if( $result.testContext.passedTests.size() > 0 )
+    <tr><td colspan="3" class="header passed">Passed Tests</td></tr>
+    #set ($sortedResults = $utils.sortByTestClass($result.testContext.passedTests) )
+    #foreach( $testClass in $sortedResults.keySet() )
+    <tr>
+        <td colspan="3" class="shaded"><b>$testClass.name</b></td>
+    </tr>
+    #foreach( $testResult in $sortedResults.get($testClass) )
+    <tr>
+        <td>$testResult.name</td>
+        <td>$utils.formatDuration($testResult.startMillis, $testResult.endMillis)</td>
+        <td>
+            #if( $testResult.method.description.length() > 0 )
+            <i>$testResult.method.description</i><br />
+            #end
+            #set( $output = $utils.getTestOutput($testResult) )
+            #if( $output.size() > 0)
+                <div class="output">
+                #foreach( $line in $output )
+                $line<br />
+                #end
+                </div>
+            #end
+        </td>
+    </tr>
+    #end
+    #end
+#end
+</table>
+
+
+</body>
+</html>

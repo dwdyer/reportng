@@ -1,0 +1,20 @@
+a                   {color: #006699;}
+a:visited           {color: #003366;}
+body                {font-family: sans-serif; font-size: 10pt;}
+
+.title              {font-size: 18pt; font-weight: bold;}
+.header             {font-size: 12pt; font-weight: bold;}
+.small              {font-size: 8pt;}
+.passed             {background-color: #44aa44;}
+.skipped            {background-color: #ffaa00;}
+.failed             {background-color: #ff4444;}
+.shaded             {background-color: #cccccc;}
+.passRate           {float:right; text-align: right; vertical-align: top;}
+.output             {font-family: monospace; font-size: 8pt; color: #777777;}
+
+table.summaryTable  {border: 1px solid #000000; border-collapse: collapse; background-color: #ffffcc;}
+tr.summaryTable     {border: 0px;}
+td.summaryTable     {border: 0px;}
+
+table.resultsTable  {border: 0px;}
+.resultsTable td    {vertical-align: top; padding-left: 5px; padding-right: 5px;}
