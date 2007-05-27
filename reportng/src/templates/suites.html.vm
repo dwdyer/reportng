@@ -17,7 +17,7 @@
 <p>
     <strong>Test Suites</strong><br />
     #foreach ($suite in $suites)
-        <a href="suite${velocityCount}_contents.html" target="contents">${suite.name}</a><br />
+        <a href="suite${velocityCount}_summary.html" target="contents">${suite.name}</a><br />
     #end
 </p>
 </body>
