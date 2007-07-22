@@ -46,15 +46,15 @@
   
   <!-- Build all Java code. -->
   <target name="compile" description="Compile the source." >
-    <mkdir dir="${classes.dir}" />
-    <javac destdir="${classes.dir}"
+    <mkdir dir="${classes.dir}/main" />
+    <javac destdir="${classes.dir}/main"
            classpathref="base.path"
            debug="on"
            deprecation="on"
            optimize="on"
            source="1.5"
            target="1.5"
-           srcdir="${java.dir}">
+           srcdir="${java.dir}/main">
       <include name="org/uncommons/**/*.java" />
       <compilerarg line="-Xlint:unchecked" />
     </javac>
@@ -64,7 +64,7 @@
   <!-- Build application JAR files. -->
   <target name="jar" depends="compile" description="Create the application JAR files.">
     <jar jarfile="${build.dir}/reportng.jar">
-      <fileset dir="${classes.dir}" >
+      <fileset dir="${classes.dir}/main" >
         <include name="org/uncommons/**/*.class" />
       </fileset>
       <fileset dir="${templates.dir}" includes="*" />
@@ -91,7 +91,7 @@
 =================================================================== -->
   
   <target name="docs" description="Generate API documentation for Java code.">
-    <javadoc sourcepath="${java.dir}"
+    <javadoc sourcepath="${java.dir}/main"
              destdir="${api.dir}"
              classpathref="base.path"
              source="1.5" >
