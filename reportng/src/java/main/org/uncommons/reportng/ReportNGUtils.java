@@ -1,5 +1,5 @@
 // ============================================================================
-//   Copyright 2006 Daniel W. Dyer
+//   Copyright 2006, 2007 Daniel W. Dyer
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -65,6 +65,7 @@ public class ReportNGUtils
         return DATE_FORMAT.format(date);
     }
 
+
     public String formatDuration(long startMillis, long endMillis)
     {
         long elapsed = endMillis - startMillis;
@@ -72,10 +73,12 @@ public class ReportNGUtils
         return DURATION_FORMAT.format(seconds);
     }
 
+
     public String formatDuration(Date start, Date end)
     {
         return formatDuration(start.getTime(), end.getTime());
     }
+
 
     public SortedMap<IClass, SortedSet<ITestResult>> sortByTestClass(IResultMap results)
     {
@@ -123,6 +126,12 @@ public class ReportNGUtils
     }
 
 
+    /**
+     * Replace any angle brackets with the corresponding HTML entities to avoid
+     * problems displaying the String in an HTML page.
+     * @param s The String to escape.
+     * @return The escaped String.
+     */
     public String escapeString(String s)
     {
         return s.replace("<", "&lt;").replace(">", "&gt;");

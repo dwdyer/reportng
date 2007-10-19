@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="ReportNG Sample" verbose="1" >
+
+  <test name="Sample Tests" >
+    <packages>
+      <package name="org.uncommons.reportng.*" />
+    </packages>
+  </test>
+
+</suite>

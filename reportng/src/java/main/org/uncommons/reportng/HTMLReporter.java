@@ -1,5 +1,5 @@
 // ============================================================================
-//   Copyright 2006 Daniel W. Dyer
+//   Copyright 2006, 2007 Daniel W. Dyer
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -108,12 +108,18 @@ public class HTMLReporter implements IReporter
                               VelocityContext context) throws Exception
     {
         Writer writer = new BufferedWriter(new FileWriter(file));
-        Velocity.mergeTemplate(template,
-                               ENCODING,
-                               context,
-                               writer);
-        writer.flush();
-        writer.close();
+        try
+        {
+            Velocity.mergeTemplate(template,
+                                   ENCODING,
+                                   context,
+                                   writer);
+            writer.flush();
+        }
+        finally
+        {
+            writer.close();
+        }
     }
 
 
@@ -170,6 +176,11 @@ public class HTMLReporter implements IReporter
     }
 
 
+    /**
+     * Reads the CSS file from the JAR file and writes it to the output directory.
+     * @param outputDirectory Where to put the stylesheet.
+     * @throws IOException If the stylesheet can't be read or written.
+     */
     private void copyStyleSheet(File outputDirectory) throws IOException
     {
         InputStream resourceStream = ClassLoader.getSystemResourceAsStream(STYLE_FILE);
