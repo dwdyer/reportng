@@ -40,7 +40,9 @@ import org.testng.Reporter;
  */
 public class ReportNGUtils
 {
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("EEEE dd MMMM yyyy");
+    private static final DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm z");
+    private static final DateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     private static final NumberFormat DURATION_FORMAT = new DecimalFormat("#0.000s");
 
     private static final Comparator<ITestResult> TEST_RESULT_COMPARATOR = new Comparator<ITestResult>()
@@ -51,6 +53,7 @@ public class ReportNGUtils
         }
     };
 
+
     private static final Comparator<IClass> TEST_CLASS_COMPARATOR = new Comparator<IClass>()
     {
         public int compare(IClass class1, IClass class2)
@@ -60,9 +63,37 @@ public class ReportNGUtils
     };
 
 
+    // The date/time at which this report is being generated.
+    private final Date reportTime = new Date();
+
+
+    /**
+     * Format the date portion of the specified date/time using the
+     * long format.
+     */
     public String formatDate(Date date)
     {
         return DATE_FORMAT.format(date);
+    }
+
+
+    /**
+     * Format the time portion of the specified date/time using the
+     * 24 hour clock.
+     */
+    public String formatTime(Date date)
+    {
+        return TIME_FORMAT.format(date);
+    }
+
+
+    /**
+     * Format the specified date and time using the "reverse order"
+     * format (year, month, day, hours, minutes, seconds).
+     */
+    public String formatDateTime(Date date)
+    {
+        return DATE_TIME_FORMAT.format(date);
     }
 
 
@@ -77,6 +108,15 @@ public class ReportNGUtils
     public String formatDuration(Date start, Date end)
     {
         return formatDuration(start.getTime(), end.getTime());
+    }
+
+
+    /**
+     * @return The date/time at which the reporting commenced.
+     */
+    public Date getReportTime()
+    {
+        return reportTime;
     }
 
 

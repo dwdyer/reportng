@@ -12,9 +12,6 @@ body                {font-family: sans-serif;
 .skipped            {background-color: #ffaa00;}
 .failed             {background-color: #ff4444;}
 .shaded             {background-color: #cccccc;}
-.passRate           {float: right;
-                     text-align: right;
-                     vertical-align: top;}
 .output             {font-family: monospace;
                      font-size: 8pt;
                      color: #777777;}
