@@ -2,10 +2,17 @@
 
 <suite name="ReportNG Sample" verbose="1" >
 
-  <test name="Sample Tests" >
+  <test name="All Sample Tests" >
     <packages>
       <package name="org.uncommons.reportng.*" />
     </packages>
+  </test>
+
+  <!-- Use the same tests again. -->
+  <test name="Only Successful Tests" >
+    <classes>
+      <class name="org.uncommons.reportng.sample.SuccessfulTests" />
+    </classes>
   </test>
 
 </suite>

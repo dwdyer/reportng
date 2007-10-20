@@ -11,60 +11,58 @@
 <body>
 <div class="title">$suite.name</div>
 <br />
-    #foreach( $result in $suite.results )
-<table class="summaryTable" width="100%">
+
+#foreach( $result in $suite.results )
+  <table class="summaryTable" width="100%">
 
    #set ($notPassedTests = $result.testContext.skippedTests.size() + $result.testContext.failedTests.size())
    #set ($totalTests = $result.testContext.passedTests.size() + $notPassedTests)
 
-   <tr class="header">
+   <tr class="header" style="background-color: #ffffcc;">
      <td><a href="suite1_test${velocityCount}_results.html" target="main">$result.testContext.name</a></td>
-   #if ($totalTests > 0)
-     #set ($passRate = (($totalTests - $notPassedTests) * 100 / $totalTests))
-     <td style="text-align: right">$passRate%</td>
-   #else
-     <td style="text-align: right">N/A</td>
-   #end
+     <td class="number">
+       #if ($totalTests > 0)
+         #set ($passRate = (($totalTests - $notPassedTests) * 100 / $totalTests))
+         $passRate%
+       #else
+         N/A
+       #end
+     </td>
    </tr>
 
-   <tr class="small">
-     <td>Tests Run:</td>
-     <td style="text-align: right">$totalTests</td>
-   </tr>
-   <tr class="small" style="border-bottom: 1px solid #000000">
-     <td>Duration:</td>
-     <td style="text-align: right">$utils.formatDuration($result.testContext.startDate, $result.testContext.endDate)</td>
+   <tr class="small" style="border-bottom: 1px solid #000000; background-color: #ffffcc;">
+     <td colspan="2">Total Tests: <b>$totalTests</b> &nbsp;&nbsp; (Duration: $utils.formatDuration($result.testContext.startDate, $result.testContext.endDate))</td>
    </tr>
 
    #if ($result.testContext.failedTests.size() > 0)
    <tr class="failed">
    #else
-   <tr>
+   <tr class="small zero">
    #end
      <td>Failed:</td>
-     <td style="text-align: right"><b>$result.testContext.failedTests.size()</b></td>
+     <td class="number">$result.testContext.failedTests.size()</td>
    </tr>
 
    #if ($result.testContext.failedTests.size() == 0 && $result.testContext.skippedTests.size() > 0)
    <tr class="skipped">
    #else
-   <tr>
+   <tr class="small zero">
    #end
      <td>Skipped:</td>
-     <td style="text-align: right"><b>$result.testContext.skippedTests.size()</b></td>
+     <td class="number">$result.testContext.skippedTests.size()</td>
    </tr>   
 
    #if ($notPassedTests == 0 && $result.testContext.passedTests.size() > 0)
    <tr class="passed">
    #else
-   <tr>
+   <tr class="small zero">
    #end
      <td>Passed:</td>
-     <td style="text-align: right"><b>$result.testContext.passedTests.size()</b></td>
+     <td class="number">$result.testContext.passedTests.size()</td>
    </tr>
 
-</table>
-<div>&nbsp;</div>
-   #end
+  </table>
+  <div>&nbsp;</div>
+#end
 </body>
 </html>

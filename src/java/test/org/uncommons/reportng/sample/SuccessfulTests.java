@@ -44,4 +44,14 @@ public class SuccessfulTests
         Reporter.log("Here is some output from a successful test.");
         assert true;
     }
+
+
+    @Test
+    public void testWithMultiLineOutput()
+    {
+        Reporter.log("This is the first line of 3.");
+        Reporter.log("This is a second line.");
+        Reporter.log("This is the third.");
+        assert true;
+    }
 }

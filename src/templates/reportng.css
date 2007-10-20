@@ -8,17 +8,26 @@ body                {font-family: sans-serif;
 .header             {font-size: 12pt;
                      font-weight: bold;}
 .small              {font-size: 8pt;}
-.passed             {background-color: #44aa44;}
-.skipped            {background-color: #ffaa00;}
-.failed             {background-color: #ff4444;}
 .shaded             {background-color: #cccccc;}
+
+.passed             {background-color: #44aa44;
+                     font-weight: bold;}
+.skipped            {background-color: #ffaa00;
+                     font-weight: bold;}
+.failed             {background-color: #ff4444;
+                     font-weight: bold;}
+.zero               {background-color: #eeeeee;
+                     font-weight: normal;}
+
 .output             {font-family: monospace;
                      font-size: 8pt;
                      color: #777777;}
 
+/* Numbers in columns should be right-aligned. */
+.number             {text-align: right;}
+
 table.summaryTable  {border: 1px solid #000000;
-                     border-collapse: collapse;
-                     background-color: #ffffcc;}
+                     border-collapse: collapse;}
 tr.summaryTable     {border: 0;}
 td.summaryTable     {border: 0;}
 
