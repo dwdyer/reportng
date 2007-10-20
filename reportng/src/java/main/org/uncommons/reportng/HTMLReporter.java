@@ -151,7 +151,7 @@ public class HTMLReporter implements IReporter
             generateFile(new File(outputDirectory, "suite" + index + '_' + SUMMARY_FILE),
                          SUMMARY_FILE + TEMPLATE_EXTENSION,
                          context);
-            index++;
+            ++index;
         }
     }
 
@@ -171,7 +171,7 @@ public class HTMLReporter implements IReporter
                              context);
                 index2++;
             }
-            index++;
+            ++index;
         }
     }
 

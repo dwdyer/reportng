@@ -40,11 +40,18 @@ import org.testng.Reporter;
  */
 public class ReportNGUtils
 {
+    private static final String PROPERTY_KEY_PREFIX = "org.uncommons.reportng.";
+    private static final String TITLE_KEY = PROPERTY_KEY_PREFIX + "title";
+    private static final String DEFAULT_TITLE = "Test Results Report";
+    private static final String COVERAGE_KEY = PROPERTY_KEY_PREFIX + "coverage-report";
+
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("EEEE dd MMMM yyyy");
     private static final DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm z");
-    private static final DateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     private static final NumberFormat DURATION_FORMAT = new DecimalFormat("#0.000s");
 
+    /**
+     * Comparator for sorting tests alphabetically by method name.
+     */
     private static final Comparator<ITestResult> TEST_RESULT_COMPARATOR = new Comparator<ITestResult>()
     {
         public int compare(ITestResult result1, ITestResult result2)
@@ -54,6 +61,9 @@ public class ReportNGUtils
     };
 
 
+    /**
+     * Comparator for sorting classes alphabetically by fully-qualified name.
+     */
     private static final Comparator<IClass> TEST_CLASS_COMPARATOR = new Comparator<IClass>()
     {
         public int compare(IClass class1, IClass class2)
@@ -63,7 +73,9 @@ public class ReportNGUtils
     };
 
 
-    // The date/time at which this report is being generated.
+    /**
+     * The date/time at which this report is being generated.
+     */
     private final Date reportTime = new Date();
 
 
@@ -84,16 +96,6 @@ public class ReportNGUtils
     public String formatTime(Date date)
     {
         return TIME_FORMAT.format(date);
-    }
-
-
-    /**
-     * Format the specified date and time using the "reverse order"
-     * format (year, month, day, hours, minutes, seconds).
-     */
-    public String formatDateTime(Date date)
-    {
-        return DATE_TIME_FORMAT.format(date);
     }
 
 
@@ -167,13 +169,31 @@ public class ReportNGUtils
 
 
     /**
-     * Replace any angle brackets with the corresponding HTML entities to avoid
-     * problems displaying the String in an HTML page.
+     * Replace any angle brackets or ampersands with the corresponding HTML entities
+     * to avoid problems displaying the String in an HTML page.  Assumes that the
+     * String does not already contain any ampersand entities (otherwise they will be
+     * escaped again).
      * @param s The String to escape.
      * @return The escaped String.
      */
     public String escapeString(String s)
     {
-        return s.replace("<", "&lt;").replace(">", "&gt;");
+        return s.replace("<", "&lt;").replace(">", "&gt;").replace("&", "&amp;");
+    }
+
+
+    public String getReportTitle()
+    {
+        return System.getProperty(TITLE_KEY, DEFAULT_TITLE);
+    }
+
+
+    /**
+     * Returns the URL (absolute or relative) of an HTML coverage report associated
+     * with the test run.  Returns null if there is no coverage report.
+     */
+    public String getCoverageLink()
+    {
+        return System.getProperty(COVERAGE_KEY);
     }
 }

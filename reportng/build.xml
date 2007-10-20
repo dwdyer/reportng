@@ -112,6 +112,8 @@
             useDefaultListeners="false"
             listeners="org.uncommons.reportng.HTMLReporter">
       <xmlfileset dir="." includes="sample.xml"/>
+      <sysproperty key="org.uncommons.reportng.coverage-report" value="http://cobertura.sourceforge.net/sample/"/>
+      <sysproperty key="org.uncommons.reportng.title" value="ReportNG Sample Report"/>
     </testng>
   </target>
   
