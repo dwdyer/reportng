@@ -10,35 +10,59 @@
 </head>
 <body>
 <div class="title">$suite.name</div>
+<br />
     #foreach( $result in $suite.results )
 <table class="summaryTable" width="100%">
 
    #set ($notPassedTests = $result.testContext.skippedTests.size() + $result.testContext.failedTests.size())
    #set ($totalTests = $result.testContext.passedTests.size() + $notPassedTests)
 
+   <tr class="header">
+     <td><a href="suite1_test${velocityCount}_results.html" target="main">$result.testContext.name</a></td>
    #if ($totalTests > 0)
      #set ($passRate = (($totalTests - $notPassedTests) * 100 / $totalTests))
-     <tr class="header"><td colspan="2"><span class="passRate">&nbsp;$passRate%</span>$result.testContext.name</td></tr>
+     <td style="text-align: right">$passRate%</td>
    #else
-     <tr class="header"><td colspan="2"><span class="passRate">&nbsp;N/A</span>$result.testContext.name</td></tr>
+     <td style="text-align: right">N/A</td>
    #end
-   <tr class="small"><td>Started:</td><td style="text-align: right">$utils.formatDate($result.testContext.startDate)</td></tr>
-   <tr class="small"><td>Ended:</td><td style="text-align: right">$utils.formatDate($result.testContext.endDate)</td></tr>
-   <tr class="small"><td>Duration:</td><td style="text-align: right">$utils.formatDuration($result.testContext.startDate, $result.testContext.endDate)</td></tr>
+   </tr>
 
-   #if ($result.testContext.passedTests.size() > 0)
-   <tr class="passed"><td>Tests Passed:</td><td style="text-align: right"><b>$result.testContext.passedTests.size()</b></td></tr>
-   #end
-
-   #if ($result.testContext.skippedTests.size() > 0)
-   <tr class="skipped"><td>Tests Skipped:</td><td style="text-align: right"><b>$result.testContext.skippedTests.size()</b></td></tr>
-   #end
+   <tr class="small">
+     <td>Tests Run:</td>
+     <td style="text-align: right">$totalTests</td>
+   </tr>
+   <tr class="small" style="border-bottom: 1px solid #000000">
+     <td>Duration:</td>
+     <td style="text-align: right">$utils.formatDuration($result.testContext.startDate, $result.testContext.endDate)</td>
+   </tr>
 
    #if ($result.testContext.failedTests.size() > 0)
-   <tr class="failed"><td>Tests Failed:</td><td style="text-align: right"><b>$result.testContext.failedTests.size()</b></td></tr>
+   <tr class="failed">
+   #else
+   <tr>
    #end
+     <td>Failed:</td>
+     <td style="text-align: right"><b>$result.testContext.failedTests.size()</b></td>
+   </tr>
 
-   <tr><td colspan="2">[<a href="suite1_test${velocityCount}_results.html" target="main">Results</a>]</td></tr>
+   #if ($result.testContext.failedTests.size() == 0 && $result.testContext.skippedTests.size() > 0)
+   <tr class="skipped">
+   #else
+   <tr>
+   #end
+     <td>Skipped:</td>
+     <td style="text-align: right"><b>$result.testContext.skippedTests.size()</b></td>
+   </tr>   
+
+   #if ($notPassedTests == 0 && $result.testContext.passedTests.size() > 0)
+   <tr class="passed">
+   #else
+   <tr>
+   #end
+     <td>Passed:</td>
+     <td style="text-align: right"><b>$result.testContext.passedTests.size()</b></td>
+   </tr>
+
 </table>
 <div>&nbsp;</div>
    #end
