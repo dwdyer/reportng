@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Another Suite" verbose="1" >
+
+  <!-- Use the same tests again. -->
+  <test name="No Failures" >
+    <classes>
+      <class name="org.uncommons.reportng.sample.SuccessfulTests" />
+    </classes>
+  </test>
+
+</suite>

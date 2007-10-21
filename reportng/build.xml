@@ -42,6 +42,7 @@
   <target name="clean" description="Remove all files created by the build process." >
     <delete dir="${build.dir}" />
     <delete dir="${dist.dir}" />
+    <delete dir="${release.dir}" />
     <delete dir="${docs.dir}" />
   </target>    
   
@@ -145,7 +146,7 @@
             haltonfailure="false"
             useDefaultListeners="false"
             listeners="org.uncommons.reportng.HTMLReporter">
-      <xmlfileset dir="." includes="sample.xml"/>
+      <xmlfileset dir="." includes="sample*.xml"/>
       <sysproperty key="org.uncommons.reportng.coverage-report" value="http://cobertura.sourceforge.net/sample/"/>
       <sysproperty key="org.uncommons.reportng.title" value="ReportNG Sample Report"/>
     </testng>
