@@ -16,9 +16,12 @@
   <property name="classes.dir" location="${build.dir}/classes" />
 
   <property name="dist.dir" location="./dist"/>
-
+  <property name="release.dir" location="./release" />
+  
   <property name="docs.dir"  location="./docs"/>
   <property name="api.dir" location="${docs.dir}/api" />
+
+  <property name="version" value="0.2"/>
 
   <!-- Classpath for compilation and tests. -->
   <path id="base.path">
@@ -94,6 +97,37 @@
       <fileset dir="${build.dir}" includes="**/*.jar" />
       <fileset dir="${lib.dir}" includes="*.jar" />
     </copy>
+  </target>
+
+
+  <!-- Create the release artifacts. -->
+  <target name="release"
+          depends="clean, dist"
+          description="Creates the release archives.">
+    <mkdir dir="${release.dir}" />
+    <!-- Create a GZipped TAR file containing the built binaries, the API
+         documentation, and source code for the examples. -->
+    <tar destfile="${release.dir}/reportng-${version}.tgz"
+         compression="gzip"
+         longfile="gnu">
+      <tarfileset dir="${dist.dir}"
+                  prefix="reportng-${version}"
+                  includes="**/*" />
+      <!-- Don't forget to include the licence and other important information. -->
+      <tarfileset dir="."
+                  prefix="reportng-${version}"
+                  includes="*.txt" />
+    </tar>
+    <!-- Also create a zip file release for the convenience of Windows users. -->
+    <zip destfile="${release.dir}/reportng-${version}.zip">
+      <zipfileset dir="${dist.dir}"
+                  prefix="reportng-${version}"
+                  includes="**/*" />
+      <!-- Don't forget to include the licence and other important information. -->
+      <zipfileset dir="."
+                  prefix="reportng-${version}"
+                  includes="*.txt" />
+    </zip>
   </target>
 
 
