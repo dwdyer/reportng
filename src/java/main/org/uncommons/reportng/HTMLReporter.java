@@ -71,25 +71,11 @@ public class HTMLReporter implements IReporter
             Velocity.setProperty("classpath.resource.loader.class",
                                  "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
             Velocity.init();
-        }
-        catch (Exception ex)
-        {
-            // TO DO: Decide what to do about this exception.
-            ex.printStackTrace();
-        }
 
-        try
-        {
-            createIndex(outputDirectory);
             createOverview(suites, outputDirectory);
             createSuiteList(suites, outputDirectory);
             createResults(suites, outputDirectory);
             copyResources(outputDirectory);
-        }
-        catch (IOException ex)
-        {
-            // TO DO: Decide what to do about this exception.
-            ex.printStackTrace();
         }
         catch (Exception ex)
         {
@@ -123,14 +109,6 @@ public class HTMLReporter implements IReporter
     }
 
 
-    private void createIndex(File outputDirectory) throws Exception
-    {
-        generateFile(new File(outputDirectory, INDEX_FILE),
-                     INDEX_FILE + TEMPLATE_EXTENSION,
-                     createContext());
-    }
-
-
     private void createOverview(List<ISuite> suites, File outputDirectory) throws Exception
     {
         VelocityContext context = createContext();
@@ -141,6 +119,9 @@ public class HTMLReporter implements IReporter
     }
 
 
+    /**
+     * Create the navigation frame.
+     */
     private void createSuiteList(List<ISuite> suites, File outputDirectory) throws Exception
     {
         VelocityContext context = createContext();
@@ -151,6 +132,9 @@ public class HTMLReporter implements IReporter
     }
 
 
+    /**
+     * Generate a results file for each test in each suite.
+     */
     private void createResults(List<ISuite> suites, File outputDirectory) throws Exception
     {
         int index = 1;
@@ -179,24 +163,47 @@ public class HTMLReporter implements IReporter
      */
     private void copyResources(File outputDirectory) throws IOException
     {
+        copyResource(outputDirectory, INDEX_FILE);
         copyResource(outputDirectory, STYLE_FILE);
         copyResource(outputDirectory, JS_FILE);
     }
 
+    /**
+     * Copy a single named resource from the classpath to the output directory.
+     * @param outputDirectory The destination directory for the copied resource.
+     * @param resourceName The filename of the resource.
+     */
     private void copyResource(File outputDirectory, String resourceName) throws IOException
     {
         InputStream resourceStream = ClassLoader.getSystemResourceAsStream(resourceName);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(resourceStream));
+
         File resourceFile = new File(outputDirectory, resourceName);
-        Writer writer = new BufferedWriter(new FileWriter(resourceFile));
-        String line = reader.readLine();
-        while (line != null)
+        Writer writer = null;
+        BufferedReader reader = null;
+        try
         {
-            writer.write(line);
-            line = reader.readLine();
+            reader = new BufferedReader(new InputStreamReader(resourceStream));
+            writer = new BufferedWriter(new FileWriter(resourceFile));
+
+            String line = reader.readLine();
+            while (line != null)
+            {
+                writer.write(line);
+                line = reader.readLine();
+            }
+            writer.flush();
         }
-        writer.flush();
-        writer.close();
+        finally
+        {
+            if (reader != null)
+            {
+                reader.close();
+            }
+            if (writer != null)
+            {
+                writer.close();
+            }
+        }
     }
 
 

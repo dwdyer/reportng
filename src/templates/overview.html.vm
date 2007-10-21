@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <title>Unit Test Results</title>
@@ -26,9 +26,9 @@
         #set ($totalTests = $result.testContext.passedTests.size() + $notPassedTests)
 
       <tr class="test">
-        <td><a href="suite1_test${velocityCount}_results.html">${result.testContext.name}</a></td>
+        <td style="padding-left: 20px;"><a href="suite1_test${velocityCount}_results.html">${result.testContext.name}</a></td>
 
-        <td style="font-weight: bold; font-size: 1.2em; text-align: center;">
+        <td style="font-weight: bold; font-size: 1.1em; text-align: center;">
           #if ($totalTests > 0)
             #set ($passRate = (($totalTests - $notPassedTests) * 100 / $totalTests))
             $passRate%
