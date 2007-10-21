@@ -65,7 +65,7 @@
 #end
 
 #if( $result.testContext.skippedTests.size() > 0 )
-    <tr><td colspan="3" class="header skipped">Skipped Tests / Configuration</td></tr>
+    <tr><td colspan="3" class="header skipped">Skipped Tests</td></tr>
     #set ($sortedResults = $utils.sortByTestClass($result.testContext.skippedTests) )
     #foreach( $testClass in $sortedResults.keySet() )
     <tr>
@@ -114,7 +114,5 @@
     #end
 #end
 </table>
-
-
 </body>
 </html>

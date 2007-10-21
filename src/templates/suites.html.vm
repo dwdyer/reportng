@@ -20,9 +20,9 @@
     #end
   </div>
 </div>
-<p><strong>Test Suites</strong></p>
+<p><strong>Test Suites</strong><br /><span class="small">(Click titles to show contents)</span></p>
 #foreach ($suite in $suites)
-  <div><strong><a href="javascript:toggleDiv('tests-${velocityCount}')">${suite.name}</a></strong></div>
+  <div class="header"><a href="javascript:toggleDiv('tests-${velocityCount}')">${suite.name}</a></div>
   <div id="tests-${velocityCount}" style="display: none; padding-left: 15px;">
     #foreach ($result in $suite.results)
       <a href="suite1_test${velocityCount}_results.html" target="main">$result.testContext.name</a><br />
