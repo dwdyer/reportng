@@ -18,19 +18,27 @@
   <br />
   <table width="100%">
     #foreach ($suite in $suites)
+      #set ($totalTests = 0)
+      #set ($totalPassed = 0)
+      #set ($totalSkipped = 0)
+      #set ($totalFailed = 0)
       <tr class="header suite">
         <td colspan="5">${suite.name}</td>
       </tr>
       #foreach ($result in $suite.results)
         #set ($notPassedTests = $result.testContext.skippedTests.size() + $result.testContext.failedTests.size())
-        #set ($totalTests = $result.testContext.passedTests.size() + $notPassedTests)
+        #set ($total = $result.testContext.passedTests.size() + $notPassedTests)
+        #set ($totalTests = $totalTests + $total)
+        #set ($totalPassed = $totalPassed + $result.testContext.passedTests.size())
+        #set ($totalSkipped = $totalSkipped + $result.testContext.skippedTests.size())
+        #set ($totalFailed = $totalFailed + $result.testContext.failedTests.size())
 
       <tr class="test">
         <td style="padding-left: 20px;"><a href="suite1_test${velocityCount}_results.html">${result.testContext.name}</a></td>
 
-        <td style="font-weight: bold; font-size: 1.1em; text-align: center;">
-          #if ($totalTests > 0)
-            #set ($passRate = (($totalTests - $notPassedTests) * 100 / $totalTests))
+        <td class="passRate">
+          #if ($total > 0)
+            #set ($passRate = (($total - $notPassedTests) * 100 / $total))
             $passRate%
           #else
             N/A
@@ -56,6 +64,36 @@
         #end
       </tr>
       #end
+      <tr class="test">
+        <td class="topLine" style="background-color: #ffffff;"><strong>Total</strong></td>
+        <td class="topLine passRate suite">
+          #if ($totalTests > 0)
+            #set ($passRate = (($totalTests - $totalSkipped - $totalFailed) * 100 / $totalTests))
+            $passRate%
+          #else
+            N/A
+          #end
+        </td>
+        #if ($totalPassed > 0)
+          <td class="passed number topLine">$totalPassed</td>
+        #else
+          <td class="zero number topLine">0</td>
+        #end
+
+        #if ($totalSkipped > 0)
+          <td class="skipped number topLine">$totalSkipped</td>
+        #else
+          <td class="zero number topLine">0</td>
+        #end
+
+        #if ($totalFailed > 0)
+          <td class="failed number topLine">$totalFailed</td>
+        #else
+          <td class="zero number topLine">0</td>
+        #end
+
+      </tr>
+      <tr><td colspan="5">&nbsp;</td></tr>
     #end
   </table>
 </body>

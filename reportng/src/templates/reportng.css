@@ -20,19 +20,18 @@ body                {font-family: sans-serif;
                      font-weight: normal;}
 
 .output             {font-family: monospace;
-                     font-size: 8pt;
+                     font-size: 9pt;
                      color: #777777;}
 
 .suite              {background-color: #999999;}
 .test               {background-color: #eeeeee;}
 
+.passRate           {font-weight: bold;
+                     text-align: center;}
+.topLine            {border-top: 2px solid #000000;}
+
 /* Numbers in columns should be right-aligned. */
 .number             {text-align: right;}
-
-table.summaryTable  {border: 1px solid #000000;
-                     border-collapse: collapse;}
-tr.summaryTable     {border: 0;}
-td.summaryTable     {border: 0;}
 
 table.resultsTable  {border: 0;}
 .resultsTable td    {vertical-align: top;
