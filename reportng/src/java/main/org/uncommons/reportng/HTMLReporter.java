@@ -41,13 +41,13 @@ public class HTMLReporter implements IReporter
     private static final String ENCODING = "UTF-8";
     private static final String INDEX_FILE = "index.html";
     private static final String SUITES_FILE = "suites.html";
-    private static final String SUMMARY_FILE = "summary.html";
+    private static final String OVERVIEW_FILE = "overview.html";
     private static final String RESULTS_FILE = "results.html";
     private static final String STYLE_FILE = "reportng.css";
+    private static final String JS_FILE = "reportng.js";
     private static final String TEMPLATE_EXTENSION = ".vm";
 
     private static final String SUITES_KEY = "suites";
-    private static final String SUITE_KEY = "suite";
     private static final String RESULT_KEY = "result";
     private static final String UTILS_KEY ="utils";
 
@@ -81,10 +81,10 @@ public class HTMLReporter implements IReporter
         try
         {
             createIndex(outputDirectory);
+            createOverview(suites, outputDirectory);
             createSuiteList(suites, outputDirectory);
-            createSummaries(suites, outputDirectory);
             createResults(suites, outputDirectory);
-            copyStyleSheet(outputDirectory);
+            copyResources(outputDirectory);
         }
         catch (IOException ex)
         {
@@ -131,6 +131,16 @@ public class HTMLReporter implements IReporter
     }
 
 
+    private void createOverview(List<ISuite> suites, File outputDirectory) throws Exception
+    {
+        VelocityContext context = createContext();
+        context.put(SUITES_KEY, suites);
+        generateFile(new File(outputDirectory, OVERVIEW_FILE),
+                     OVERVIEW_FILE + TEMPLATE_EXTENSION,
+                     context);
+    }
+
+
     private void createSuiteList(List<ISuite> suites, File outputDirectory) throws Exception
     {
         VelocityContext context = createContext();
@@ -138,21 +148,6 @@ public class HTMLReporter implements IReporter
         generateFile(new File(outputDirectory, SUITES_FILE),
                      SUITES_FILE + TEMPLATE_EXTENSION,
                      context);
-    }
-
-
-    private void createSummaries(List<ISuite> suites, File outputDirectory) throws Exception
-    {
-        int index = 1;
-        for (ISuite suite : suites)
-        {
-            VelocityContext context = createContext();
-            context.put(SUITE_KEY, suite);
-            generateFile(new File(outputDirectory, "suite" + index + '_' + SUMMARY_FILE),
-                         SUMMARY_FILE + TEMPLATE_EXTENSION,
-                         context);
-            ++index;
-        }
     }
 
 
@@ -177,16 +172,23 @@ public class HTMLReporter implements IReporter
 
 
     /**
-     * Reads the CSS file from the JAR file and writes it to the output directory.
-     * @param outputDirectory Where to put the stylesheet.
-     * @throws IOException If the stylesheet can't be read or written.
+     * Reads the CSS and JavaScript files from the JAR file and writes them to
+     * the output directory.
+     * @param outputDirectory Where to put the resources.
+     * @throws IOException If the resources can't be read or written.
      */
-    private void copyStyleSheet(File outputDirectory) throws IOException
+    private void copyResources(File outputDirectory) throws IOException
     {
-        InputStream resourceStream = ClassLoader.getSystemResourceAsStream(STYLE_FILE);
+        copyResource(outputDirectory, STYLE_FILE);
+        copyResource(outputDirectory, JS_FILE);
+    }
+
+    private void copyResource(File outputDirectory, String resourceName) throws IOException
+    {
+        InputStream resourceStream = ClassLoader.getSystemResourceAsStream(resourceName);
         BufferedReader reader = new BufferedReader(new InputStreamReader(resourceStream));
-        File styleFile = new File(outputDirectory, STYLE_FILE);
-        Writer writer = new BufferedWriter(new FileWriter(styleFile));
+        File resourceFile = new File(outputDirectory, resourceName);
+        Writer writer = new BufferedWriter(new FileWriter(resourceFile));
         String line = reader.readLine();
         while (line != null)
         {

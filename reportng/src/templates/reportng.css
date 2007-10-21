@@ -23,6 +23,10 @@ body                {font-family: sans-serif;
                      font-size: 8pt;
                      color: #777777;}
 
+.suite              {background-color: #999999;}
+.test               {background-color: #eeeeee;}
+.test td            {padding-left: 15px;}
+
 /* Numbers in columns should be right-aligned. */
 .number             {text-align: right;}
 
