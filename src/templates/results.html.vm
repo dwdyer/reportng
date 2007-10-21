@@ -7,38 +7,14 @@
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <meta name="description" content="TestNG unit test results." />
   <link href="reportng.css" rel="stylesheet" type="text/css" />
-  <script type="text/javascript">
-  <!--
-    function flip(div)
-    {
-        var current = div.style.display;
-        if (current == 'block')
-        {
-            div.style.display = 'none';
-        }
-        else
-        {
-            div.style.display = 'block';
-        }
-    }
-
-    function toggleDiv(div)
-    {
-        if (document.getElementById)
-        {
-            flip(document.getElementById(div));
-        }
-        else if (document.all)
-        {
-            var current = document.all[div].style;
-            current.display = current.display ? "" : "block";
-        }
-    }
-  // -->
-  </script>
+  <script type="text/javascript" src="reportng.js" />
 </head>
 <body>
 <div class="title">$result.testContext.name</div>
+<div class="small">
+  Test Duration: $utils.formatDuration($result.testContext.startDate, $result.testContext.endDate)
+</div>
+<br />
 <table class="resultsTable" width="100%">
 #if( $result.testContext.failedTests.size() > 0 )
     <tr><td colspan="3" class="header failed">Failed Tests / Configuration</td></tr>
