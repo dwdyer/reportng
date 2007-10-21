@@ -33,7 +33,7 @@
             #if( $testResult.method.description.length() > 0 )
             <i>$testResult.method.description</i><br />
             #end
-            #set( $output = $utils.getTestOutput($testResult.method) )
+            #set( $output = $utils.getTestOutput($testResult) )
             #if( $output.size() > 0)
                 <div class="output">
                 #foreach( $line in $output )

@@ -25,14 +25,14 @@ import org.testng.Reporter;
 public class SuccessfulTests
 {
     @Test
-    public void test1()
+    public void test()
     {
         assert true;
     }
 
 
-    @Test
-    public void test2()
+    @Test(description = "This is a test description")
+    public void testWithDescription()
     {
         assert true;
     }
