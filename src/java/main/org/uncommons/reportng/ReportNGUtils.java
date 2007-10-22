@@ -178,7 +178,7 @@ public class ReportNGUtils
      */
     public String escapeString(String s)
     {
-        return s.replace("<", "&lt;").replace(">", "&gt;").replace("&", "&amp;");
+        return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");
     }
 
 
