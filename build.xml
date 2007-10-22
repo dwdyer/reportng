@@ -21,7 +21,7 @@
   <property name="docs.dir"  location="./docs"/>
   <property name="api.dir" location="${docs.dir}/api" />
 
-  <property name="version" value="0.2"/>
+  <property name="version" value="0.2.1"/>
 
   <!-- Classpath for compilation and tests. -->
   <path id="base.path">
