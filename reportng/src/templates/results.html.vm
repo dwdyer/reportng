@@ -14,17 +14,17 @@
 <div class="small">
   Test Duration: $utils.formatDuration($result.testContext.startDate, $result.testContext.endDate)
 </div>
-<br />
+<p>&nbsp;</p>
 <table class="resultsTable" width="100%">
   #if( $result.testContext.failedTests.size() > 0 )
   <tr><td colspan="3" class="header failed">Failed Tests / Configuration</td></tr>
   #set ($sortedResults = $utils.sortByTestClass($result.testContext.failedTests) )
+  #set ($id = 0)
   #foreach( $testClass in $sortedResults.keySet() )
   <tr>
     <td colspan="3" class="shaded"><b>$testClass.name</b></td>
   </tr>
 
-  #set ($id = 0)
   #foreach( $testResult in $sortedResults.get($testClass) )
   <tr style="border-bottom: 1px solid #000000;">
     <td>$testResult.name</td>

@@ -21,7 +21,8 @@
   <property name="docs.dir"  location="./docs"/>
   <property name="api.dir" location="${docs.dir}/api" />
 
-  <property name="version" value="0.2.1"/>
+  <property name="version" value="0.2.2"/>
+  <property name="artifact.identifier" value="reportng-${version}"/>
 
   <!-- Classpath for compilation and tests. -->
   <path id="base.path">
@@ -78,7 +79,7 @@
 
   <!-- Build application JAR files. -->
   <target name="jar" depends="compile" description="Create the application JAR files.">
-    <jar jarfile="${build.dir}/reportng.jar">
+    <jar jarfile="${build.dir}/${artifact.identifier}.jar">
       <fileset dir="${classes.dir}/main" >
         <include name="org/uncommons/**/*.class" />
       </fileset>
@@ -112,21 +113,21 @@
          compression="gzip"
          longfile="gnu">
       <tarfileset dir="${dist.dir}"
-                  prefix="reportng-${version}"
+                  prefix="${artifact.identifier}"
                   includes="**/*" />
       <!-- Don't forget to include the licence and other important information. -->
       <tarfileset dir="."
-                  prefix="reportng-${version}"
+                  prefix="${artifact.identifier}"
                   includes="*.txt" />
     </tar>
     <!-- Also create a zip file release for the convenience of Windows users. -->
-    <zip destfile="${release.dir}/reportng-${version}.zip">
+    <zip destfile="${release.dir}/${artifact.identifier}.zip">
       <zipfileset dir="${dist.dir}"
-                  prefix="reportng-${version}"
+                  prefix="${artifact.identifier}"
                   includes="**/*" />
       <!-- Don't forget to include the licence and other important information. -->
       <zipfileset dir="."
-                  prefix="reportng-${version}"
+                  prefix="${artifact.identifier}"
                   includes="*.txt" />
     </zip>
   </target>
