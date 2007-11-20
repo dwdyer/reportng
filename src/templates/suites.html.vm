@@ -16,18 +16,21 @@
   <div class="small">
     <a href="overview.html" target="main">Overview</a>&nbsp;&nbsp;&nbsp;
     #if ($utils.coverageLink)
-      <a href="$utils.coverageLink" target="_top">Coverage Report</a>
+    <a href="$utils.coverageLink" target="_top">Coverage Report</a>
     #end
   </div>
 </div>
-<p><strong>Test Suites</strong><br /><span class="small">(Click titles to show contents)</span></p>
+<p>
+  <strong>Test Suites</strong><br />
+  <span class="small">(Click titles to show/hide contents)</span>
+</p>
 #foreach ($suite in $suites)
-  <div class="header"><a href="javascript:toggleDiv('tests-${velocityCount}')">${suite.name}</a></div>
-  <div id="tests-${velocityCount}" style="display: none; padding-left: 15px;">
-    #foreach ($result in $suite.results)
-      <a href="suite1_test${velocityCount}_results.html" target="main">$result.testContext.name</a><br />
-    #end
-  </div>
+<div class="header"><a href="javascript:toggleDiv('tests-${velocityCount}')">${suite.name}</a></div>
+<div id="tests-${velocityCount}" style="display: block; padding-left: 15px;">
+  #foreach ($result in $suite.results)
+  <a href="suite1_test${velocityCount}_results.html" target="main">$result.testContext.name</a><br />
   #end
+</div>
+#end
 </body>
 </html>
