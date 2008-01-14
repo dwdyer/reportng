@@ -21,7 +21,7 @@
   <property name="docs.dir"  location="./docs"/>
   <property name="api.dir" location="${docs.dir}/api" />
 
-  <property name="version" value="0.2.2"/>
+  <property name="version" value="0.3.0pre"/>
   <property name="artifact.identifier" value="reportng-${version}"/>
 
   <!-- Classpath for compilation and tests. -->
@@ -146,7 +146,7 @@
             outputdir="${build.dir}/sample"
             haltonfailure="false"
             useDefaultListeners="false"
-            listeners="org.uncommons.reportng.HTMLReporter">
+            listeners="org.uncommons.reportng.HTMLReporter,org.uncommons.reportng.JUnitXMLReporter">
       <xmlfileset dir="." includes="sample*.xml"/>
       <sysproperty key="org.uncommons.reportng.coverage-report" value="http://cobertura.sourceforge.net/sample/"/>
       <sysproperty key="org.uncommons.reportng.title" value="ReportNG Sample Report"/>

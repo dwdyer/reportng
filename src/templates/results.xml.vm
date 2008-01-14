@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+#set ($totalTests = $result.testContext.passedTests.size() + $result.testContext.skippedTests.size() + $result.testContext.failedTests.size()) 
+<testsuite name="$result.testContext.name"
+           tests="$totalTests"
+           failures="$result.testContext.failedTests.size()"
+           errors="0"
+           skipped="$result.testContext.skippedTests.size()"
+           time="$utils.formatDuration($result.testContext.startDate, $result.testContext.endDate)">
+  <properties />
+
+</testsuite>

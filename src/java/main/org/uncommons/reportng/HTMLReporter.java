@@ -1,5 +1,5 @@
 // ============================================================================
-//   Copyright 2006, 2007 Daniel W. Dyer
+//   Copyright 2006, 2007, 2008 Daniel W. Dyer
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -25,8 +25,6 @@ import java.io.InputStreamReader;
 import java.io.Writer;
 import java.util.List;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
-import org.testng.IReporter;
 import org.testng.ISuite;
 import org.testng.ISuiteResult;
 import org.testng.xml.XmlSuite;
@@ -36,22 +34,18 @@ import org.testng.xml.XmlSuite;
  * output.
  * @author Daniel Dyer
  */
-public class HTMLReporter implements IReporter
+public class HTMLReporter extends AbstractReporter
 {
-    private static final String ENCODING = "UTF-8";
     private static final String INDEX_FILE = "index.html";
     private static final String SUITES_FILE = "suites.html";
     private static final String OVERVIEW_FILE = "overview.html";
     private static final String RESULTS_FILE = "results.html";
     private static final String STYLE_FILE = "reportng.css";
     private static final String JS_FILE = "reportng.js";
-    private static final String TEMPLATE_EXTENSION = ".vm";
 
     private static final String SUITES_KEY = "suites";
     private static final String RESULT_KEY = "result";
-    private static final String UTILS_KEY ="utils";
 
-    private static final ReportNGUtils UTILS = new ReportNGUtils();
 
     /**
      * Generates a set of HTML files that contain data about the outcome of
@@ -67,11 +61,6 @@ public class HTMLReporter implements IReporter
 
         try
         {
-            Velocity.setProperty("resource.loader", "classpath");
-            Velocity.setProperty("classpath.resource.loader.class",
-                                 "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-            Velocity.init();
-
             createOverview(suites, outputDirectory);
             createSuiteList(suites, outputDirectory);
             createResults(suites, outputDirectory);
@@ -79,32 +68,7 @@ public class HTMLReporter implements IReporter
         }
         catch (Exception ex)
         {
-            // TO DO: Decide what to do about this velocity exception.
-            ex.printStackTrace();
-        }
-    }
-
-
-    /**
-     * Generate the specified output file by merging the specified
-     * Velocity template with the supplied context.
-     */
-    private void generateFile(File file,
-                              String template,
-                              VelocityContext context) throws Exception
-    {
-        Writer writer = new BufferedWriter(new FileWriter(file));
-        try
-        {
-            Velocity.mergeTemplate(template,
-                                   ENCODING,
-                                   context,
-                                   writer);
-            writer.flush();
-        }
-        finally
-        {
-            writer.close();
+            throw new ReportNGException("Failed generating HTML report.", ex);
         }
     }
 
@@ -207,14 +171,4 @@ public class HTMLReporter implements IReporter
     }
 
 
-    /**
-     * Helper method that creates a Velocity context and initialises it
-     * with a reference to the ReportNG utils.
-     */
-    private VelocityContext createContext()
-    {
-        VelocityContext context = new VelocityContext();
-        context.put(UTILS_KEY, UTILS);
-        return context;
-    }
 }
