@@ -1,5 +1,5 @@
 // ============================================================================
-//   Copyright 2006, 2007 Daniel W. Dyer
+//   Copyright 2006, 2007, 2008 Daniel W. Dyer
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -47,7 +47,7 @@ public class ReportNGUtils
 
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("EEEE dd MMMM yyyy");
     private static final DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm z");
-    private static final NumberFormat DURATION_FORMAT = new DecimalFormat("#0.000s");
+    private static final NumberFormat DURATION_FORMAT = new DecimalFormat("#0.000");
 
     /**
      * Comparator for sorting tests alphabetically by method name.

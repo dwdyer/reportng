@@ -12,7 +12,7 @@
 <body>
 <div class="title">$result.testContext.name</div>
 <div class="small">
-  Test Duration: $utils.formatDuration($result.testContext.startDate, $result.testContext.endDate)
+  Test Duration: $utils.formatDuration($result.testContext.startDate, $result.testContext.endDate)s
 </div>
 <p>&nbsp;</p>
 <table class="resultsTable" width="100%">
@@ -28,7 +28,7 @@
   #foreach( $testResult in $sortedResults.get($testClass) )
   <tr style="border-bottom: 1px solid #000000;">
     <td>$testResult.name</td>
-    <td>$utils.formatDuration($testResult.startMillis, $testResult.endMillis)</td>
+    <td>$utils.formatDuration($testResult.startMillis, $testResult.endMillis)s</td>
     <td>
       #if( $testResult.method.description.length() > 0 )
       <i>$testResult.method.description</i><br />
@@ -95,7 +95,7 @@
   #foreach( $testResult in $sortedResults.get($testClass) )
   <tr>
     <td>$testResult.name</td>
-    <td>$utils.formatDuration($testResult.startMillis, $testResult.endMillis)</td>
+    <td>$utils.formatDuration($testResult.startMillis, $testResult.endMillis)s</td>
     <td>
       #if( $testResult.method.description.length() > 0 )
       <i>$testResult.method.description</i><br />
