@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-#set ($totalTests = $result.testContext.passedTests.size() + $result.testContext.skippedTests.size() + $result.testContext.failedTests.size()) 
+#set( $totalTests = $result.testContext.passedTests.size() + $result.testContext.skippedTests.size() + $result.testContext.failedTests.size() )
 <testsuite name="$result.testContext.name"
            tests="$totalTests"
            failures="$result.testContext.failedTests.size()"
@@ -7,5 +7,17 @@
            skipped="$result.testContext.skippedTests.size()"
            time="$utils.formatDuration($result.testContext.startDate, $result.testContext.endDate)">
   <properties />
-
+  #foreach( $testResult in $result.testContext.failedTests.allResults )
+    <testcase name="$testResult.name" classname=$testResult.testClass.name"" time="$utils.formatDuration($testResult.startMillis, $testResult.endMillis)">
+      <failure type="$testResult.throwable.class.name" message="$testResult.throwable.message" />
+    </testcase>
+  #end
+  #foreach( $testResult in $result.testContext.skippedTests.allResults )
+    <testcase name="$testResult.name" classname=$testResult.testClass.name"" time="0.0">
+      <skipped />
+    </testcase>
+  #end
+  #foreach( $testResult in $result.testContext.passedTests.allResults )
+    <testcase name="$testResult.name" classname="$testResult.testClass.name" time="$utils.formatDuration($testResult.startMillis, $testResult.endMillis)" />
+  #end
 </testsuite>
