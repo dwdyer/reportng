@@ -8,7 +8,8 @@ body                {font-family: sans-serif;
 .header             {font-size: 12pt;
                      font-weight: bold;}
 .small              {font-size: 8pt;}
-.shaded             {background-color: #cccccc;}
+.shaded             {background-color: #cccccc;
+                     color: #000000;}
 
 .passed             {background-color: #44aa44;
                      font-weight: bold;}
@@ -16,6 +17,10 @@ body                {font-family: sans-serif;
                      font-weight: bold;}
 .failed             {background-color: #ff4444;
                      font-weight: bold;}
+.failed-config      {background-color: #800000;
+                     font-weight: bold;
+                     color: #ffffff}
+
 .zero               {background-color: #eeeeee;
                      font-weight: normal;}
 
