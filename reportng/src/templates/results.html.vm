@@ -15,6 +15,7 @@
   Test Duration: $utils.formatDuration($result.testContext.startDate, $result.testContext.endDate)s
 </div>
 
+#set ($id = 0)
 #if( $result.testContext.failedConfigurations.size() > 0 )
   <table class="resultsTable"
          style="border: 2px solid #800000; background: #ffffdd; color: #800000; margin-bottom: 25px;"
@@ -34,8 +35,7 @@
 <table class="resultsTable" width="100%">
   #if( $result.testContext.failedTests.size() > 0 )
     <tr><td colspan="3" class="header failed">Failed Tests</td></tr>
-    #set ($sortedResults = $utils.sortByTestClass($result.testContext.failedTests) )
-    #set ($id = 0)
+    #set ($sortedResults = $utils.sortByTestClass($result.testContext.failedTests) )    
     #foreach( $testClass in $sortedResults.keySet() )
       <tr>
         <td colspan="3" class="shaded"><b>$testClass.name</b></td>
