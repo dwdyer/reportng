@@ -8,12 +8,12 @@
            time="$utils.formatDuration($result.testContext.startDate, $result.testContext.endDate)">
   <properties />
   #foreach( $testResult in $result.testContext.failedTests.allResults )
-    <testcase name="$testResult.name" classname=$testResult.testClass.name"" time="$utils.formatDuration($testResult.startMillis, $testResult.endMillis)">
+    <testcase name="$testResult.name" classname="$testResult.testClass.name" time="$utils.formatDuration($testResult.startMillis, $testResult.endMillis)">
       <failure type="$testResult.throwable.class.name" message="$testResult.throwable.message" />
     </testcase>
   #end
   #foreach( $testResult in $result.testContext.skippedTests.allResults )
-    <testcase name="$testResult.name" classname=$testResult.testClass.name"" time="0.0">
+    <testcase name="$testResult.name" classname="$testResult.testClass.name" time="0.0">
       <skipped />
     </testcase>
   #end
