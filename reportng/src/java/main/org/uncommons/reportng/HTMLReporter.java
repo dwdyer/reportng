@@ -46,6 +46,8 @@ public class HTMLReporter extends AbstractReporter
     private static final String SUITES_KEY = "suites";
     private static final String RESULT_KEY = "result";
 
+    private static final String REPORT_DIRECTORY = "html";
+
 
     /**
      * Generates a set of HTML files that contain data about the outcome of
@@ -57,7 +59,8 @@ public class HTMLReporter extends AbstractReporter
                                List<ISuite> suites,
                                String outputDirectoryName)
     {
-        File outputDirectory = new File(outputDirectoryName);
+        File outputDirectory = new File(outputDirectoryName, REPORT_DIRECTORY);
+        outputDirectory.mkdir();
 
         try
         {
