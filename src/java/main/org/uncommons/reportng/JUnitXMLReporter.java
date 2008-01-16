@@ -32,6 +32,9 @@ public class JUnitXMLReporter extends AbstractReporter
     private static final String RESULT_KEY = "result";
     private static final String RESULTS_FILE = "results.xml";
 
+    private static final String REPORT_DIRECTORY = "xml";
+    
+
     /**
      * Generates a set of XML files (JUnit format) that contain data about the
      * outcome of the specified test suites.
@@ -42,6 +45,9 @@ public class JUnitXMLReporter extends AbstractReporter
                                List<ISuite> suites,
                                String outputDirectoryName)
     {
+        File outputDirectory = new File(outputDirectoryName, REPORT_DIRECTORY);
+        outputDirectory.mkdir();
+        
         int index = 1;
         for (ISuite suite : suites)
         {
@@ -52,7 +58,7 @@ public class JUnitXMLReporter extends AbstractReporter
                 context.put(RESULT_KEY, result);
                 try
                 {
-                    generateFile(new File(outputDirectoryName, "suite" + index + "_test" + index2 + '_' + RESULTS_FILE),
+                    generateFile(new File(outputDirectory, "suite" + index + "_test" + index2 + '_' + RESULTS_FILE),
                                  RESULTS_FILE + TEMPLATE_EXTENSION,
                                  context);
                 }
