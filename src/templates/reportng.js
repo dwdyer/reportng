@@ -25,5 +25,5 @@ function toggle(toggleId)
     {
         toggle = document.all[toggleId];
     }
-    toggle.textContent = toggle.textContent == "+" ? "-" : "+";
+    toggle.innerHTML = toggle.innerHTML == "+" ? "-" : "+";
 }
