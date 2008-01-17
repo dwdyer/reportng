@@ -17,9 +17,15 @@ package org.uncommons.reportng;
 
 import java.io.File;
 import java.util.List;
+import java.util.Collection;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.LinkedList;
 import org.apache.velocity.VelocityContext;
 import org.testng.ISuite;
 import org.testng.ISuiteResult;
+import org.testng.IClass;
+import org.testng.ITestResult;
 import org.testng.xml.XmlSuite;
 
 /**
@@ -28,8 +34,9 @@ import org.testng.xml.XmlSuite;
  * @author Daniel Dyer
  */
 public class JUnitXMLReporter extends AbstractReporter
-{
-    private static final String RESULT_KEY = "result";
+{                             
+    private static final String RESULTS_KEY = "results";
+
     private static final String RESULTS_FILE = "results.xml";
 
     private static final String REPORT_DIRECTORY = "xml";
@@ -47,29 +54,158 @@ public class JUnitXMLReporter extends AbstractReporter
     {
         File outputDirectory = new File(outputDirectoryName, REPORT_DIRECTORY);
         outputDirectory.mkdir();
-        
-        int index = 1;
+
+        Collection<TestClassResults> flattenedResults = flattenResults(suites);
+
+        for (TestClassResults results : flattenedResults)
+        {
+            VelocityContext context = createContext();
+            context.put(RESULTS_KEY, results);
+
+            try
+            {
+                generateFile(new File(outputDirectory, results.getTestClass().getName() + '_' + RESULTS_FILE),
+                             RESULTS_FILE + TEMPLATE_EXTENSION,
+                             context);
+            }
+            catch (Exception ex)
+            {
+                throw new ReportNGException("Failed generating JUnit XML report.", ex);
+            }
+        }
+    }
+
+
+    /**
+     * Flatten a list of test suite results into a collection of results grouped by test class.
+     * This method basically strips away the TestNG way of organising tests and arranges
+     * the results by test class.
+     */
+    private Collection<TestClassResults> flattenResults(List<ISuite> suites)
+    {
+        Map<IClass, TestClassResults> flattenedResults = new HashMap<IClass, TestClassResults>();
         for (ISuite suite : suites)
         {
-            int index2 = 1;
-            for (ISuiteResult result : suite.getResults().values())
+            for (ISuiteResult suiteResult : suite.getResults().values())
             {
-                VelocityContext context = createContext();
-                context.put(RESULT_KEY, result);
-                try
+                for (ITestResult testResult : suiteResult.getTestContext().getFailedTests().getAllResults())
                 {
-                    generateFile(new File(outputDirectory, "suite" + index + "_test" + index2 + '_' + RESULTS_FILE),
-                                 RESULTS_FILE + TEMPLATE_EXTENSION,
-                                 context);
+                    TestClassResults resultsForClass = getResultsForClass(flattenedResults, testResult);
+                    resultsForClass.addFailedTest(testResult);
                 }
-                catch (Exception ex)
+                for (ITestResult testResult : suiteResult.getTestContext().getSkippedTests().getAllResults())
                 {
-                    throw new ReportNGException("Failed generating JUnit XML report.", ex);
+                    TestClassResults resultsForClass = getResultsForClass(flattenedResults, testResult);
+                    resultsForClass.addSkippedTest(testResult);
                 }
-                index2++;
+                for (ITestResult testResult : suiteResult.getTestContext().getPassedTests().getAllResults())
+                {
+                    TestClassResults resultsForClass = getResultsForClass(flattenedResults, testResult);
+                    resultsForClass.addPassedTest(testResult);
+                }
             }
-            ++index;
+        }
+        return flattenedResults.values();
+    }
+
+
+    /**
+     * Look-up the results data for a particular test class.
+     */
+    private TestClassResults getResultsForClass(Map<IClass, TestClassResults> flattenedResults,
+                                                ITestResult testResult)
+    {
+        TestClassResults resultsForClass = flattenedResults.get(testResult.getTestClass());
+        if (resultsForClass == null)
+        {
+            resultsForClass = new TestClassResults(testResult.getTestClass());
+            flattenedResults.put(testResult.getTestClass(), resultsForClass);
+        }
+        return resultsForClass;
+    }
+
+
+    /**
+     * Groups together all of the data about the tests results from the methods
+     * of a single test class.
+     */
+    public static class TestClassResults
+    {
+        private final IClass testClass;
+        private final Collection<ITestResult> failedTests = new LinkedList<ITestResult>();
+        private final Collection<ITestResult> skippedTests = new LinkedList<ITestResult>();
+        private final Collection<ITestResult> passedTests = new LinkedList<ITestResult>();
+
+        private long startTime = Long.MAX_VALUE;
+        private long endTime = Long.MIN_VALUE;
+
+
+        public TestClassResults(IClass testClass)
+        {
+            this.testClass = testClass;
         }
 
+
+        public IClass getTestClass()
+        {
+            return testClass;
+        }
+
+
+        private void addResult(Collection<ITestResult> target,
+                               ITestResult result)
+        {
+            target.add(result);
+            startTime = Math.min(startTime, result.getStartMillis());
+            endTime = Math.max(endTime, result.getEndMillis());
+        }
+
+
+        void addFailedTest(ITestResult result)
+        {
+            addResult(failedTests, result);
+        }
+
+
+        void addSkippedTest(ITestResult result)
+        {
+            addResult(skippedTests, result);
+        }
+
+
+        void addPassedTest(ITestResult result)
+        {
+            addResult(passedTests, result);
+        }
+
+
+        public Collection<ITestResult> getFailedTests()
+        {
+            return failedTests;
+        }
+
+
+        public Collection<ITestResult> getSkippedTests()
+        {
+            return skippedTests;
+        }
+
+        
+        public Collection<ITestResult> getPassedTests()
+        {
+            return passedTests;
+        }
+
+
+        public long getStartTime()
+        {
+            return startTime;
+        }
+
+        
+        public long getEndTime()
+        {
+            return endTime;
+        }
     }
 }
