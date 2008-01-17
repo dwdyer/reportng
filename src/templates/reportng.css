@@ -29,11 +29,11 @@ body                {font-family: sans-serif;
                      color: #777777;}
 
 .suite              {background-color: #999999;}
-.test               {background-color: #eeeeee;}
+.test               {background-color: #eeeeee;
+                     padding-left: 20px;}
 
 .passRate           {font-weight: bold;
                      text-align: center;}
-.topLine            {border-top: 2px solid #000000;}
 
 /* Numbers in columns should be right-aligned. */
 .number             {text-align: right;}
@@ -42,3 +42,10 @@ table.resultsTable  {border: 0;}
 .resultsTable td    {vertical-align: top;
                      padding-left: 5px;
                      padding-right: 5px;}
+
+/* The +/- toggle used in the navigation frame. */
+.toggle             {font-family: monospace;
+                     font-weight: bold; 
+                     padding-left: 2px;
+                     padding-right: 5px;
+                     color: #777777;}

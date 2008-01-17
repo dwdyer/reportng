@@ -101,6 +101,7 @@ public class ReportNGUtils
 
     public String formatDuration(long startMillis, long endMillis)
     {
+        System.out.println(startMillis + " " + endMillis);
         long elapsed = endMillis - startMillis;
         double seconds = (double) elapsed / 1000;
         return DURATION_FORMAT.format(seconds);
