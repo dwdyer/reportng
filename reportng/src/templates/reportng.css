@@ -8,8 +8,6 @@ body                {font-family: sans-serif;
 .header             {font-size: 12pt;
                      font-weight: bold;}
 .small              {font-size: 8pt;}
-.shaded             {background-color: #cccccc;
-                     color: #000000;}
 
 .passed             {background-color: #44aa44;
                      font-weight: bold;}
@@ -21,8 +19,6 @@ body                {font-family: sans-serif;
                      font-weight: bold;
                      color: #ffffff}
 
-.zero               {background-color: #eeeeee;
-                     font-weight: normal;}
 
 .output             {font-family: monospace;
                      font-size: 9pt;
@@ -31,6 +27,8 @@ body                {font-family: sans-serif;
 .suite              {background-color: #999999;}
 .test               {background-color: #eeeeee;
                      padding-left: 20px;}
+.testClass          {background-color: #cccccc;
+                     color: #000000;}
 
 .passRate           {font-weight: bold;
                      text-align: center;}
@@ -38,10 +36,18 @@ body                {font-family: sans-serif;
 /* Numbers in columns should be right-aligned. */
 .number             {text-align: right;}
 
+.zero               {background-color: #eeeeee;
+                     font-weight: normal;}
+
 table.resultsTable  {border: 0;}
 .resultsTable td    {vertical-align: top;
                      padding-left: 5px;
                      padding-right: 5px;}
+
+table.configTable   {border: 2px solid #800000;
+                     background: #ffffdd;
+                     color: #800000;
+                     margin-bottom: 25px;}
 
 /* The +/- toggle used in the navigation frame. */
 .toggle             {font-family: monospace;
@@ -49,3 +55,37 @@ table.resultsTable  {border: 0;}
                      padding-left: 2px;
                      padding-right: 5px;
                      color: #777777;}
+
+.successIndicator   {float: right;
+                     font-family: monospace;
+                     padding-right: 2px;
+                     color: #44aa44;}
+
+.skipIndicator      {float: right;
+                     font-family: monospace;
+                     padding-right: 2px;
+                     color: #ffaa00;}
+
+.failureIndicator   {float: right;
+                     font-family: monospace;
+                     padding-right: 2px;
+                     color: #ff4444;}
+
+.dependency         {font-weight: bold;}
+
+.info               {float: right;
+                     font-weight: bold;
+                     font-family: monospace;
+                     text-decoration: none;}
+
+.description        {font-size: 9pt;
+                     color: #000066;
+                     font-style: italic;}
+
+.stackTrace         {font-size: 8pt;
+                     display: none;}
+
+/* The div used as a divider line in the overview tables. */
+.divider            {background: #000000;
+                     padding-top: 2px;
+                     margin: 0;}

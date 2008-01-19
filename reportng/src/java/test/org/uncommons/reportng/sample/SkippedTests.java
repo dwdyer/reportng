@@ -16,34 +16,24 @@
 package org.uncommons.reportng.sample;
 
 import org.testng.annotations.Test;
-import org.testng.Reporter;
 
 /**
- * Some test failures to be included in the sample output.
+ * These tests are skipped because they depend on failed tests in
+ * another class.
  * @author Daniel Dyer
  */
-@Test(groups = "failures")
-public class FailedTests
+public class SkippedTests
 {
-    @Test
-    public void assertionFailure()
+    @Test(dependsOnGroups = "failures")
+    public void skippedDueToDependentGroup()
     {
-        assert false : "This test failed.";
+        assert false : "This method is supposed to be skipped.";
     }
 
 
-    @Test
-    public void assertionFailureWithOutput()
+    @Test(dependsOnMethods = "skippedDueToDependentGroup")
+    public void skippedDueToDependentMethod()
     {
-        Reporter.log("Here is some output from an unsuccessful test.");
-        assert false : "This test failed.";
-    }
-
-
-    @Test
-    public void exceptionThrown()
-    {
-        throw new IllegalStateException("Test failed.",
-                                        new UnsupportedOperationException()); // Nested cause.
+        assert false : "This method is supposed to be skipped.";
     }
 }
