@@ -5,13 +5,43 @@
 ## unique identifiers to divs.
 
 #foreach( $testResult in $sortedResults.get($testClass) )
-<tr style="border-bottom: 1px solid #000000;">
+<tr>
   <td>$testResult.name</td>
   <td>$utils.formatDuration($testResult.startMillis, $testResult.endMillis)s</td>
   <td>
     #if( $testResult.method.description.length() > 0 )
-    <i>$testResult.method.description</i><br />
+      <div class="description">
+        $testResult.method.description
+      </div>
     #end
+
+    ## Display the dependencies for skipped test methods.
+    #if( $testResult.status == 3 ) ## 3 means skipped.
+      #set( $arrayLength = $utils.getArrayLength($testResult.method.groupsDependedUpon) )
+      #if( $arrayLength > 0 )
+        <i>Depends on group(s): </i>
+        #foreach( $group in $testResult.method.groupsDependedUpon )
+          #if( $velocityCount < $arrayLength - 1 )
+            <span class="dependency">${group}</span>,
+          #else
+            <span class="dependency">${group}</span>
+          #end
+        #end
+        <br />
+      #end
+      #set( $arrayLength = $utils.getArrayLength($testResult.method.methodsDependedUpon) )
+      #if( $arrayLength > 0 )
+        <i>Depends on method(s): </i>
+        #foreach( $method in $testResult.method.methodsDependedUpon )
+          #if( $velocityCount < $arrayLength - 1 )
+            <span class="dependency">${method}</span>,
+          #else
+            <span class="dependency">${method}</span>
+          #end
+        #end
+      #end
+    #end
+
     #set( $output = $utils.getTestOutput($testResult) )
     #if( $output.size() > 0)
     <div class="output">
@@ -20,21 +50,23 @@
       #end
     </div>
     #end
+
+
     #if( $testResult.throwable )
     <a href="javascript:toggleDiv('exception-$id')" title="Click to expand/collapse"><b>$utils.escapeString( $testResult.throwable.toString() )</b></a><br />
-    <div class="small" style="display: none;" id="exception-$id">
+    <div class="stackTrace" id="exception-$id">
       #foreach( $element in $testResult.throwable.stackTrace )
-      $element<br />
+        $element<br />
       #end
       #set( $causes = $utils.getCauses($testResult.throwable) )
       #foreach( $throwable in $causes )
-      #set ($id = $id + 1)
-      <b>Caused by: </b> <a href="javascript:toggleDiv('exception-$id')" title="Click to expand/collapse">$utils.escapeString( $throwable.toString() )</a><br />
-      <div style="display: none;" id="exception-$id">
-        #foreach( $element in $throwable.stackTrace )
-        $element<br />
-        #end
-      </div>
+        #set ($id = $id + 1)
+        <b>Caused by: </b> <a href="javascript:toggleDiv('exception-$id')" title="Click to expand/collapse">$utils.escapeString( $throwable.toString() )</a><br />
+        <div class="stackTrace" id="exception-$id">
+          #foreach( $element in $throwable.stackTrace )
+            $element<br />
+          #end
+        </div>
       #end
     </div>
     #end

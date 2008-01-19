@@ -25,5 +25,5 @@ function toggle(toggleId)
     {
         toggle = document.all[toggleId];
     }
-    toggle.innerHTML = toggle.innerHTML == "+" ? "-" : "+";
+    toggle.textContent = toggle.innerHTML == '\u25b6' ? '\u25bc' : '\u25b6';
 }

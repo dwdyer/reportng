@@ -101,7 +101,6 @@ public class ReportNGUtils
 
     public String formatDuration(long startMillis, long endMillis)
     {
-        System.out.println(startMillis + " " + endMillis);
         long elapsed = endMillis - startMillis;
         double seconds = (double) elapsed / 1000;
         return DURATION_FORMAT.format(seconds);
@@ -196,5 +195,16 @@ public class ReportNGUtils
     public String getCoverageLink()
     {
         return System.getProperty(COVERAGE_KEY);
+    }
+
+
+    /**
+     * Velocity doesn't provide any way to get the length of an array from within
+     * a template, so we have to use this utility method instead.
+     * @return The length of the array.
+     */
+    public <T> int getArrayLength(T[] array)
+    {
+        return array.length;
     }
 }
