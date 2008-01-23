@@ -18,6 +18,9 @@ body                {font-family: sans-serif;
 .failed-config      {background-color: #800000;
                      font-weight: bold;
                      color: #ffffff}
+.skipped-config     {background-color: #cc6600;
+                     font-weight: bold;
+                     color: #ffffff}
 
 
 .output             {font-family: monospace;
