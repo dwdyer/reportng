@@ -56,7 +56,7 @@
     <a href="javascript:toggleDiv('exception-$id')" title="Click to expand/collapse"><b>$utils.escapeString( $testResult.throwable.toString() )</b></a><br />
     <div class="stackTrace" id="exception-$id">
       #foreach( $element in $testResult.throwable.stackTrace )
-        $element<br />
+        $utils.escapeString( $element.toString() )<br />
       #end
       #set( $causes = $utils.getCauses($testResult.throwable) )
       #foreach( $throwable in $causes )
@@ -64,7 +64,7 @@
         <b>Caused by: </b> <a href="javascript:toggleDiv('exception-$id')" title="Click to expand/collapse">$utils.escapeString( $throwable.toString() )</a><br />
         <div class="stackTrace" id="exception-$id">
           #foreach( $element in $throwable.stackTrace )
-            $element<br />
+            $utils.escapeString( $element.toString() )<br />
           #end
         </div>
       #end

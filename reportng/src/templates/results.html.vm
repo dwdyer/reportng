@@ -27,9 +27,9 @@
       </tr>
       #parse( "class-results.html.vm" )
     #end
-    <tr><td colspan="3">&nbsp;</td></tr>
 
     #if( $result.testContext.skippedConfigurations.size() > 0 )
+      <tr><td colspan="3">&nbsp;</td></tr>
       <tr><td colspan="3" class="header skipped-config">Skipped Configuration</td></tr>
       #set ($sortedResults = $utils.sortByTestClass($result.testContext.skippedConfigurations) )
       #set ($id = 0)
