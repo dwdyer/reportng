@@ -65,7 +65,7 @@
     #end
   </tr>
   #end
-  <tr><td colspan="5" style="padding: 0;"><div width="100%" class="divider" /></td></tr>
+  <tr><td colspan="5" style="padding: 0;"><div class="divider" /></td></tr>
   <tr class="test">
     <td style="background-color: #ffffff;"><strong>Total</strong></td>
     <td class="passRate suite">
