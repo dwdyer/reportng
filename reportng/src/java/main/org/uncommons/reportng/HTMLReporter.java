@@ -64,6 +64,7 @@ public class HTMLReporter extends AbstractReporter
 
         try
         {
+            createFrameset(outputDirectory);
             createOverview(suites, outputDirectory);
             createSuiteList(suites, outputDirectory);
             createResults(suites, outputDirectory);
@@ -73,6 +74,18 @@ public class HTMLReporter extends AbstractReporter
         {
             throw new ReportNGException("Failed generating HTML report.", ex);
         }
+    }
+
+
+    /**
+     * Create the index file that sets up the frameset.
+     */
+    private void createFrameset(File outputDirectory) throws Exception
+    {
+        VelocityContext context = createContext();
+        generateFile(new File(outputDirectory, INDEX_FILE),
+                     INDEX_FILE + TEMPLATE_EXTENSION,
+                     context);
     }
 
 
@@ -130,11 +143,11 @@ public class HTMLReporter extends AbstractReporter
      */
     private void copyResources(File outputDirectory) throws IOException
     {
-        copyResource(outputDirectory, INDEX_FILE);
         copyResource(outputDirectory, STYLE_FILE);
         copyResource(outputDirectory, JS_FILE);
     }
 
+    
     /**
      * Copy a single named resource from the classpath to the output directory.
      * @param outputDirectory The destination directory for the copied resource.

@@ -44,6 +44,7 @@ public class ReportNGUtils
     private static final String TITLE_KEY = PROPERTY_KEY_PREFIX + "title";
     private static final String DEFAULT_TITLE = "Test Results Report";
     private static final String COVERAGE_KEY = PROPERTY_KEY_PREFIX + "coverage-report";
+    private static final String EXCEPTIONS_KEY = PROPERTY_KEY_PREFIX + "show-expected-exceptions";
 
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("EEEE dd MMMM yyyy");
     private static final DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm z");
@@ -195,6 +196,12 @@ public class ReportNGUtils
     public String getCoverageLink()
     {
         return System.getProperty(COVERAGE_KEY);
+    }
+
+
+    public boolean shouldShowExpectedExceptions()
+    {
+        return System.getProperty(EXCEPTIONS_KEY, "false").equalsIgnoreCase("true");
     }
 
 
