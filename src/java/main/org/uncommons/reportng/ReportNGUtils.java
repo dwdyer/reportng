@@ -28,6 +28,8 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import org.testng.IClass;
 import org.testng.IResultMap;
 import org.testng.ITestResult;
@@ -214,4 +216,23 @@ public class ReportNGUtils
     {
         return array.length;
     }
+
+
+    /**
+     * Look-up a system property.
+     */
+    public String getProperty(String key)
+    {
+        return System.getProperty(key);
+    }
+
+
+    /**
+     * @return The host name of the machine used to run the tests.
+     */
+    public String getHostName() throws UnknownHostException
+    {
+        return InetAddress.getLocalHost().getHostName();
+    }
+
 }
