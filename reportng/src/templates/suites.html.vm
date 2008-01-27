@@ -28,19 +28,19 @@
 <div class="header suite"
      style="margin: 2px; padding: 1px; cursor: pointer; clear: right;"
      onclick="toggleDiv('tests-${velocityCount}'); toggle('toggle-${velocityCount}')">
-  <span id="toggle-${velocityCount}" class="toggle">&#9660;</span>${suite.name}
+  <span id="toggle-${velocityCount}" class="toggle">&#x25bc;</span>${suite.name}
 </div>
 <div id="tests-${velocityCount}" style="display: block;">
   #set( $suiteId = $velocityCount )
   #foreach( $result in $suite.results )
   <div class="test" style="margin: 2px; padding-top: 1px; padding-bottom: 1px; clear: right;">
     #if( $result.testContext.failedTests.size() > 0 )
-    <span class="failureIndicator">&#10008;</span>
+    <span class="failureIndicator">&#x2718;</span>
     #else
       #if( $result.testContext.skippedTests.size() > 0 )
-      <span class="skipIndicator">&#10004;</span>
+      <span class="skipIndicator">&#x2714;</span>
       #else
-      <span class="successIndicator">&#10004;</span>
+      <span class="successIndicator">&#x2714;</span>
       #end
     #end
     <a href="suite${suiteId}_test${velocityCount}_results.html" target="main">$result.testContext.name</a>
