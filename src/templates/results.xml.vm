@@ -9,7 +9,19 @@
   <properties />
   #foreach( $testResult in $results.failedTests )
     <testcase name="$testResult.name" time="$utils.formatDuration($testResult.startMillis, $testResult.endMillis)">
-      <failure type="$testResult.throwable.class.name" message="$testResult.throwable.message" />
+      <failure type="$testResult.throwable.class.name" message="$testResult.throwable.message">
+<![CDATA[$utils.escapeString( $testResult.throwable.toString() )
+#foreach( $element in $testResult.throwable.stackTrace )
+  $utils.escapeString( $element.toString() )
+#end
+#set( $causes = $utils.getCauses($testResult.throwable) )
+#foreach( $throwable in $causes )
+Caused by: $utils.escapeString( $throwable.toString() )
+#foreach( $element in $throwable.stackTrace )
+  $utils.escapeString( $element.toString() )
+#end
+#end]]>
+      </failure>
     </testcase>
   #end
   #foreach( $testResult in $results.skippedTests )
