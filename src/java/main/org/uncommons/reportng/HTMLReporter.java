@@ -36,6 +36,8 @@ import org.testng.xml.XmlSuite;
  */
 public class HTMLReporter extends AbstractReporter
 {
+    private static final String FRAMES_PROPERTY = "org.uncommons.reportng.frames";
+    
     private static final String INDEX_FILE = "index.html";
     private static final String SUITES_FILE = "suites.html";
     private static final String OVERVIEW_FILE = "overview.html";
@@ -59,13 +61,20 @@ public class HTMLReporter extends AbstractReporter
                                List<ISuite> suites,
                                String outputDirectoryName)
     {
+        removeEmptyDirectories(new File(outputDirectoryName));
+        
+        boolean useFrames = System.getProperty(FRAMES_PROPERTY, "true").equals("true");
+
         File outputDirectory = new File(outputDirectoryName, REPORT_DIRECTORY);
         outputDirectory.mkdir();
 
         try
         {
-            createFrameset(outputDirectory);
-            createOverview(suites, outputDirectory);
+            if (useFrames)
+            {
+                createFrameset(outputDirectory);
+            }
+            createOverview(suites, outputDirectory, !useFrames);
             createSuiteList(suites, outputDirectory);
             createResults(suites, outputDirectory);
             copyResources(outputDirectory);
@@ -89,11 +98,13 @@ public class HTMLReporter extends AbstractReporter
     }
 
 
-    private void createOverview(List<ISuite> suites, File outputDirectory) throws Exception
+    private void createOverview(List<ISuite> suites,
+                                File outputDirectory,
+                                boolean isIndex) throws Exception
     {
         VelocityContext context = createContext();
         context.put(SUITES_KEY, suites);
-        generateFile(new File(outputDirectory, OVERVIEW_FILE),
+        generateFile(new File(outputDirectory, isIndex ? INDEX_FILE : OVERVIEW_FILE),
                      OVERVIEW_FILE + TEMPLATE_EXTENSION,
                      context);
     }

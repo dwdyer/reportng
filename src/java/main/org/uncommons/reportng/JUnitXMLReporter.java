@@ -40,7 +40,7 @@ public class JUnitXMLReporter extends AbstractReporter
     private static final String RESULTS_FILE = "results.xml";
 
     private static final String REPORT_DIRECTORY = "xml";
-    
+
 
     /**
      * Generates a set of XML files (JUnit format) that contain data about the
@@ -52,6 +52,8 @@ public class JUnitXMLReporter extends AbstractReporter
                                List<ISuite> suites,
                                String outputDirectoryName)
     {
+        removeEmptyDirectories(new File(outputDirectoryName));
+        
         File outputDirectory = new File(outputDirectoryName, REPORT_DIRECTORY);
         outputDirectory.mkdir();
 
