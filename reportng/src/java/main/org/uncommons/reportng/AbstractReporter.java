@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.Writer;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.io.FileFilter;
 
 /**
  * @author Daniel Dyer
@@ -84,6 +85,31 @@ public abstract class AbstractReporter implements IReporter
         finally
         {
             writer.close();
+        }
+    }
+
+
+    /**
+     * Deletes any empty directories under the output directory.  These
+     * directories are created by TestNG for its own reports regardless
+     * of whether those reports are generated.  If you are using the
+     * default TestNG reports as well as ReportNG, these directories will
+     * not be empty and will be retained.  Otherwise they will be removed.
+     */
+    protected void removeEmptyDirectories(File outputDirectory)
+    {
+        for (File file : outputDirectory.listFiles(new EmptyDirectoryFilter()))
+        {
+            file.delete();
+        }
+    }
+
+
+    private static final class EmptyDirectoryFilter implements FileFilter
+    {
+        public boolean accept(File file)
+        {
+            return file.isDirectory() && file.listFiles().length == 0;
         }
     }
 }
