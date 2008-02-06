@@ -172,8 +172,8 @@ public class ReportNGUtils
 
 
     /**
-     * Replace any angle brackets or ampersands with the corresponding HTML entities
-     * to avoid problems displaying the String in an HTML page.  Assumes that the
+     * Replace any angle brackets or ampersands with the corresponding XML/HTML entities
+     * to avoid problems displaying the String in an XML document.  Assumes that the
      * String does not already contain any ampersand entities (otherwise they will be
      * escaped again).
      * @param s The String to escape.
@@ -181,7 +181,56 @@ public class ReportNGUtils
      */
     public String escapeString(String s)
     {
-        return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");
+        StringBuilder buffer = new StringBuilder();
+        for(int i = 0; i < s.length(); i++)
+        {
+            char ch = s.charAt(i);
+            switch (ch)
+            {
+                case '<':
+                {
+                    buffer.append("&lt;");
+                    break;
+                }
+                case '>':
+                {
+                    buffer.append("&gt;");
+                    break;
+                }
+                case '&':
+                {
+                    buffer.append("&amp;");
+                    break;
+                }
+                case ' ':
+                {
+                    // All spaces in a block of consecutive spaces are converted to
+                    // non-breaking space (&nbsp;) except for the last one.  This allows
+                    // significant whitespace to be retained without prohibiting wrapping.
+                    char nextCh = i + 1 < s.length() ? s.charAt(i + 1) : 0;
+                    buffer.append(nextCh==' ' ? "&nbsp;" : " ");
+                    break;
+                }
+                default:
+                {
+                    buffer.append(ch);
+                }
+            }
+        }
+        return buffer.toString();
+
+    }
+
+
+    /**
+     * Works like {@link #escapeString(String)} but also replaces line breaks with
+     * &lt;br /&gt; tags. 
+     * @param s The String to escape.
+     * @return The escaped String.
+     */
+    public String escapeHTMLString(String s)
+    {
+        return escapeString(s).replace("\n", "<br />");
     }
 
 
