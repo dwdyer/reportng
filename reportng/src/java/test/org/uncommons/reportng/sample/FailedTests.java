@@ -33,6 +33,13 @@ public class FailedTests
 
 
     @Test
+    public void assertionFailureWithMultilineMessage()
+    {
+        assert false : "This test failed.\nIts message is on multiple lines.\n     The last one has leading whitespace.";
+    }
+
+
+    @Test
     public void assertionFailureWithOutput()
     {
         Reporter.log("Here is some output from an unsuccessful test.");
