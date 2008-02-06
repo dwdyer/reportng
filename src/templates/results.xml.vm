@@ -9,7 +9,7 @@
   <properties />
   #foreach( $testResult in $results.failedTests )
     <testcase name="$testResult.name" time="$utils.formatDuration($testResult.startMillis, $testResult.endMillis)">
-      <failure type="$testResult.throwable.class.name" message="$testResult.throwable.message">
+      <failure type="$testResult.throwable.class.name" message="$utils.escapeString( $testResult.throwable.message )">
 <![CDATA[$testResult.throwable.toString()
 #foreach( $element in $testResult.throwable.stackTrace )
   $element.toString()
