@@ -181,6 +181,11 @@ public class ReportNGUtils
      */
     public String escapeString(String s)
     {
+        if (s == null)
+        {
+            return null;
+        }
+        
         StringBuilder buffer = new StringBuilder();
         for(int i = 0; i < s.length(); i++)
         {
@@ -209,7 +214,6 @@ public class ReportNGUtils
             }
         }
         return buffer.toString();
-
     }
 
 
@@ -221,6 +225,11 @@ public class ReportNGUtils
      */
     public String escapeHTMLString(String s)
     {
+        if (s == null)
+        {
+            return null;
+        }
+        
         String escapedString = escapeString(s);
         StringBuilder buffer = new StringBuilder();
         for(int i = 0; i < escapedString.length(); i++)
