@@ -1,2 +1,18 @@
+===============================================================================
 ReportNG
+ (https://reportng.dev.java.net)
 Copyright 2006-2008 Daniel W. Dyer (http://www.dandyer.co.uk)
+
+Acknowledgements:
+-----------------
+ReportNG depends on the Apache Velocity templating engine.  Velocity is also
+licensed under the terms of the Apache Licence Version 2.0.  The NOTICE file
+from the Velocity distribution is reproduced below.
+
+===============================================================================
+Apache Velocity
+
+Copyright (C) 2000-2007 The Apache Software Foundation
+
+This product includes software developed at
+The Apache Software Foundation (http://www.apache.org/).
