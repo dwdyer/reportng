@@ -234,7 +234,7 @@ public class ReportNGUtils
         StringBuilder buffer = new StringBuilder();
         for(int i = 0; i < escapedString.length(); i++)
         {
-            char ch = s.charAt(i);
+            char ch = escapedString.charAt(i);
             switch (ch)
             {
                 case ' ':
@@ -242,7 +242,7 @@ public class ReportNGUtils
                     // All spaces in a block of consecutive spaces are converted to
                     // non-breaking space (&nbsp;) except for the last one.  This allows
                     // significant whitespace to be retained without prohibiting wrapping.
-                    char nextCh = i + 1 < s.length() ? s.charAt(i + 1) : 0;
+                    char nextCh = i + 1 < escapedString.length() ? escapedString.charAt(i + 1) : 0;
                     buffer.append(nextCh==' ' ? "&nbsp;" : " ");
                     break;
                 }

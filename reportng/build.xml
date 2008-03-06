@@ -21,7 +21,7 @@
   <property name="docs.dir"  location="./docs"/>
   <property name="api.dir" location="${docs.dir}/api" />
 
-  <property name="version" value="0.9.4pre"/>
+  <property name="version" value="0.9.4"/>
   <property name="artifact.identifier" value="reportng-${version}"/>
 
   <!-- Classpath for compilation and tests. -->
@@ -73,6 +73,9 @@
            srcdir="${java.dir}/test">
       <include name="org/uncommons/**/*.java" />
       <compilerarg line="-Xlint:unchecked" />
+      <classpath>
+        <path location="${classes.dir}/main" />
+      </classpath>
     </javac>
   </target>
 
@@ -130,6 +133,25 @@
                   prefix="${artifact.identifier}"
                   includes="*.txt" />
     </zip>
+  </target>
+
+
+  <target name="test" depends="jar" description="Run the unit tests.">
+    <mkdir dir="${build.dir}/test-results" />
+    <taskdef resource="testngtasks" classpathref="base.path"/>
+    <path id="test.path">
+      <pathelement location="${classes.dir}/test" />
+      <fileset dir="${build.dir}" includes="*.jar"/>
+      <path refid="base.path" />
+    </path>
+    <testng classpathref="test.path"
+            outputdir="${build.dir}/test-results"
+            haltonfailure="false"
+            useDefaultListeners="false"
+            listeners="org.uncommons.reportng.HTMLReporter,org.uncommons.reportng.JUnitXMLReporter">
+      <xmlfileset dir="." includes="unittests.xml"/>
+      <sysproperty key="org.uncommons.reportng.title" value="ReportNG Unit Tests"/>
+    </testng>
   </target>
 
 
