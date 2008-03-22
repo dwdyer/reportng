@@ -172,10 +172,10 @@ public class ReportNGUtils
 
 
     /**
-     * Replace any angle brackets or ampersands with the corresponding XML/HTML entities
-     * to avoid problems displaying the String in an XML document.  Assumes that the
-     * String does not already contain any ampersand entities (otherwise they will be
-     * escaped again).
+     * Replace any angle brackets, quotes, apostrophes or ampersands with the
+     * corresponding XML/HTML entities to avoid problems displaying the String in
+     * an XML document.  Assumes that the String does not already contain any
+     * entities (otherwise the ampersands will be escaped again).
      * @param s The String to escape.
      * @return The escaped String.
      */
@@ -189,31 +189,36 @@ public class ReportNGUtils
         StringBuilder buffer = new StringBuilder();
         for(int i = 0; i < s.length(); i++)
         {
-            char ch = s.charAt(i);
-            switch (ch)
-            {
-                case '<':
-                {
-                    buffer.append("&lt;");
-                    break;
-                }
-                case '>':
-                {
-                    buffer.append("&gt;");
-                    break;
-                }
-                case '&':
-                {
-                    buffer.append("&amp;");
-                    break;
-                }
-                default:
-                {
-                    buffer.append(ch);
-                }
-            }
+            buffer.append(escapeChar(s.charAt(i)));
         }
         return buffer.toString();
+    }
+
+
+    /**
+     * Converts a char into a String that can be inserted into an XML document,
+     * replacing special characters with XML entities as required.
+     * @param character The character to convert.
+     * @return An XML entity representing the character (or a String containing
+     * just the character if it does not need to be escaped).
+     */
+    private String escapeChar(char character)
+    {
+        switch (character)
+        {
+            case '<':
+                return "&lt;";
+            case '>':
+                return "&gt;";
+            case '"':
+                return "&quot;";
+            case '\'':
+                return "&apos;";
+            case '&':
+                return "&amp;";
+            default:
+                return String.valueOf(character);
+        }
     }
 
 
@@ -230,11 +235,10 @@ public class ReportNGUtils
             return null;
         }
         
-        String escapedString = escapeString(s);
         StringBuilder buffer = new StringBuilder();
-        for(int i = 0; i < escapedString.length(); i++)
+        for(int i = 0; i < s.length(); i++)
         {
-            char ch = escapedString.charAt(i);
+            char ch = s.charAt(i);
             switch (ch)
             {
                 case ' ':
@@ -242,17 +246,18 @@ public class ReportNGUtils
                     // All spaces in a block of consecutive spaces are converted to
                     // non-breaking space (&nbsp;) except for the last one.  This allows
                     // significant whitespace to be retained without prohibiting wrapping.
-                    char nextCh = i + 1 < escapedString.length() ? escapedString.charAt(i + 1) : 0;
+                    char nextCh = i + 1 < s.length() ? s.charAt(i + 1) : 0;
                     buffer.append(nextCh==' ' ? "&nbsp;" : " ");
                     break;
                 }
                 case '\n':
                 {
-                    buffer.append("<br/>");
+                    buffer.append("<br/>\n");
+                    break;
                 }
                 default:
                 {
-                    buffer.append(ch);
+                    buffer.append(escapeChar(ch));
                 }
             }
         }
