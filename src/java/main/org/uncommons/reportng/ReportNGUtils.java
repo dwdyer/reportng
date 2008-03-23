@@ -15,21 +15,16 @@
 // ============================================================================
 package org.uncommons.reportng;
 
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.SortedMap;
-import java.util.SortedSet;
 import java.util.TreeMap;
-import java.util.TreeSet;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import org.testng.IClass;
 import org.testng.IResultMap;
 import org.testng.ITestResult;
@@ -42,14 +37,6 @@ import org.testng.Reporter;
  */
 public class ReportNGUtils
 {
-    private static final String PROPERTY_KEY_PREFIX = "org.uncommons.reportng.";
-    private static final String TITLE_KEY = PROPERTY_KEY_PREFIX + "title";
-    private static final String DEFAULT_TITLE = "Test Results Report";
-    private static final String COVERAGE_KEY = PROPERTY_KEY_PREFIX + "coverage-report";
-    private static final String EXCEPTIONS_KEY = PROPERTY_KEY_PREFIX + "show-expected-exceptions";
-
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("EEEE dd MMMM yyyy");
-    private static final DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm z");
     private static final NumberFormat DURATION_FORMAT = new DecimalFormat("#0.000");
 
     /**
@@ -76,32 +63,6 @@ public class ReportNGUtils
     };
 
 
-    /**
-     * The date/time at which this report is being generated.
-     */
-    private final Date reportTime = new Date();
-
-
-    /**
-     * Format the date portion of the specified date/time using the
-     * long format.
-     */
-    public String formatDate(Date date)
-    {
-        return DATE_FORMAT.format(date);
-    }
-
-
-    /**
-     * Format the time portion of the specified date/time using the
-     * 24 hour clock.
-     */
-    public String formatTime(Date date)
-    {
-        return TIME_FORMAT.format(date);
-    }
-
-
     public String formatDuration(long startMillis, long endMillis)
     {
         long elapsed = endMillis - startMillis;
@@ -116,27 +77,23 @@ public class ReportNGUtils
     }
 
 
-    /**
-     * @return The date/time at which the reporting commenced.
-     */
-    public Date getReportTime()
+    public SortedMap<IClass, List<ITestResult>> sortByTestClass(IResultMap results)
     {
-        return reportTime;
-    }
-
-
-    public SortedMap<IClass, SortedSet<ITestResult>> sortByTestClass(IResultMap results)
-    {
-        SortedMap<IClass, SortedSet<ITestResult>> sortedResults = new TreeMap<IClass, SortedSet<ITestResult>>(TEST_CLASS_COMPARATOR);
+        SortedMap<IClass, List<ITestResult>> sortedResults = new TreeMap<IClass, List<ITestResult>>(TEST_CLASS_COMPARATOR);
         for (ITestResult result : results.getAllResults())
         {
-            SortedSet<ITestResult> resultsForClass = sortedResults.get(result.getTestClass());
+            List<ITestResult> resultsForClass = sortedResults.get(result.getTestClass());
             if (resultsForClass == null)
             {
-                resultsForClass = new TreeSet<ITestResult>(TEST_RESULT_COMPARATOR);
+                resultsForClass = new ArrayList<ITestResult>();
                 sortedResults.put(result.getTestClass(), resultsForClass);
             }
-            resultsForClass.add(result);
+            int index = Collections.binarySearch(resultsForClass, result, TEST_RESULT_COMPARATOR);
+            if (index < 0)
+            {
+                index = Math.abs(index + 1);
+            }
+            resultsForClass.add(index, result);
         }
         return sortedResults;
     }
@@ -168,6 +125,51 @@ public class ReportNGUtils
             escapedOutput.add(escapeString(s));
         }
         return escapedOutput;
+    }
+
+
+    public boolean hasArguments(ITestResult result)
+    {
+        return result.getParameters().length > 0;
+    }
+
+
+    public String getArguments(ITestResult result)
+    {
+        Object[] arguments = result.getParameters();
+        StringBuilder buffer = new StringBuilder();
+        for (int i = 0; i < arguments.length; i++)
+        {
+            buffer.append(renderArgument(arguments[i]));
+            if (i < arguments.length - 1)
+            {
+                buffer.append(", ");
+            }
+        }
+        return buffer.toString();
+    }
+
+
+    /**
+     * Decorate the string representation of an argument to give some
+     * hint as to its type (e.g. render Strings in double quotes).
+     * @param argument The argument to render.
+     * @return The string representation of the argument.
+     */
+    private String renderArgument(Object argument)
+    {
+        if (argument instanceof String)
+        {
+            return "\"" + argument + "\"";
+        }
+        else if (argument instanceof Character)
+        {
+            return "\'" + argument + "\'";
+        }
+        else
+        {
+            return argument.toString();
+        }
     }
 
 
@@ -265,28 +267,6 @@ public class ReportNGUtils
     }
 
 
-    public String getReportTitle()
-    {
-        return System.getProperty(TITLE_KEY, DEFAULT_TITLE);
-    }
-
-
-    /**
-     * Returns the URL (absolute or relative) of an HTML coverage report associated
-     * with the test run.  Returns null if there is no coverage report.
-     */
-    public String getCoverageLink()
-    {
-        return System.getProperty(COVERAGE_KEY);
-    }
-
-
-    public boolean shouldShowExpectedExceptions()
-    {
-        return System.getProperty(EXCEPTIONS_KEY, "false").equalsIgnoreCase("true");
-    }
-
-
     /**
      * Velocity doesn't provide any way to get the length of an array from within
      * a template, so we have to use this utility method instead.
@@ -296,23 +276,4 @@ public class ReportNGUtils
     {
         return array.length;
     }
-
-
-    /**
-     * Look-up a system property.
-     */
-    public String getProperty(String key)
-    {
-        return System.getProperty(key);
-    }
-
-
-    /**
-     * @return The host name of the machine used to run the tests.
-     */
-    public String getHostName() throws UnknownHostException
-    {
-        return InetAddress.getLocalHost().getHostName();
-    }
-
 }

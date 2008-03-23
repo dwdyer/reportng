@@ -4,7 +4,7 @@
 
   <test name="All Sample Tests" >
     <packages>
-      <package name="org.uncommons.reportng.*" />
+      <package name="org.uncommons.reportng.sample.*" />
     </packages>
   </test>
 
