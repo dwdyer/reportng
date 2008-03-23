@@ -38,9 +38,15 @@ public abstract class AbstractReporter implements IReporter
     private static final String UTILS_KEY ="utils";
     private static final ReportNGUtils UTILS = new ReportNGUtils();
 
+    private final String classpathPrefix;
 
-    protected AbstractReporter()
+
+    /**
+     * @param classpathPrefix Where in the classpath to load templates from.
+     */
+    protected AbstractReporter(String classpathPrefix)
     {
+        this.classpathPrefix = classpathPrefix;
         Velocity.setProperty("resource.loader", "classpath");
         Velocity.setProperty("classpath.resource.loader.class",
                              "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
@@ -79,7 +85,7 @@ public abstract class AbstractReporter implements IReporter
         Writer writer = new BufferedWriter(new FileWriter(file));
         try
         {
-            Velocity.mergeTemplate(template,
+            Velocity.mergeTemplate(classpathPrefix + template,
                                    ENCODING,
                                    context,
                                    writer);

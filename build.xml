@@ -8,7 +8,6 @@
   
   <property name="src.dir" location="./src"/>
   <property name="java.dir" location="${src.dir}/java" />
-  <property name="templates.dir" location="${src.dir}/templates" />
 
   <property name="lib.dir"  location="./lib"/>
 
@@ -86,7 +85,7 @@
       <fileset dir="${classes.dir}/main" >
         <include name="org/uncommons/**/*.class" />
       </fileset>
-      <fileset dir="${templates.dir}" includes="*" />
+      <fileset dir="${src.dir}" includes="templates/**/*" />
       <manifest>
         <attribute name="Class-Path" value="velocity-dep-1.4.jar"/>
       </manifest>
