@@ -23,6 +23,10 @@ import java.io.Writer;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.FileFilter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 /**
  * @author Daniel Dyer
@@ -99,11 +103,54 @@ public abstract class AbstractReporter implements IReporter
 
 
     /**
+     * Copy a single named resource from the classpath to the output directory.
+     * @param outputDirectory The destination directory for the copied resource.
+     * @param resourceName The filename of the resource.
+     * @throws java.io.IOException If the resource cannot be located.
+     */
+    protected void copyResource(File outputDirectory,
+                                String resourceName) throws IOException
+    {
+        String resourcePath = classpathPrefix + resourceName;
+        InputStream resourceStream = ClassLoader.getSystemResourceAsStream(resourcePath);
+
+        File resourceFile = new File(outputDirectory, resourceName);
+        Writer writer = null;
+        BufferedReader reader = null;
+        try
+        {
+            reader = new BufferedReader(new InputStreamReader(resourceStream));
+            writer = new BufferedWriter(new FileWriter(resourceFile));
+
+            String line = reader.readLine();
+            while (line != null)
+            {
+                writer.write(line);
+                line = reader.readLine();
+            }
+            writer.flush();
+        }
+        finally
+        {
+            if (reader != null)
+            {
+                reader.close();
+            }
+            if (writer != null)
+            {
+                writer.close();
+            }
+        }
+    }
+
+
+    /**
      * Deletes any empty directories under the output directory.  These
      * directories are created by TestNG for its own reports regardless
      * of whether those reports are generated.  If you are using the
      * default TestNG reports as well as ReportNG, these directories will
      * not be empty and will be retained.  Otherwise they will be removed.
+     * @param outputDirectory The directory to search for empty directories.
      */
     protected void removeEmptyDirectories(File outputDirectory)
     {

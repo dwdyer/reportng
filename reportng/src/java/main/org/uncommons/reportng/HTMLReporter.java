@@ -15,14 +15,8 @@
 // ============================================================================
 package org.uncommons.reportng;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Writer;
 import java.util.List;
 import org.apache.velocity.VelocityContext;
 import org.testng.ISuite;
@@ -95,6 +89,7 @@ public class HTMLReporter extends AbstractReporter
 
     /**
      * Create the index file that sets up the frameset.
+     * @param outputDirectory The target directory for the generated file(s).
      */
     private void createFrameset(File outputDirectory) throws Exception
     {
@@ -119,8 +114,10 @@ public class HTMLReporter extends AbstractReporter
 
     /**
      * Create the navigation frame.
+     * @param outputDirectory The target directory for the generated file(s).
      */
-    private void createSuiteList(List<ISuite> suites, File outputDirectory) throws Exception
+    private void createSuiteList(List<ISuite> suites,
+                                 File outputDirectory) throws Exception
     {
         VelocityContext context = createContext();
         context.put(SUITES_KEY, suites);
@@ -132,8 +129,10 @@ public class HTMLReporter extends AbstractReporter
 
     /**
      * Generate a results file for each test in each suite.
+     * @param outputDirectory The target directory for the generated file(s).
      */
-    private void createResults(List<ISuite> suites, File outputDirectory) throws Exception
+    private void createResults(List<ISuite> suites,
+                               File outputDirectory) throws Exception
     {
         int index = 1;
         for (ISuite suite : suites)
@@ -164,46 +163,4 @@ public class HTMLReporter extends AbstractReporter
         copyResource(outputDirectory, STYLE_FILE);
         copyResource(outputDirectory, JS_FILE);
     }
-
-    
-    /**
-     * Copy a single named resource from the classpath to the output directory.
-     * @param outputDirectory The destination directory for the copied resource.
-     * @param resourceName The filename of the resource.
-     */
-    private void copyResource(File outputDirectory, String resourceName) throws IOException
-    {
-        String resourcePath = TEMPLATES_PATH + resourceName;
-        InputStream resourceStream = ClassLoader.getSystemResourceAsStream(resourcePath);
-
-        File resourceFile = new File(outputDirectory, resourceName);
-        Writer writer = null;
-        BufferedReader reader = null;
-        try
-        {
-            reader = new BufferedReader(new InputStreamReader(resourceStream));
-            writer = new BufferedWriter(new FileWriter(resourceFile));
-
-            String line = reader.readLine();
-            while (line != null)
-            {
-                writer.write(line);
-                line = reader.readLine();
-            }
-            writer.flush();
-        }
-        finally
-        {
-            if (reader != null)
-            {
-                reader.close();
-            }
-            if (writer != null)
-            {
-                writer.close();
-            }
-        }
-    }
-
-
 }
