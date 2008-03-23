@@ -33,6 +33,8 @@ public abstract class AbstractReporter implements IReporter
 
     protected static final String TEMPLATE_EXTENSION = ".vm";
 
+    private static final String META_KEY ="meta";
+    private static final ReportMetadata META = new ReportMetadata();
     private static final String UTILS_KEY ="utils";
     private static final ReportNGUtils UTILS = new ReportNGUtils();
 
@@ -60,6 +62,7 @@ public abstract class AbstractReporter implements IReporter
     protected VelocityContext createContext()
     {
         VelocityContext context = new VelocityContext();
+        context.put(META_KEY, META);
         context.put(UTILS_KEY, UTILS);
         return context;
     }

@@ -6,15 +6,18 @@
 
 #foreach( $testResult in $sortedResults.get($testClass) )
 <tr>
-  <td>$testResult.name</td>
-  <td>$utils.formatDuration($testResult.startMillis, $testResult.endMillis)s</td>
   <td>
+    $testResult.name
     #if( $testResult.method.description.length() > 0 )
       <div class="description">
-        $testResult.method.description
+        ($testResult.method.description)
       </div>
     #end
-
+  </td>
+  <td>
+    $utils.formatDuration($testResult.startMillis, $testResult.endMillis)s
+  </td>
+  <td class="result">
     ## Display the dependencies for skipped test methods.
     #if( $testResult.status == 3 ) ## 3 means skipped.
       #set( $arrayLength = $utils.getArrayLength($testResult.method.groupsDependedUpon) )
@@ -42,6 +45,11 @@
       #end
     #end
 
+    #if( $utils.hasArguments($testResult) )
+      <i>Method Arguments: </i><span class="arguments">$utils.getArguments($testResult)</span><br />
+    #end
+
+    ## Show logger output for the test.
     #set( $output = $utils.getTestOutput($testResult) )
     #if( $output.size() > 0)
     <div class="output">
@@ -52,7 +60,7 @@
     #end
 
 
-    #if( $testResult.throwable && ( $testResult.status == 2 || $utils.shouldShowExpectedExceptions() ))
+    #if( $testResult.throwable && ( $testResult.status == 2 || $meta.shouldShowExpectedExceptions() ))
     <a href="javascript:toggleDiv('exception-$id')" title="Click to expand/collapse"><b>$utils.escapeHTMLString( $testResult.throwable.toString() )</b></a><br />
     <div class="stackTrace" id="exception-$id">
       #foreach( $element in $testResult.throwable.stackTrace )

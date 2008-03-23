@@ -12,11 +12,11 @@
 <body>
 
 <div style="padding: 5px; background-color: #eeeeee;">
-  <strong>$utils.reportTitle</strong><br />
+  <strong>$meta.reportTitle</strong><br />
   <div class="small">
     <a href="overview.html" target="main">Overview</a>&nbsp;&nbsp;&nbsp;
-    #if( $utils.coverageLink )
-    <a href="$utils.coverageLink" target="_top">Coverage Report</a>
+    #if( $meta.coverageLink )
+    <a href="$meta.coverageLink" target="_top">Coverage Report</a>
     #end
   </div>
 </div>
