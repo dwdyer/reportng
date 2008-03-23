@@ -37,7 +37,8 @@ import org.testng.xml.XmlSuite;
 public class HTMLReporter extends AbstractReporter
 {
     private static final String FRAMES_PROPERTY = "org.uncommons.reportng.frames";
-    
+
+    private static final String TEMPLATES_PATH = "templates/html/";
     private static final String INDEX_FILE = "index.html";
     private static final String SUITES_FILE = "suites.html";
     private static final String OVERVIEW_FILE = "overview.html";
@@ -51,6 +52,12 @@ public class HTMLReporter extends AbstractReporter
     private static final String REPORT_DIRECTORY = "html";
 
 
+    public HTMLReporter()
+    {
+        super(TEMPLATES_PATH);
+    }
+
+    
     /**
      * Generates a set of HTML files that contain data about the outcome of
      * the specified test suites.
@@ -166,7 +173,8 @@ public class HTMLReporter extends AbstractReporter
      */
     private void copyResource(File outputDirectory, String resourceName) throws IOException
     {
-        InputStream resourceStream = ClassLoader.getSystemResourceAsStream(resourceName);
+        String resourcePath = TEMPLATES_PATH + resourceName;
+        InputStream resourceStream = ClassLoader.getSystemResourceAsStream(resourcePath);
 
         File resourceFile = new File(outputDirectory, resourceName);
         Writer writer = null;
