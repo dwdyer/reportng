@@ -3,7 +3,7 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>Unit Test Results</title>
+  <title>$meta.reportTitle - Overview</title>
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <meta name="description" content="TestNG unit test results." />
   <link href="reportng.css" rel="stylesheet" type="text/css" />
@@ -29,7 +29,14 @@
   #set ($totalSkipped = 0)
   #set ($totalFailed = 0)
   <tr class="header suite">
-    <td colspan="5">${suite.name}</td>
+    <td colspan="5">
+      ${suite.name}
+      #if ($utils.hasGroups($suite))
+      <div class="groupLink" style="float: right; margin-right: 2px;">
+        <a href="suite${suiteId}_groups.html">Groups</a>
+      </div>
+      #end
+    </td>
   </tr>
   #foreach ($result in $suite.results)
   #set ($notPassedTests = $result.testContext.skippedTests.size() + $result.testContext.failedTests.size())

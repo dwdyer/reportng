@@ -9,16 +9,18 @@ body                {font-family: sans-serif;
                      font-weight: bold;}
 .small              {font-size: 0.8em;}
 
+
+
 .passed             {background-color: #44aa44;
                      font-weight: bold;}
 .skipped            {background-color: #ffaa00;
                      font-weight: bold;}
 .failed             {background-color: #ff4444;
                      font-weight: bold;}
-.failed-config      {background-color: #800000;
+.failedConfig       {background-color: #800000;
                      font-weight: bold;
                      color: #ffffff}
-.skipped-config     {background-color: #cc6600;
+.skippedConfig      {background-color: #cc6600;
                      font-weight: bold;
                      color: #ffffff}
 
@@ -26,9 +28,11 @@ body                {font-family: sans-serif;
 .suite              {background-color: #999999;}
 .test               {background-color: #eeeeee;
                      padding-left: 20px;}
-.testClass          {background-color: #cccccc;
-                     color: #000000;}
-
+.group              {background-color: #cccccc;
+                     color: #000000;
+                     font-weight: bold;}
+.groupLink          {font-size: 10pt;
+                     font-weight: normal;}
 .passRate           {font-weight: bold;
                      text-align: center;}
 

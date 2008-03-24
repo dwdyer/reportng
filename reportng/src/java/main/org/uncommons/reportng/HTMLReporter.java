@@ -18,9 +18,12 @@ package org.uncommons.reportng;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Collection;
+import java.util.Map;
 import org.apache.velocity.VelocityContext;
 import org.testng.ISuite;
 import org.testng.ISuiteResult;
+import org.testng.ITestNGMethod;
 import org.testng.xml.XmlSuite;
 
 /**
@@ -36,11 +39,14 @@ public class HTMLReporter extends AbstractReporter
     private static final String INDEX_FILE = "index.html";
     private static final String SUITES_FILE = "suites.html";
     private static final String OVERVIEW_FILE = "overview.html";
+    private static final String GROUPS_FILE = "groups.html";
     private static final String RESULTS_FILE = "results.html";
     private static final String STYLE_FILE = "reportng.css";
     private static final String JS_FILE = "reportng.js";
 
+    private static final String SUITE_KEY = "suite";
     private static final String SUITES_KEY = "suites";
+    private static final String GROUPS_KEY = "groups";
     private static final String RESULT_KEY = "result";
 
     private static final String REPORT_DIRECTORY = "html";
@@ -77,6 +83,7 @@ public class HTMLReporter extends AbstractReporter
             }
             createOverview(suites, outputDirectory, !useFrames);
             createSuiteList(suites, outputDirectory);
+            createGroups(suites, outputDirectory);
             createResults(suites, outputDirectory);
             copyResources(outputDirectory);
         }
@@ -145,7 +152,32 @@ public class HTMLReporter extends AbstractReporter
                 generateFile(new File(outputDirectory, "suite" + index + "_test" + index2 + '_' + RESULTS_FILE),
                              RESULTS_FILE + TEMPLATE_EXTENSION,
                              context);
-                index2++;
+                ++index2;
+            }
+            ++index;
+        }
+    }
+
+
+    /**
+     * Generate a groups list for each suite.
+     * @param outputDirectory The target directory for the generated file(s).
+     */
+    private void createGroups(List<ISuite> suites,
+                              File outputDirectory) throws Exception
+    {
+        int index = 1;
+        for (ISuite suite : suites)
+        {
+            Map<String, Collection<ITestNGMethod>> groups = suite.getMethodsByGroups();
+            if (!groups.isEmpty())
+            {
+                VelocityContext context = createContext();
+                context.put(SUITE_KEY, suite);
+                context.put(GROUPS_KEY, groups);
+                generateFile(new File(outputDirectory, "suite" + index + "_" + GROUPS_FILE),
+                             GROUPS_FILE + TEMPLATE_EXTENSION,
+                             context);                
             }
             ++index;
         }
