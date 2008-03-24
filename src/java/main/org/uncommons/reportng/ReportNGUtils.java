@@ -43,28 +43,9 @@ public class ReportNGUtils
 {
     private static final NumberFormat DURATION_FORMAT = new DecimalFormat("#0.000");
 
-    /**
-     * Comparator for sorting tests alphabetically by method name.
-     */
-    private static final Comparator<ITestResult> TEST_RESULT_COMPARATOR = new Comparator<ITestResult>()
-    {
-        public int compare(ITestResult result1, ITestResult result2)
-        {
-            return result1.getName().compareTo(result2.getName());
-        }
-    };
+    private static final Comparator<ITestResult> RESULT_COMPARATOR = new TestResultComparator();
 
-
-    /**
-     * Comparator for sorting classes alphabetically by fully-qualified name.
-     */
-    private static final Comparator<IClass> TEST_CLASS_COMPARATOR = new Comparator<IClass>()
-    {
-        public int compare(IClass class1, IClass class2)
-        {
-            return class1.getName().compareTo(class2.getName());
-        }
-    };
+    private static final Comparator<IClass> CLASS_COMPARATOR = new TestClassComparator();
 
 
     public String formatDuration(long startMillis, long endMillis)
@@ -83,7 +64,7 @@ public class ReportNGUtils
 
     public SortedMap<IClass, List<ITestResult>> sortByTestClass(IResultMap results)
     {
-        SortedMap<IClass, List<ITestResult>> sortedResults = new TreeMap<IClass, List<ITestResult>>(TEST_CLASS_COMPARATOR);
+        SortedMap<IClass, List<ITestResult>> sortedResults = new TreeMap<IClass, List<ITestResult>>(CLASS_COMPARATOR);
         for (ITestResult result : results.getAllResults())
         {
             List<ITestResult> resultsForClass = sortedResults.get(result.getTestClass());
@@ -92,7 +73,7 @@ public class ReportNGUtils
                 resultsForClass = new ArrayList<ITestResult>();
                 sortedResults.put(result.getTestClass(), resultsForClass);
             }
-            int index = Collections.binarySearch(resultsForClass, result, TEST_RESULT_COMPARATOR);
+            int index = Collections.binarySearch(resultsForClass, result, RESULT_COMPARATOR);
             if (index < 0)
             {
                 index = Math.abs(index + 1);

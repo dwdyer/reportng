@@ -15,24 +15,17 @@
 // ============================================================================
 package org.uncommons.reportng;
 
-import org.testng.ITestNGMethod;
+import org.testng.IClass;
 import java.util.Comparator;
 
 /**
- * Comparator for sorting TestNG test methods.  Sorts method alphabeticaly
- * (first by fully-qualified class name, then by method name).
+ * Comparator for sorting classes alphabetically by fully-qualified name.
  * @author Daniel Dyer
  */
-class TestMethodComparator implements Comparator<ITestNGMethod>
+class TestClassComparator implements Comparator<IClass>
 {
-    public int compare(ITestNGMethod method1,
-                       ITestNGMethod method2)
+    public int compare(IClass class1, IClass class2)
     {
-        int compare = method1.getRealClass().getName().compareTo(method2.getRealClass().getName());
-        if (compare == 0)
-        {
-            compare = method1.getMethodName().compareTo(method2.getMethodName());
-        }
-        return compare;
+        return class1.getName().compareTo(class2.getName());
     }
 }
