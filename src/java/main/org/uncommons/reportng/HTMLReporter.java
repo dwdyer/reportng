@@ -20,6 +20,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Collection;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
+import java.util.Comparator;
 import org.apache.velocity.VelocityContext;
 import org.testng.ISuite;
 import org.testng.ISuiteResult;
@@ -50,6 +55,8 @@ public class HTMLReporter extends AbstractReporter
     private static final String RESULT_KEY = "result";
 
     private static final String REPORT_DIRECTORY = "html";
+
+    private static final Comparator<ITestNGMethod> METHOD_COMPARATOR = new TestMethodComparator();
 
 
     public HTMLReporter()
@@ -169,7 +176,7 @@ public class HTMLReporter extends AbstractReporter
         int index = 1;
         for (ISuite suite : suites)
         {
-            Map<String, Collection<ITestNGMethod>> groups = suite.getMethodsByGroups();
+            SortedMap<String, SortedSet<ITestNGMethod>> groups = sortGroups(suite.getMethodsByGroups());
             if (!groups.isEmpty())
             {
                 VelocityContext context = createContext();
@@ -181,6 +188,23 @@ public class HTMLReporter extends AbstractReporter
             }
             ++index;
         }
+    }
+
+
+    /**
+     * Sorts groups alphabetically and also sorts methods within groups alphabetically
+     * (class name first, then method name).  Also eliminates duplicate entries.
+     */
+    private SortedMap<String, SortedSet<ITestNGMethod>> sortGroups(Map<String, Collection<ITestNGMethod>> groups)
+    {
+        SortedMap<String, SortedSet<ITestNGMethod>> sortedGroups = new TreeMap<String, SortedSet<ITestNGMethod>>();
+        for (Map.Entry<String, Collection<ITestNGMethod>> entry : groups.entrySet())
+        {
+            SortedSet<ITestNGMethod> methods = new TreeSet<ITestNGMethod>(METHOD_COMPARATOR);
+            methods.addAll(entry.getValue());
+            sortedGroups.put(entry.getKey(), methods);
+        }
+        return sortedGroups;
     }
 
 
