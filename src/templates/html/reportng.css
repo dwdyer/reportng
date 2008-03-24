@@ -35,6 +35,7 @@ body                {font-family: sans-serif;
                      font-weight: normal;}
 .passRate           {font-weight: bold;
                      text-align: center;}
+.duration           {text-align: right;}
 
 /* Numbers in columns should be right-aligned. */
 .number             {text-align: right;}
