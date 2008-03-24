@@ -29,6 +29,7 @@ import org.testng.IClass;
 import org.testng.IResultMap;
 import org.testng.ITestResult;
 import org.testng.Reporter;
+import org.testng.ISuite;
 
 /**
  * Utility class that provides various helper methods that can be invoked
@@ -170,6 +171,12 @@ public class ReportNGUtils
         {
             return argument.toString();
         }
+    }
+
+
+    public boolean hasGroups(ISuite suite)
+    {
+        return !suite.getMethodsByGroups().isEmpty();
     }
 
 

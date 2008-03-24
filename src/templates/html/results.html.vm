@@ -3,7 +3,7 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>Unit Test Results</title>
+  <title>$meta.reportTitle - $result.testContext.name</title>
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <meta name="description" content="TestNG unit test results." />
   <link href="reportng.css" rel="stylesheet" type="text/css" />
@@ -18,24 +18,24 @@
 #set ($id = 0)
 #if( $result.testContext.failedConfigurations.size() > 0 )
   <table class="resultsTable configTable" width="100%">
-    <tr><td colspan="3" class="header failed-config">Failed Configuration</td></tr>
+    <tr><td colspan="3" class="failedConfig">Failed Configuration</td></tr>
     #set ($sortedResults = $utils.sortByTestClass($result.testContext.failedConfigurations) )
     #set ($id = 0)
     #foreach( $testClass in $sortedResults.keySet() )
       <tr>
-        <td colspan="3" class="testClass"><b>$testClass.name</b></td>
+        <td colspan="3" class="group">$testClass.name</td>
       </tr>
       #parse( "templates/html/class-results.html.vm" )
     #end
 
     #if( $result.testContext.skippedConfigurations.size() > 0 )
       <tr><td colspan="3">&nbsp;</td></tr>
-      <tr><td colspan="3" class="header skipped-config">Skipped Configuration</td></tr>
+      <tr><td colspan="3" class="skippedConfig">Skipped Configuration</td></tr>
       #set ($sortedResults = $utils.sortByTestClass($result.testContext.skippedConfigurations) )
       #set ($id = 0)
       #foreach( $testClass in $sortedResults.keySet() )
         <tr>
-          <td colspan="3" class="testClass"><b>$testClass.name</b></td>
+          <td colspan="3" class="group">$testClass.name</td>
         </tr>
         #parse( "templates/html/class-results.html.vm" )
       #end
@@ -49,7 +49,7 @@
     #set ($sortedResults = $utils.sortByTestClass($result.testContext.failedTests) )    
     #foreach( $testClass in $sortedResults.keySet() )
       <tr>
-        <td colspan="3" class="testClass"><b>$testClass.name</b></td>
+        <td colspan="3" class="group">$testClass.name</td>
       </tr>
       #parse( "templates/html/class-results.html.vm" )
     #end
@@ -61,7 +61,7 @@
     #set ($sortedResults = $utils.sortByTestClass($result.testContext.skippedTests) )
     #foreach( $testClass in $sortedResults.keySet() )
       <tr>
-        <td colspan="3" class="testClass"><b>$testClass.name</b></td>
+        <td colspan="3" class="group">$testClass.name</td>
       </tr>
       #parse( "templates/html/class-results.html.vm" )
     #end
@@ -73,7 +73,7 @@
     #set ($sortedResults = $utils.sortByTestClass($result.testContext.passedTests) )
     #foreach( $testClass in $sortedResults.keySet() )
       <tr>
-        <td colspan="3" class="testClass"><b>$testClass.name</b></td>
+        <td colspan="3" class="group">$testClass.name</td>
       </tr>
       #parse( "templates/html/class-results.html.vm" )
     #end
