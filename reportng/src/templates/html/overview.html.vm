@@ -29,7 +29,7 @@
   #set ($totalSkipped = 0)
   #set ($totalFailed = 0)
   <tr class="header suite">
-    <td colspan="5">
+    <td colspan="6">
       ${suite.name}
       #if ($utils.hasGroups($suite))
       <div class="groupLink" style="float: right; margin-right: 2px;">
@@ -47,7 +47,12 @@
   #set ($totalFailed = $totalFailed + $result.testContext.failedTests.size())
 
   <tr class="test">
-    <td class="test"><a href="suite${suiteId}_test${velocityCount}_results.html">${result.testContext.name}</a></td>
+    <td class="test">
+      <a href="suite${suiteId}_test${velocityCount}_results.html">${result.testContext.name}</a>
+    </td>
+    <td class="duration" style="width: 75px;">
+      $utils.formatDuration($result.testContext.startDate, $result.testContext.endDate)s
+    </td>
 
     <td class="passRate">
       #if ($total > 0)
@@ -77,9 +82,11 @@
     #end
   </tr>
   #end
-  <tr><td colspan="5" class="divider" style="padding: 0;"></td></tr>
+  <tr><td colspan="6" class="divider" style="padding: 0;"></td></tr>
   <tr class="test">
-    <td style="background-color: #ffffff;"><strong>Total</strong></td>
+    <td colspan="2" style="background-color: #ffffff;">
+      <strong>Total</strong>
+    </td>
     <td class="passRate suite">
       #if ($totalTests > 0)
       #set ($passRate = (($totalTests - $totalSkipped - $totalFailed) * 100 / $totalTests))
@@ -106,7 +113,7 @@
     <td class="zero number">0</td>
     #end
   </tr>
-  <tr><td colspan="5">&nbsp;</td></tr>
+  <tr><td colspan="6">&nbsp;</td></tr>
   #end
 </table>
 </body>

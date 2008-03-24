@@ -14,7 +14,7 @@
       </div>
     #end
   </td>
-  <td>
+  <td class="duration">
     $utils.formatDuration($testResult.startMillis, $testResult.endMillis)s
   </td>
   <td class="result">
