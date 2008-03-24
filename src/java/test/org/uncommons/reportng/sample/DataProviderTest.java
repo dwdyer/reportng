@@ -17,7 +17,7 @@ public class DataProviderTest
     }
 
 
-    @Test(dataProvider = "provider")
+    @Test(groups = "should-pass", dataProvider = "provider")
     public void testProvider(String data1, double data2)
     {
         // Do nothing.

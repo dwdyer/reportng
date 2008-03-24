@@ -22,6 +22,7 @@ import org.testng.Reporter;
  * Some successful tests to be included in the sample output.
  * @author Daniel Dyer
  */
+@Test(groups = "should-pass")
 public class SuccessfulTests
 {
     @Test

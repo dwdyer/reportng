@@ -20,8 +20,7 @@
   <td class="result">
     ## Display the dependencies for skipped test methods.
     #if( $testResult.status == 3 ) ## 3 means skipped.
-      #set( $arrayLength = $utils.getArrayLength($testResult.method.groupsDependedUpon) )
-      #if( $arrayLength > 0 )
+      #if( $utils.hasDependentGroups($testResult) )
         <i>Depends on group(s): </i>
         #foreach( $group in $testResult.method.groupsDependedUpon )
           #if( $velocityCount < $arrayLength - 1 )
@@ -32,16 +31,9 @@
         #end
         <br />
       #end
-      #set( $arrayLength = $utils.getArrayLength($testResult.method.methodsDependedUpon) )
-      #if( $arrayLength > 0 )
+      #if( $utils.hasDependentMethods($testResult) )
         <i>Depends on method(s): </i>
-        #foreach( $method in $testResult.method.methodsDependedUpon )
-          #if( $velocityCount < $arrayLength - 1 )
-            <span class="dependency">${method}</span>,
-          #else
-            <span class="dependency">${method}</span>
-          #end
-        #end
+        <span class="dependency">$utils.getDependentMethods($testResult)</span>
       #end
     #end
 
