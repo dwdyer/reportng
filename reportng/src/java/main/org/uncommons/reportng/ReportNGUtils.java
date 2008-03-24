@@ -25,6 +25,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.Iterator;
+import java.util.Collection;
+import java.util.Arrays;
 import org.testng.IClass;
 import org.testng.IResultMap;
 import org.testng.ITestResult;
@@ -138,16 +141,12 @@ public class ReportNGUtils
     public String getArguments(ITestResult result)
     {
         Object[] arguments = result.getParameters();
-        StringBuilder buffer = new StringBuilder();
-        for (int i = 0; i < arguments.length; i++)
+        List<String> argumentStrings = new ArrayList<String>(arguments.length);
+        for (Object argument : arguments)
         {
-            buffer.append(renderArgument(arguments[i]));
-            if (i < arguments.length - 1)
-            {
-                buffer.append(", ");
-            }
+            argumentStrings.add(renderArgument(argument));
         }
-        return buffer.toString();
+        return commaSeparate(argumentStrings);
     }
 
 
@@ -174,9 +173,58 @@ public class ReportNGUtils
     }
 
 
+    public boolean hasDependentGroups(ITestResult result)
+    {
+        return result.getMethod().getGroupsDependedUpon().length > 0;
+    }
+
+
+    public String getDependentGroups(ITestResult result)
+    {
+        String[] groups = result.getMethod().getGroupsDependedUpon();
+        return commaSeparate(Arrays.asList(groups));
+    }
+
+
+    public boolean hasDependentMethods(ITestResult result)
+    {
+        return result.getMethod().getMethodsDependedUpon().length > 0;
+    }
+
+
+    public String getDependentMethods(ITestResult result)
+    {
+        String[] methods = result.getMethod().getMethodsDependedUpon();
+        return commaSeparate(Arrays.asList(methods));
+    }
+
+
     public boolean hasGroups(ISuite suite)
     {
         return !suite.getMethodsByGroups().isEmpty();
+    }
+
+
+    /**
+     * Takes a list of Strings and combines them into a single comma-separated
+     * String.
+     * @param strings The Strings to combine.
+     * @return The combined, comma-separated, String.
+     */
+    private String commaSeparate(Collection<String> strings)
+    {
+        StringBuilder buffer = new StringBuilder();
+        Iterator<String> iterator = strings.iterator();
+        while (iterator.hasNext())
+        {
+            String string = iterator.next();
+            buffer.append(string);
+            if (iterator.hasNext())
+            {
+                buffer.append(", ");
+            }
+        }
+        return buffer.toString();
     }
 
 
@@ -271,16 +319,5 @@ public class ReportNGUtils
             }
         }
         return buffer.toString();
-    }
-
-
-    /**
-     * Velocity doesn't provide any way to get the length of an array from within
-     * a template, so we have to use this utility method instead.
-     * @return The length of the array.
-     */
-    public <T> int getArrayLength(T[] array)
-    {
-        return array.length;
     }
 }

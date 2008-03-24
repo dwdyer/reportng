@@ -22,7 +22,7 @@ import org.testng.Reporter;
  * Some test failures to be included in the sample output.
  * @author Daniel Dyer
  */
-@Test(groups = "failures")
+@Test(groups = "should-fail")
 public class FailedTests
 {
     @Test
