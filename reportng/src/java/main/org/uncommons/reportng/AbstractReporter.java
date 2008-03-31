@@ -109,12 +109,13 @@ public abstract class AbstractReporter implements IReporter
      * @throws java.io.IOException If the resource cannot be located.
      */
     protected void copyResource(File outputDirectory,
-                                String resourceName) throws IOException
+                                String resourceName,
+                                String targetFileName) throws IOException
     {
         String resourcePath = classpathPrefix + resourceName;
         InputStream resourceStream = ClassLoader.getSystemResourceAsStream(resourcePath);
 
-        File resourceFile = new File(outputDirectory, resourceName);
+        File resourceFile = new File(outputDirectory, targetFileName);
         Writer writer = null;
         BufferedReader reader = null;
         try

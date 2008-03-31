@@ -18,19 +18,19 @@
 #set ($id = 0)
 #if( $result.testContext.failedConfigurations.size() > 0 )
   <table class="resultsTable configTable" width="100%">
-    <tr><td colspan="3" class="failedConfig">Failed Configuration</td></tr>
+    <tr><td colspan="3" class="header failedConfig">Failed Configuration</td></tr>
     #set ($sortedResults = $utils.sortByTestClass($result.testContext.failedConfigurations) )
     #set ($id = 0)
     #foreach( $testClass in $sortedResults.keySet() )
-      <tr>
-        <td colspan="3" class="group">$testClass.name</td>
+      <tr class="group">
+        <td colspan="3">$testClass.name</td>
       </tr>
       #parse( "templates/html/class-results.html.vm" )
     #end
 
     #if( $result.testContext.skippedConfigurations.size() > 0 )
       <tr><td colspan="3">&nbsp;</td></tr>
-      <tr><td colspan="3" class="skippedConfig">Skipped Configuration</td></tr>
+      <tr><td colspan="3" class="header skippedConfig">Skipped Configuration</td></tr>
       #set ($sortedResults = $utils.sortByTestClass($result.testContext.skippedConfigurations) )
       #set ($id = 0)
       #foreach( $testClass in $sortedResults.keySet() )
@@ -53,7 +53,7 @@
       </tr>
       #parse( "templates/html/class-results.html.vm" )
     #end
-    <tr><td colspan="3">&nbsp;</td></tr>
+    <tr style="border: 0;"><td colspan="3">&nbsp;</td></tr>
   #end
 
   #if( $result.testContext.skippedTests.size() > 0 )
@@ -65,7 +65,7 @@
       </tr>
       #parse( "templates/html/class-results.html.vm" )
     #end
-    <tr><td colspan="3">&nbsp;</td></tr>
+    <tr style="border: 0;"><td colspan="3">&nbsp;</td></tr>
   #end
 
   #if( $result.testContext.passedTests.size() > 0 )
@@ -77,7 +77,7 @@
       </tr>
       #parse( "templates/html/class-results.html.vm" )
     #end
-    <tr><td colspan="3">&nbsp;</td></tr>
+    <tr style="border: 0;"><td colspan="3">&nbsp;</td></tr>
   #end
   
 </table>

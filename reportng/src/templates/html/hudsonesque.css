@@ -1,38 +1,46 @@
-a                   {color: #006699;}
-a:visited           {color: #003366;}
-body                {font-family: sans-serif;
-                     font-size: 10pt;}
+a                   {color: #204A87;}
+a:visited           {color: #5c3566}
+body                {font-family: Verdana, Helvetica, sans-serif;
+                     font-size: 9pt;}
 
 .title              {font-size: 1.8em;
                      font-weight: bold;}
 .header             {font-size: 1.2em;
-                     font-weight: bold;}
-.small              {font-size: 0.8em;}
+                     font-weight: bold;
+                     background-color: #f0f0f0;}
+.small              {font-size: 0.9em;}
 
 
-.overviewTable      {}
+.overviewTable      {border-collapse: collapse;
+                     border: 0;}
+.overviewTable tr   {border-collapse: collapse;
+                     border: 0;}
+.overviewTable td   {border-collapse: collapse;
+                     border: 1px #b0b0b0 solid;}
 .totalLabel         {font-weight: bold;
                      background-color: #ffffff;}
+td.totalLabel       {border-bottom: 0;
+                     border-left: 0;}
 
 
-.passed             {background-color: #44aa44;
+.passed             {color: #3465a4;
                      font-weight: bold;}
-.skipped            {background-color: #ffaa00;
+.skipped            {color: #ddbb00;
                      font-weight: bold;}
-.failed             {background-color: #ff4444;
+.failed             {color: #ef2929;
                      font-weight: bold;}
-.failedConfig       {background-color: #800000;
+.failedConfig       {background-color: #ef2929;
                      font-weight: bold;
                      color: #ffffff}
-.skippedConfig      {background-color: #cc6600;
+.skippedConfig      {background-color: #ddbb00;
                      font-weight: bold;
                      color: #ffffff}
 
 
-.suite              {background-color: #999999;}
-.test               {background-color: #eeeeee;
+.suite              {background-color: #f0f0f0;}
+.test               {background-color: transparent;
                      padding-left: 20px;}
-.group              {background-color: #cccccc;
+.group              {background-color: #f0f0f0;
                      color: #000000;
                      font-weight: bold;}
 .groupLink          {font-size: 10pt;
@@ -44,15 +52,18 @@ body                {font-family: sans-serif;
 /* Numbers in columns should be right-aligned. */
 .number             {text-align: right;}
 
-.zero               {background-color: #eeeeee;
+.zero               {background-color: transparent;
                      font-weight: normal;}
 
-table.resultsTable  {border: 0;}
-.resultsTable td    {vertical-align: top;
-                     padding-left: 5px;
-                     padding-right: 5px;}
+table.resultsTable {border-collapse: collapse;
+                    border: 0;}
+.resultsTable tr   {border: 1px #b0b0b0 solid;
+                    border-collapse: collapse;}
+.resultsTable td   {vertical-align: top;
+                    padding-left: 5px;
+                    padding-right: 5px;}
 
-table.configTable   {border: 2px solid #800000;
+table.configTable   {border: 1px solid #800000;
                      background: #ffffdd;
                      color: #800000;
                      margin-bottom: 25px;}
@@ -61,22 +72,22 @@ table.configTable   {border: 2px solid #800000;
 
 /* The +/- toggle used in the navigation frame. */
 .toggle             {font-family: monospace;
-                     font-weight: bold; 
+                     font-weight: bold;
                      padding-left: 2px;
                      padding-right: 5px;
                      color: #777777;}
 .successIndicator   {float: right;
                      font-family: monospace;
                      padding-right: 2px;
-                     color: #44aa44;}
+                     color: #3465a4;}
 .skipIndicator      {float: right;
                      font-family: monospace;
                      padding-right: 2px;
-                     color: #ffaa00;}
+                     color: #ddbb00;}
 .failureIndicator   {float: right;
                      font-family: monospace;
                      padding-right: 2px;
-                     color: #ff4444;}
+                     color: #ef2929}
 
 
 
@@ -89,21 +100,22 @@ table.configTable   {border: 2px solid #800000;
                      font-weight: bold;}
 .output             {font-family: monospace;
                      color: #777777;}
-.stackTrace         {font-size: 0.8em;
+.stackTrace         {font-size: 0.9em;
                      display: none;}
 
 .description        {font-size: 0.9em;
                      color: #000066;
-                     font-family: serif;}
+                     font-family: sans-serif;}
 
 
 
 /* The div used as a divider line in the overview tables. */
-.divider            {background: #000000;
-                     margin: 0;
-                     height: 2px}
+.divider            {margin: 0;
+                     height: 0;
+                     border: 0;
+                     display: none;}
 
-.systemInfo         {font-size: 0.8em;
+.systemInfo         {font-size: 0.9em;
                      text-align: right;
                      float: right;
                      color: #777777;}
