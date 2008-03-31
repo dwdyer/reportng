@@ -138,7 +138,7 @@ public class JUnitXMLReporter extends AbstractReporter
      * Groups together all of the data about the tests results from the methods
      * of a single test class.
      */
-    public static class TestClassResults
+    public static final class TestClassResults
     {
         private final IClass testClass;
         private final Collection<ITestResult> failedTests = new LinkedList<ITestResult>();
@@ -149,7 +149,7 @@ public class JUnitXMLReporter extends AbstractReporter
         private long endTime = Long.MIN_VALUE;
 
 
-        public TestClassResults(IClass testClass)
+        private TestClassResults(IClass testClass)
         {
             this.testClass = testClass;
         }
