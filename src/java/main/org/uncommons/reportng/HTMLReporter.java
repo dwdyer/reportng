@@ -216,7 +216,7 @@ public class HTMLReporter extends AbstractReporter
      */
     private void copyResources(File outputDirectory) throws IOException
     {
-        copyResource(outputDirectory, STYLE_FILE);
-        copyResource(outputDirectory, JS_FILE);
+        copyResource(outputDirectory, STYLE_FILE, STYLE_FILE);
+        copyResource(outputDirectory, JS_FILE, JS_FILE);
     }
 }

@@ -21,7 +21,7 @@
   at $meta.reportTime on $meta.reportDate
 </div>
 <br />
-<table width="100%">
+<table width="100%" class="overviewTable">
   #foreach ($suite in $suites)
   #set( $suiteId = $velocityCount )
   #set ($totalTests = 0)
@@ -84,9 +84,7 @@
   #end
   <tr><td colspan="6" class="divider" style="padding: 0;"></td></tr>
   <tr class="test">
-    <td colspan="2" style="background-color: #ffffff;">
-      <strong>Total</strong>
-    </td>
+    <td colspan="2" class="totalLabel">Total</td>
     <td class="passRate suite">
       #if ($totalTests > 0)
       #set ($passRate = (($totalTests - $totalSkipped - $totalFailed) * 100 / $totalTests))
@@ -113,7 +111,7 @@
     <td class="zero number">0</td>
     #end
   </tr>
-  <tr><td colspan="6">&nbsp;</td></tr>
+  <tr><td style="border: 0;" colspan="6">&nbsp;</td></tr>
   #end
 </table>
 </body>
