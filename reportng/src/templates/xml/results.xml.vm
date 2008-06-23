@@ -9,7 +9,14 @@
   <properties />
   #foreach( $testResult in $results.failedTests )
     <testcase name="$testResult.name" time="$utils.formatDuration($testResult.startMillis, $testResult.endMillis)">
-      <failure type="$testResult.throwable.class.name" message="$utils.escapeString( $testResult.throwable.message )">
+      #if( $testResult.throwable ) 
+      <failure type="$testResult.throwable.class.name" 
+        #if( $testResult.throwable.message ) 
+          message="$utils.escapeString( $testResult.throwable.message )"
+        #else 
+          message="(null)"
+        #end
+      >
 <![CDATA[$testResult.throwable.toString()
 #foreach( $element in $testResult.throwable.stackTrace )
   $element.toString()
@@ -22,6 +29,9 @@ Caused by: $throwable.toString()
 #end
 #end]]>
       </failure>
+      #else
+      <failure type="Unknown" message="Unknown"/>
+      #end
     </testcase>
   #end
   #foreach( $testResult in $results.skippedTests )
