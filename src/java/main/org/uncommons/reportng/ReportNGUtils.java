@@ -18,21 +18,22 @@ package org.uncommons.reportng;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.Iterator;
-import java.util.Collection;
-import java.util.Arrays;
 import org.testng.IClass;
 import org.testng.IResultMap;
+import org.testng.ISuite;
+import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.Reporter;
-import org.testng.ISuite;
 
 /**
  * Utility class that provides various helper methods that can be invoked
@@ -48,17 +49,51 @@ public class ReportNGUtils
     private static final Comparator<IClass> CLASS_COMPARATOR = new TestClassComparator();
 
 
-    public String formatDuration(long startMillis, long endMillis)
+    /**
+     * Returns the aggregate of the elapsed times for each test result.
+     * @param context The test results.
+     * @return The sum of the test durations.
+     */
+    public long getDuration(ITestContext context)
     {
-        long elapsed = endMillis - startMillis;
-        double seconds = (double) elapsed / 1000;
-        return DURATION_FORMAT.format(seconds);
+        long duration = getDuration(context.getPassedConfigurations().getAllResults());
+        duration += getDuration(context.getPassedTests().getAllResults());
+        // You would expect skipped tests to have durations of zero, but apparently not.
+        duration += getDuration(context.getSkippedConfigurations().getAllResults());
+        duration += getDuration(context.getSkippedTests().getAllResults());
+        duration += getDuration(context.getFailedConfigurations().getAllResults());
+        duration += getDuration(context.getFailedTests().getAllResults());
+        return duration;
     }
 
 
-    public String formatDuration(Date start, Date end)
+    /**
+     * Returns the aggregate of the elapsed times for each test result.
+     * @param results A set of test results.
+     * @return The sum of the test durations.
+     */
+    private long getDuration(Set<ITestResult> results)
     {
-        return formatDuration(start.getTime(), end.getTime());
+        long duration = 0;
+        for (ITestResult result : results)
+        {
+            duration += (result.getEndMillis() - result.getStartMillis());
+        }
+        return duration;
+    }
+
+
+    public String formatDuration(long startMillis, long endMillis)
+    {
+        long elapsed = endMillis - startMillis;
+        return formatDuration(elapsed);
+    }
+
+
+    public String formatDuration(long elapsed)
+    {
+        double seconds = (double) elapsed / 1000;
+        return DURATION_FORMAT.format(seconds);
     }
 
 

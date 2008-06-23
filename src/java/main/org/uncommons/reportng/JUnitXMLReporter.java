@@ -145,8 +145,7 @@ public class JUnitXMLReporter extends AbstractReporter
         private final Collection<ITestResult> skippedTests = new LinkedList<ITestResult>();
         private final Collection<ITestResult> passedTests = new LinkedList<ITestResult>();
 
-        private long startTime = Long.MAX_VALUE;
-        private long endTime = Long.MIN_VALUE;
+        private long duration = 0;
 
 
         private TestClassResults(IClass testClass)
@@ -165,8 +164,7 @@ public class JUnitXMLReporter extends AbstractReporter
                                ITestResult result)
         {
             target.add(result);
-            startTime = Math.min(startTime, result.getStartMillis());
-            endTime = Math.max(endTime, result.getEndMillis());
+            duration += (result.getEndMillis() - result.getStartMillis());
         }
 
 
@@ -206,15 +204,9 @@ public class JUnitXMLReporter extends AbstractReporter
         }
 
 
-        public long getStartTime()
+        public long getDuration()
         {
-            return startTime;
-        }
-
-        
-        public long getEndTime()
-        {
-            return endTime;
+            return duration;
         }
     }
 }

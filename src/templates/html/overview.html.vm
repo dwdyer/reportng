@@ -51,7 +51,7 @@
       <a href="suite${suiteId}_test${velocityCount}_results.html">${result.testContext.name}</a>
     </td>
     <td class="duration" style="width: 75px;">
-      $utils.formatDuration($result.testContext.startDate, $result.testContext.endDate)s
+      $utils.formatDuration($utils.getDuration($result.testContext))s
     </td>
 
     <td class="passRate">
