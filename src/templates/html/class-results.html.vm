@@ -46,7 +46,11 @@
     #if( $output.size() > 0)
     <div class="output">
       #foreach( $line in $output )
-      $line<br />
+        #if( $meta.shouldEscapeOutput() )
+          $utils.escapeHTMLString($line)<br />
+        #else
+          $line
+        #end
       #end
     </div>
     #end

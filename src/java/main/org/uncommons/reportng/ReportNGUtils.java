@@ -103,13 +103,7 @@ public class ReportNGUtils
 
     public List<String> getTestOutput(ITestResult result)
     {
-        List<String> unescapedOutput = Reporter.getOutput(result);
-        List<String> escapedOutput = new ArrayList<String>(unescapedOutput.size());
-        for (String s : unescapedOutput)
-        {
-            escapedOutput.add(escapeString(s));
-        }
-        return escapedOutput;
+        return Reporter.getOutput(result);
     }
 
 

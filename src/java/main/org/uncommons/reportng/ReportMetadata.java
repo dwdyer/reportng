@@ -32,6 +32,7 @@ public final class ReportMetadata
     private static final String DEFAULT_TITLE = "Test Results Report";
     private static final String COVERAGE_KEY = PROPERTY_KEY_PREFIX + "coverage-report";
     private static final String EXCEPTIONS_KEY = PROPERTY_KEY_PREFIX + "show-expected-exceptions";
+    private static final String OUTPUT_KEY = PROPERTY_KEY_PREFIX + "escape-output";
 
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("EEEE dd MMMM yyyy");
     private static final DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm z");
@@ -79,9 +80,29 @@ public final class ReportMetadata
     }
 
 
+    /**
+     * Returns false (the default) if stack traces should not be shown for
+     * expected exceptions.
+     * @return True if stack traces should be shown even for expected exceptions,
+     * false otherwise.
+     */
     public boolean shouldShowExpectedExceptions()
     {
         return System.getProperty(EXCEPTIONS_KEY, "false").equalsIgnoreCase("true");
+    }
+
+
+    /**
+     * Returns true (the default) if log text should be escaped when displayed in a
+     * report.  Turning off escaping allows you to do something link inserting
+     * link tags into HTML reports, but it also means that other output could
+     * accidentally corrupt the mark-up.
+     * @return True if reporter log output should be escaped when displayed in a
+     * report, false otherwise.
+     */
+    public boolean shouldEscapeOutput()
+    {
+        return System.getProperty(OUTPUT_KEY, "true").equalsIgnoreCase("true");
     }
 
 
