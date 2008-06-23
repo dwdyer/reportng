@@ -5,7 +5,7 @@
            failures="$results.failedTests.size()"
            errors="0"
            skipped="$results.skippedTests.size()"
-           time="$utils.formatDuration($results.startTime, $results.endTime)">
+           time="$utils.formatDuration($results.duration)">
   <properties />
   #foreach( $testResult in $results.failedTests )
     <testcase name="$testResult.name" time="$utils.formatDuration($testResult.startMillis, $testResult.endMillis)">

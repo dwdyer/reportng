@@ -12,7 +12,7 @@
 <body>
 <div class="title">$result.testContext.name</div>
 <div class="small" style="margin-bottom: 15px;">
-  Test Duration: $utils.formatDuration($result.testContext.startDate, $result.testContext.endDate)s
+  Test Duration: $utils.formatDuration($utils.getDuration($result.testContext))s
 </div>
 
 #set ($id = 0)
