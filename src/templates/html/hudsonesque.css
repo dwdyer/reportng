@@ -94,11 +94,11 @@ table.configTable   {border: 1px solid #800000;
 /* These classes are for information about an individual test result. */
 .result             {font-size: 0.9em;
                      vertical-align: middle;}
-.dependency         {font-family: monospace;
+.dependency         {font-family: Courier New, monospace;
                      font-weight: bold;}
-.arguments          {font-family: monospace;
+.arguments          {font-family: Courier New, monospace;
                      font-weight: bold;}
-.output             {font-family: monospace;
+.output             {font-family: Courier New, monospace;
                      color: #777777;}
 .stackTrace         {font-size: 0.9em;
                      display: none;}
