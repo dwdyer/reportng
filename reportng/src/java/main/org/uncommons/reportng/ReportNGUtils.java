@@ -168,7 +168,11 @@ public class ReportNGUtils
      */
     private String renderArgument(Object argument)
     {
-        if (argument instanceof String)
+        if (argument == null)
+        {
+            return "null";
+        }
+        else if (argument instanceof String)
         {
             return "\"" + argument + "\"";
         }
