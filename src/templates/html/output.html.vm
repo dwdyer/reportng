@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>$meta.reportTitle - Log Output</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta name="description" content="TestNG unit test results." />
+  <link href="reportng.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <div class="title">
+    Log Output
+  </div>
+  <div class="small" style="margin-bottom: 15px;">
+    Combined output from all calls to the log methods of the
+    <a href="http://testng.org/javadocs/org/testng/Reporter.html">TestNG Reporter</a>.
+  </div>
+
+  <div class="log">
+    #foreach( $line in $utils.allOutput )
+      #if( $meta.shouldEscapeOutput() )
+        $utils.escapeHTMLString($line)<br />
+      #else
+        $line
+      #end
+    #end
+  </div>
+
+</body>
+</html>

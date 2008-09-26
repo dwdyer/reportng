@@ -14,9 +14,12 @@
 <div style="padding: 5px; background-color: #eeeeee;">
   <strong>$meta.reportTitle</strong><br />
   <div class="small">
-    <a href="overview.html" target="main">Overview</a>&nbsp;&nbsp;&nbsp;
+    <a href="overview.html" target="main">Overview</a>
+    #if( $utils.allOutput )
+    - <a href="output.html" target="main">Log Output</a>
+    #end
     #if( $meta.coverageLink )
-    <a href="$meta.coverageLink" target="_top">Coverage Report</a>
+    - <a href="$meta.coverageLink" target="_top">Coverage Report</a>
     #end
   </div>
 </div>

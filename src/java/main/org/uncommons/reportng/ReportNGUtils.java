@@ -136,9 +136,25 @@ public class ReportNGUtils
     }
 
 
+    /**
+     * Retrieves all log messages associated with a particular test result.
+     * @param result Which test result to look-up.
+     * @return A list of log messages.
+     */
     public List<String> getTestOutput(ITestResult result)
     {
         return Reporter.getOutput(result);
+    }
+
+
+    /**
+     * Retieves the output from all calls to {@link org.testng.Reporter#log(String)}
+     * across all tests.
+     * @return A list of log messages.
+     */
+    public List<String> getAllOutput()
+    {
+        return Reporter.getOutput();
     }
 
 

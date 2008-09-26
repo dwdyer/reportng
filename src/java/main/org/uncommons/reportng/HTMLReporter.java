@@ -29,6 +29,7 @@ import org.apache.velocity.VelocityContext;
 import org.testng.ISuite;
 import org.testng.ISuiteResult;
 import org.testng.ITestNGMethod;
+import org.testng.Reporter;
 import org.testng.xml.XmlSuite;
 
 /**
@@ -46,6 +47,7 @@ public class HTMLReporter extends AbstractReporter
     private static final String OVERVIEW_FILE = "overview.html";
     private static final String GROUPS_FILE = "groups.html";
     private static final String RESULTS_FILE = "results.html";
+    private static final String OUTPUT_FILE = "output.html";
     private static final String STYLE_FILE = "reportng.css";
     private static final String JS_FILE = "reportng.js";
 
@@ -92,6 +94,7 @@ public class HTMLReporter extends AbstractReporter
             createSuiteList(suites, outputDirectory);
             createGroups(suites, outputDirectory);
             createResults(suites, outputDirectory);
+            createLog(outputDirectory);
             copyResources(outputDirectory);
         }
         catch (Exception ex)
@@ -187,6 +190,22 @@ public class HTMLReporter extends AbstractReporter
                              context);                
             }
             ++index;
+        }
+    }
+
+
+    /**
+     * Generate a groups list for each suite.
+     * @param outputDirectory The target directory for the generated file(s).
+     */
+    private void createLog(File outputDirectory) throws Exception
+    {
+        if (!Reporter.getOutput().isEmpty())
+        {
+            VelocityContext context = createContext();
+            generateFile(new File(outputDirectory, OUTPUT_FILE),
+                         OUTPUT_FILE + TEMPLATE_EXTENSION,
+                         context);
         }
     }
 

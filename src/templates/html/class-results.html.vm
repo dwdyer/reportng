@@ -44,7 +44,7 @@
     ## Show logger output for the test.
     #set( $output = $utils.getTestOutput($testResult) )
     #if( $output.size() > 0)
-    <div class="output">
+    <div class="testOutput">
       #foreach( $line in $output )
         #if( $meta.shouldEscapeOutput() )
           $utils.escapeHTMLString($line)<br />
