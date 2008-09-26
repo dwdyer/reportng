@@ -11,12 +11,6 @@ body                {font-family: Verdana, Helvetica, sans-serif;
 .small              {font-size: 0.9em;}
 
 
-.overviewTable      {border-collapse: collapse;
-                     border: 0;}
-.overviewTable tr   {border-collapse: collapse;
-                     border: 0;}
-.overviewTable td   {border-collapse: collapse;
-                     border: 1px #b0b0b0 solid;}
 .totalLabel         {font-weight: bold;
                      background-color: #ffffff;}
 td.totalLabel       {border-bottom: 0;
@@ -115,10 +109,17 @@ table.configTable   {border: 1px solid #800000;
                      border: 0;
                      display: none;}
 
-.systemInfo         {font-size: 0.9em;
+#systemInfo         {font-size: 0.9em;
                      text-align: right;
                      float: right;
                      color: #777777;}
 
 /* Reporter log output (individual test ouput is style by "testOutput" above). */
-.log                {font-family: Courier New, monospace;}
+#log                {font-family: Courier New, monospace;}
+
+#overviewTable      {border-collapse: collapse;
+                     border: 0;}
+#overviewTable tr   {border-collapse: collapse;
+                     border: 0;}
+#overviewTable td   {border-collapse: collapse;
+                     border: 1px #b0b0b0 solid;}

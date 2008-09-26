@@ -10,7 +10,6 @@ body                {font-family: sans-serif;
 .small              {font-size: 0.8em;}
 
 
-.overviewTable      {}
 .totalLabel         {font-weight: bold;
                      background-color: #ffffff;}
 
@@ -103,10 +102,12 @@ table.configTable   {border: 2px solid #800000;
                      margin: 0;
                      height: 2px}
 
-.systemInfo         {font-size: 0.8em;
+#systemInfo         {font-size: 0.8em;
                      text-align: right;
                      float: right;
                      color: #777777;}
 
 /* Reporter log output (individual test ouput is style by "testOutput" above). */
-.log                {font-family: Courier New, monospace;}
+#log                {font-family: Courier New, monospace;}
+
+#overviewTable      {}
