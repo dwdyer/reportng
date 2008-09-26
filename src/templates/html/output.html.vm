@@ -17,7 +17,7 @@
     <a href="http://testng.org/javadocs/org/testng/Reporter.html">TestNG Reporter</a>.
   </div>
 
-  <div class="log">
+  <div id="log">
     #foreach( $line in $utils.allOutput )
       #if( $meta.shouldEscapeOutput() )
         $utils.escapeHTMLString($line)<br />
