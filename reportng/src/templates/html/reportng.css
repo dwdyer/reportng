@@ -87,8 +87,8 @@ table.configTable   {border: 2px solid #800000;
                      font-weight: bold;}
 .arguments          {font-family: Courier New, monospace;
                      font-weight: bold;}
-.output             {font-family: Courier New, monospace;
-                     color: #777777;}
+.testOutput         {font-family: Courier New, monospace;
+                     color: #666666;}
 .stackTrace         {font-size: 0.8em;
                      display: none;}
 
@@ -107,3 +107,6 @@ table.configTable   {border: 2px solid #800000;
                      text-align: right;
                      float: right;
                      color: #777777;}
+
+/* Reporter log output (individual test ouput is style by "testOutput" above). */
+.log                {font-family: Courier New, monospace;}
