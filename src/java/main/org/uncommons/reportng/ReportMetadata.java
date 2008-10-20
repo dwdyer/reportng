@@ -33,6 +33,7 @@ public final class ReportMetadata
     private static final String COVERAGE_KEY = PROPERTY_KEY_PREFIX + "coverage-report";
     private static final String EXCEPTIONS_KEY = PROPERTY_KEY_PREFIX + "show-expected-exceptions";
     private static final String OUTPUT_KEY = PROPERTY_KEY_PREFIX + "escape-output";
+    private static final String XML_DIALECT_KEY = PROPERTY_KEY_PREFIX + "xml-dialect";
 
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("EEEE dd MMMM yyyy");
     private static final DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm z");
@@ -103,6 +104,17 @@ public final class ReportMetadata
     public boolean shouldEscapeOutput()
     {
         return System.getProperty(OUTPUT_KEY, "true").equalsIgnoreCase("true");
+    }
+
+
+    /**
+     * If the XML dialect has been set to "junit", we will render all skipped tests
+     * as failed tests in the XML.  Otherwise we use TestNG's extended version of
+     * the XML format that allows for "<skipped>" elements.
+     */
+    public boolean allowSkippedTestsInXML()
+    {
+        return !System.getProperty(XML_DIALECT_KEY, "testng").equalsIgnoreCase("junit");
     }
 
 

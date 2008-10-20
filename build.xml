@@ -172,7 +172,17 @@
       <xmlfileset dir="." includes="sample*.xml"/>
       <sysproperty key="org.uncommons.reportng.coverage-report" value="http://cobertura.sourceforge.net/sample/"/>
       <sysproperty key="org.uncommons.reportng.title" value="ReportNG Sample Report"/>
+      <sysproperty key="org.uncommons.reportng.xml-dialect" value="JUnit"/>
     </testng>
+
+    <!-- Generate an HTML report from the JUnit XML. -->
+    <mkdir dir="${build.dir}/sample/xslt" />
+    <junitreport todir="${build.dir}/sample/xslt">
+      <fileset dir="${build.dir}/sample/xml">
+        <include name="*.xml"/>
+      </fileset>
+      <report format="frames" todir="${build.dir}/sample/xslt"/>
+    </junitreport>
   </target>
   
   
