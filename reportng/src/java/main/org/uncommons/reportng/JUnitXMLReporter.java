@@ -103,7 +103,7 @@ public class JUnitXMLReporter extends AbstractReporter
                 }
                 for (ITestResult testResult : suiteResult.getTestContext().getSkippedTests().getAllResults())
                 {
-                    getResultsForClass(flattenedResults, testResult).addSkippedTest(testResult);
+                    skip(getResultsForClass(flattenedResults, testResult), testResult);
                 }
                 for (ITestResult testResult : suiteResult.getTestContext().getPassedTests().getAllResults())
                 {
@@ -116,11 +116,26 @@ public class JUnitXMLReporter extends AbstractReporter
                 }
                 for (ITestResult testResult : suiteResult.getTestContext().getSkippedConfigurations().getAllResults())
                 {
-                    getResultsForClass(flattenedResults, testResult).addSkippedTest(testResult);
+                    skip(getResultsForClass(flattenedResults, testResult), testResult);
                 }
             }
         }
         return flattenedResults.values();
+    }
+
+
+    private void skip(TestClassResults classResults, ITestResult testResult)
+    {
+        // TestNG dialect of JUnit XML supports skipped tests.
+        if (META.allowSkippedTestsInXML())
+        {
+            classResults.addSkippedTest(testResult);
+        }
+        // Strict JUnit dialect does not, so mark skipped tests as failed.
+        else
+        {
+            classResults.addFailedTest(testResult);
+        }
     }
 
 
