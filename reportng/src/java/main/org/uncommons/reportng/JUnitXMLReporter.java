@@ -99,18 +99,24 @@ public class JUnitXMLReporter extends AbstractReporter
             {
                 for (ITestResult testResult : suiteResult.getTestContext().getFailedTests().getAllResults())
                 {
-                    TestClassResults resultsForClass = getResultsForClass(flattenedResults, testResult);
-                    resultsForClass.addFailedTest(testResult);
+                    getResultsForClass(flattenedResults, testResult).addFailedTest(testResult);
                 }
                 for (ITestResult testResult : suiteResult.getTestContext().getSkippedTests().getAllResults())
                 {
-                    TestClassResults resultsForClass = getResultsForClass(flattenedResults, testResult);
-                    resultsForClass.addSkippedTest(testResult);
+                    getResultsForClass(flattenedResults, testResult).addSkippedTest(testResult);
                 }
                 for (ITestResult testResult : suiteResult.getTestContext().getPassedTests().getAllResults())
                 {
-                    TestClassResults resultsForClass = getResultsForClass(flattenedResults, testResult);
-                    resultsForClass.addPassedTest(testResult);
+                    getResultsForClass(flattenedResults, testResult).addPassedTest(testResult);
+                }
+                // Failed and skipped configurations are treated as test failures/skips.
+                for (ITestResult testResult : suiteResult.getTestContext().getFailedConfigurations().getAllResults())
+                {
+                    getResultsForClass(flattenedResults, testResult).addFailedTest(testResult);
+                }
+                for (ITestResult testResult : suiteResult.getTestContext().getSkippedConfigurations().getAllResults())
+                {
+                    getResultsForClass(flattenedResults, testResult).addSkippedTest(testResult);
                 }
             }
         }
