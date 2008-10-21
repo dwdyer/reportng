@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Set;
 import org.apache.velocity.VelocityContext;
 import org.testng.ISuite;
 import org.testng.ISuiteResult;
@@ -97,44 +98,26 @@ public class JUnitXMLReporter extends AbstractReporter
         {
             for (ISuiteResult suiteResult : suite.getResults().values())
             {
-                for (ITestResult testResult : suiteResult.getTestContext().getFailedTests().getAllResults())
-                {
-                    getResultsForClass(flattenedResults, testResult).addFailedTest(testResult);
-                }
-                for (ITestResult testResult : suiteResult.getTestContext().getSkippedTests().getAllResults())
-                {
-                    skip(getResultsForClass(flattenedResults, testResult), testResult);
-                }
-                for (ITestResult testResult : suiteResult.getTestContext().getPassedTests().getAllResults())
-                {
-                    getResultsForClass(flattenedResults, testResult).addPassedTest(testResult);
-                }
-                // Failed and skipped configurations are treated as test failures/skips.
-                for (ITestResult testResult : suiteResult.getTestContext().getFailedConfigurations().getAllResults())
-                {
-                    getResultsForClass(flattenedResults, testResult).addFailedTest(testResult);
-                }
-                for (ITestResult testResult : suiteResult.getTestContext().getSkippedConfigurations().getAllResults())
-                {
-                    skip(getResultsForClass(flattenedResults, testResult), testResult);
-                }
+                // Failed and skipped configuration methods are treated as test failures.
+                organiseByClass(suiteResult.getTestContext().getFailedConfigurations().getAllResults(), flattenedResults);
+                organiseByClass(suiteResult.getTestContext().getSkippedConfigurations().getAllResults(), flattenedResults);
+                // Successful configuration methods are not included.
+                
+                organiseByClass(suiteResult.getTestContext().getFailedTests().getAllResults(), flattenedResults);
+                organiseByClass(suiteResult.getTestContext().getSkippedTests().getAllResults(), flattenedResults);
+                organiseByClass(suiteResult.getTestContext().getPassedTests().getAllResults(), flattenedResults);
             }
         }
         return flattenedResults.values();
     }
 
 
-    private void skip(TestClassResults classResults, ITestResult testResult)
+    private void organiseByClass(Set<ITestResult> testResults,
+                                 Map<IClass, TestClassResults> flattenedResults)
     {
-        // TestNG dialect of JUnit XML supports skipped tests.
-        if (META.allowSkippedTestsInXML())
+        for (ITestResult testResult : testResults)
         {
-            classResults.addSkippedTest(testResult);
-        }
-        // Strict JUnit dialect does not, so mark skipped tests as failed.
-        else
-        {
-            classResults.addFailedTest(testResult);
+            getResultsForClass(flattenedResults, testResult).addResult(testResult);
         }
     }
 
@@ -181,29 +164,33 @@ public class JUnitXMLReporter extends AbstractReporter
         }
 
 
-        private void addResult(Collection<ITestResult> target,
-                               ITestResult result)
+        /**
+         * Adds a test result for this class.  Organises results by outcome.
+         */
+        void addResult(ITestResult result)
         {
-            target.add(result);
+            switch (result.getStatus())
+            {
+                case ITestResult.SKIP:
+                {
+                    if (META.allowSkippedTestsInXML())
+                    {
+                        skippedTests.add(result);
+                        break;
+                    }
+                    // Intentional fall-through (skipped tests marked as failed if XML doesn't support skips).
+                }
+                case ITestResult.FAILURE:
+                case ITestResult.SUCCESS_PERCENTAGE_FAILURE:
+                {
+                    failedTests.add(result);
+                }
+                case ITestResult.SUCCESS:
+                {
+                    passedTests.add(result);
+                }
+            }
             duration += (result.getEndMillis() - result.getStartMillis());
-        }
-
-
-        void addFailedTest(ITestResult result)
-        {
-            addResult(failedTests, result);
-        }
-
-
-        void addSkippedTest(ITestResult result)
-        {
-            addResult(skippedTests, result);
-        }
-
-
-        void addPassedTest(ITestResult result)
-        {
-            addResult(passedTests, result);
         }
 
 

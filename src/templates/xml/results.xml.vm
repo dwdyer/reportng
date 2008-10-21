@@ -9,9 +9,9 @@
   <properties />
   #foreach( $testResult in $results.failedTests )
     <testcase name="$testResult.name" time="$utils.formatDuration($testResult.startMillis, $testResult.endMillis)">
-      #if( $testResult.throwable ) 
-      <failure type="$testResult.throwable.class.name" 
-        #if( $testResult.throwable.message ) 
+      #if( $testResult.throwable )
+      <failure type="$testResult.throwable.class.name"
+        #if( $testResult.throwable.message )
           message="$utils.escapeString( $testResult.throwable.message )"
         #else 
           message="(null)"
@@ -29,17 +29,30 @@ Caused by: $throwable.toString()
 #end
 #end]]>
       </failure>
+
       #else
-      <failure type="Unknown" message="Unknown"/>
+      <failure type="Unknown"
+        #if($testResult.status == 3)
+          message="Skipped"
+        #else
+          message="Unknown"
+        #end
+      />
       #end
     </testcase>
   #end
+
+
   #foreach( $testResult in $results.skippedTests )
     <testcase name="$testResult.name" time="0.0">
       <skipped />
     </testcase>
   #end
+
+
   #foreach( $testResult in $results.passedTests )
     <testcase name="$testResult.name" time="$utils.formatDuration($testResult.startMillis, $testResult.endMillis)" />
   #end
+
+
 </testsuite>
