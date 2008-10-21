@@ -184,10 +184,12 @@ public class JUnitXMLReporter extends AbstractReporter
                 case ITestResult.SUCCESS_PERCENTAGE_FAILURE:
                 {
                     failedTests.add(result);
+                    break;
                 }
                 case ITestResult.SUCCESS:
                 {
                     passedTests.add(result);
+                    break;
                 }
             }
             duration += (result.getEndMillis() - result.getStartMillis());
