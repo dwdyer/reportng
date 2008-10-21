@@ -20,6 +20,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.net.UnknownHostException;
 import java.net.InetAddress;
+import java.io.File;
 
 /**
  * Provides access to static information useful when generating a report.
@@ -34,6 +35,7 @@ public final class ReportMetadata
     private static final String EXCEPTIONS_KEY = PROPERTY_KEY_PREFIX + "show-expected-exceptions";
     private static final String OUTPUT_KEY = PROPERTY_KEY_PREFIX + "escape-output";
     private static final String XML_DIALECT_KEY = PROPERTY_KEY_PREFIX + "xml-dialect";
+    private static final String STYLESHEET_KEY = PROPERTY_KEY_PREFIX + "stylesheet";
 
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("EEEE dd MMMM yyyy");
     private static final DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm z");
@@ -78,6 +80,19 @@ public final class ReportMetadata
     public String getCoverageLink()
     {
         return System.getProperty(COVERAGE_KEY);
+    }
+
+
+    /**
+     * If a custom CSS file has been specified, returns the path.  Otherwise
+     * returns null.
+     * @return A {@link File} pointing to the stylesheet, or null if no stylesheet
+     * is specified.
+     */
+    public File getStylesheetPath()
+    {
+        String path = System.getProperty(STYLESHEET_KEY);
+        return path == null ? null : new File(path);
     }
 
 

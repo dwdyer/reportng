@@ -49,6 +49,7 @@ public class HTMLReporter extends AbstractReporter
     private static final String RESULTS_FILE = "results.html";
     private static final String OUTPUT_FILE = "output.html";
     private static final String STYLE_FILE = "reportng.css";
+    private static final String CUSTOM_STYLE_FILE = "custom.css";
     private static final String JS_FILE = "reportng.js";
 
     private static final String SUITE_KEY = "suite";
@@ -235,7 +236,14 @@ public class HTMLReporter extends AbstractReporter
      */
     private void copyResources(File outputDirectory) throws IOException
     {
-        copyResource(outputDirectory, STYLE_FILE, STYLE_FILE);
-        copyResource(outputDirectory, JS_FILE, JS_FILE);
+        copyClasspathResource(outputDirectory, STYLE_FILE, STYLE_FILE);
+        copyClasspathResource(outputDirectory, JS_FILE, JS_FILE);
+        // If there is a custom stylesheet, copy that.
+        File customStylesheet = META.getStylesheetPath();
+        if (customStylesheet != null)
+        {
+            copyFile(outputDirectory, customStylesheet, CUSTOM_STYLE_FILE);
+        }
     }
 }
+                                                            
