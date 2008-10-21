@@ -17,11 +17,14 @@ td.totalLabel       {border-bottom: 0;
                      border-left: 0;}
 
 
-.passed             {color: #3465a4;
+.passed             {background-color: inherit;
+                     color: #3465a4;
                      font-weight: bold;}
-.skipped            {color: #ddbb00;
+.skipped            {background-color: inherit;
+                     color: #ddbb00;
                      font-weight: bold;}
-.failed             {color: #ef2929;
+.failed             {background-color: inherit;
+                     color: #ef2929;
                      font-weight: bold;}
 .failedConfig       {background-color: #ef2929;
                      font-weight: bold;

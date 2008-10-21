@@ -15,18 +15,19 @@
 // ============================================================================
 package org.uncommons.reportng;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Writer;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.testng.IReporter;
-import java.io.File;
-import java.io.Writer;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.FileFilter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 
 /**
  * @author Daniel Dyer
@@ -67,7 +68,8 @@ public abstract class AbstractReporter implements IReporter
 
     /**
      * Helper method that creates a Velocity context and initialises it
-     * with a reference to the ReportNG utils.
+     * with a reference to the ReportNG utils and report metadata.
+     * @return An initialised Velocity context.
      */
     protected VelocityContext createContext()
     {
@@ -106,21 +108,59 @@ public abstract class AbstractReporter implements IReporter
      * Copy a single named resource from the classpath to the output directory.
      * @param outputDirectory The destination directory for the copied resource.
      * @param resourceName The filename of the resource.
-     * @throws java.io.IOException If the resource cannot be located.
+     * @param targetFileName The name of the file created in {@literal outputDirectory}.
+     * @throws IOException If the resource cannot be copied.
      */
-    protected void copyResource(File outputDirectory,
-                                String resourceName,
-                                String targetFileName) throws IOException
+    protected void copyClasspathResource(File outputDirectory,
+                                         String resourceName,
+                                         String targetFileName) throws IOException
     {
         String resourcePath = classpathPrefix + resourceName;
         InputStream resourceStream = ClassLoader.getSystemResourceAsStream(resourcePath);
+        copyStream(outputDirectory, resourceStream, targetFileName);
+    }
 
+
+    /**
+     * Copy a single named file to the output directory.
+     * @param outputDirectory The destination directory for the copied resource.
+     * @param sourceFile The path of the file to copy.
+     * @param targetFileName The name of the file created in {@literal outputDirectory}.
+     * @throws IOException If the file cannot be copied.
+     */
+    protected void copyFile(File outputDirectory,
+                            File sourceFile,
+                            String targetFileName) throws IOException
+    {
+        InputStream fileStream = new FileInputStream(sourceFile);
+        try
+        {
+            copyStream(outputDirectory, fileStream, targetFileName);
+        }
+        finally
+        {
+            fileStream.close();
+        }
+    }
+
+
+    /**
+     * Helper method to copy the contents of a stream to a file.
+     * @param outputDirectory The directory in which the new file is created.
+     * @param stream The stream to copy.
+     * @param targetFileName The file to write the stream contents to.
+     * @throws IOException If the stream cannot be copied.
+     */
+    private void copyStream(File outputDirectory,
+                            InputStream stream,
+                            String targetFileName) throws IOException
+    {
         File resourceFile = new File(outputDirectory, targetFileName);
         Writer writer = null;
         BufferedReader reader = null;
         try
         {
-            reader = new BufferedReader(new InputStreamReader(resourceStream));
+            reader = new BufferedReader(new InputStreamReader(stream));
             writer = new BufferedWriter(new FileWriter(resourceFile));
 
             String line = reader.readLine();
