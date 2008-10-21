@@ -115,23 +115,19 @@
     <tar destfile="${release.dir}/reportng-${version}.tgz"
          compression="gzip"
          longfile="gnu">
-      <tarfileset dir="${dist.dir}"
-                  prefix="${artifact.identifier}"
-                  includes="**/*" />
+      <tarfileset dir="${dist.dir}" prefix="${artifact.identifier}" includes="**/*" />
       <!-- Don't forget to include the licence and other important information. -->
-      <tarfileset dir="."
-                  prefix="${artifact.identifier}"
-                  includes="*.txt" />
+      <tarfileset dir="." prefix="${artifact.identifier}" includes="*.txt" />
+      <!-- Include CSS files for optional customisation. -->
+      <tarfileset dir="${src.dir}/css" prefix="${artifact.identifier}/stylesheets" includes="*.css" />
     </tar>
     <!-- Also create a zip file release for the convenience of Windows users. -->
     <zip destfile="${release.dir}/${artifact.identifier}.zip">
-      <zipfileset dir="${dist.dir}"
-                  prefix="${artifact.identifier}"
-                  includes="**/*" />
+      <zipfileset dir="${dist.dir}" prefix="${artifact.identifier}" includes="**/*" />
       <!-- Don't forget to include the licence and other important information. -->
-      <zipfileset dir="."
-                  prefix="${artifact.identifier}"
-                  includes="*.txt" />
+      <zipfileset dir="." prefix="${artifact.identifier}" includes="*.txt" />
+      <!-- Include CSS files for optional customisation. -->
+      <zipfileset dir="${src.dir}/css" prefix="${artifact.identifier}/stylesheets" includes="*.css" />
     </zip>
   </target>
 
