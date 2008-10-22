@@ -182,21 +182,4 @@
   </target>
   
   
-<!-- ==================================================================
-     TARGETS FOR GENERATING DOCUMENTATION
-=================================================================== -->
-  
-  <target name="docs" description="Generate API documentation for Java code.">
-    <javadoc sourcepath="${java.dir}/main"
-             destdir="${api.dir}"
-             classpathref="base.path"
-             source="1.5" >
-      <packageset dir="${java.dir}" >
-        <include name="org/uncommons/**/*" />
-      </packageset>
-      <link href="http://java.sun.com/j2se/1.5.0/docs/api/" />
-      <link href="http://testng.org/javadocs/" />
-    </javadoc>
-  </target>
-    
 </project>
