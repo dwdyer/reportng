@@ -150,7 +150,7 @@ public class ReportNGUtils
     /**
      * Retieves the output from all calls to {@link org.testng.Reporter#log(String)}
      * across all tests.
-     * @return A list of log messages.
+     * @return A (possibly empty) list of log messages.
      */
     public List<String> getAllOutput()
     {

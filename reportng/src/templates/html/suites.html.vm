@@ -18,7 +18,7 @@
   <strong>$meta.reportTitle</strong><br />
   <div class="small">
     <a href="overview.html" target="main">Overview</a>
-    #if( $utils.allOutput )
+    #if( !$utils.allOutput.empty )
     - <a href="output.html" target="main">Log Output</a>
     #end
     #if( $meta.coverageLink )
