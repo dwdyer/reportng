@@ -478,7 +478,15 @@
     <option name="cycleTableSpecificationString" value="" />
     <option name="shortCycleTableSpecificationString" value="" />
   </component>
-  <component name="libraryTable" />
+  <component name="libraryTable">
+    <library name="testng-5.7-jdk15">
+      <CLASSES>
+        <root url="jar:///Users/dan/Projects/reportng/reportng/lib/testng-5.7-jdk15.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
+  </component>
   <component name="uidesigner-configuration">
     <option name="INSTRUMENT_CLASSES" value="true" />
     <option name="COPY_FORMS_RUNTIME_TO_OUTPUT" value="true" />

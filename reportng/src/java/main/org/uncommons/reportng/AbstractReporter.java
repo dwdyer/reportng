@@ -20,16 +20,19 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.testng.IReporter;
 
 /**
+ * Convenient base class for the ReportNG reporters.  Provides commmon functionality.
  * @author Daniel Dyer
  */
 public abstract class AbstractReporter implements IReporter
@@ -85,13 +88,13 @@ public abstract class AbstractReporter implements IReporter
      * Velocity template with the supplied context.
      */
     protected void generateFile(File file,
-                                String template,
+                                String templateName,
                                 VelocityContext context) throws Exception
     {
         Writer writer = new BufferedWriter(new FileWriter(file));
         try
         {
-            Velocity.mergeTemplate(classpathPrefix + template,
+            Velocity.mergeTemplate(classpathPrefix + templateName,
                                    ENCODING,
                                    context,
                                    writer);
@@ -156,12 +159,12 @@ public abstract class AbstractReporter implements IReporter
                             String targetFileName) throws IOException
     {
         File resourceFile = new File(outputDirectory, targetFileName);
-        Writer writer = null;
         BufferedReader reader = null;
+        Writer writer = null;
         try
         {
-            reader = new BufferedReader(new InputStreamReader(stream));
-            writer = new BufferedWriter(new FileWriter(resourceFile));
+            reader = new BufferedReader(new InputStreamReader(stream, ENCODING));
+            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(resourceFile), ENCODING));
 
             String line = reader.readLine();
             while (line != null)
