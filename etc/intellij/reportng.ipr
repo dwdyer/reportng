@@ -479,9 +479,9 @@
     <option name="shortCycleTableSpecificationString" value="" />
   </component>
   <component name="libraryTable">
-    <library name="testng-5.7-jdk15">
+    <library name="testng-5.8-jdk15">
       <CLASSES>
-        <root url="jar:///Users/dan/Projects/reportng/reportng/lib/testng-5.7-jdk15.jar!/" />
+        <root url="jar:///Users/dan/Projects/reportng/reportng/lib/testng-5.8-jdk15.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />

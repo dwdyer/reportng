@@ -21,7 +21,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="testng-5.7-jdk15" level="project" />
+    <orderEntry type="library" name="testng-5.8-jdk15" level="project" />
     <orderEntryProperties />
   </component>
 </module>
