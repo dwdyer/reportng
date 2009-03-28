@@ -117,7 +117,7 @@ table.configTable   {border: 1px solid #800000;
                      float: right;
                      color: #777777;}
 
-/* Reporter log output (individual test ouput is style by "testOutput" above). */
+/* Reporter log output (individual test ouput is styled by "testOutput" above). */
 #log                {font-family: Courier New, monospace;}
 
 #overviewTable      {border-collapse: collapse;
