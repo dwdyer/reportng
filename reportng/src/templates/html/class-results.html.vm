@@ -6,7 +6,7 @@
 
 #foreach( $testResult in $sortedResults.get($testClass) )
 <tr>
-  <td>
+  <td class="method">
     $testResult.name
     #if( $testResult.method.description.length() > 0 )
       <div class="description">

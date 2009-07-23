@@ -12,9 +12,7 @@
   #end
 </head>
 <body>
-  <div class="title" style="margin-bottom: 15px;">
-    Groups for $suite.name
-  </div>
+  <h1>Groups for $suite.name</h1>
 
   <table class="resultsTable" width="100%">
   #foreach ($group in $groups.keySet())

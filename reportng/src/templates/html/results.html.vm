@@ -13,15 +13,15 @@
   <script type="text/javascript" src="reportng.js"></script>
 </head>
 <body>
-<div class="title">$result.testContext.name</div>
-<div class="small" style="margin-bottom: 15px;">
+<h1>$result.testContext.name</h1>
+<p>
   Test Duration: $utils.formatDuration($utils.getDuration($result.testContext))s
-</div>
+</p>
 
 #set ($id = 0)
 #if( $result.testContext.failedConfigurations.size() > 0 )
   <table class="resultsTable configTable" width="100%">
-    <tr><td colspan="3" class="header failedConfig">Failed Configuration</td></tr>
+    <tr><th colspan="3" class="header failedConfig">Failed Configuration</th></tr>
     #set ($sortedResults = $utils.sortByTestClass($result.testContext.failedConfigurations) )
     #set ($id = 0)
     #foreach( $testClass in $sortedResults.keySet() )
@@ -46,9 +46,10 @@
   </table>
 #end
 
-<table class="resultsTable" width="100%">
-  #if( $result.testContext.failedTests.size() > 0 )
-    <tr><td colspan="3" class="header failed">Failed Tests</td></tr>
+
+#if( $result.testContext.failedTests.size() > 0 )
+  <table class="resultsTable" width="100%">
+    <tr><th colspan="3" class="header failed">Failed Tests</th></tr>
     #set ($sortedResults = $utils.sortByTestClass($result.testContext.failedTests) )    
     #foreach( $testClass in $sortedResults.keySet() )
       <tr>
@@ -56,11 +57,12 @@
       </tr>
       #parse( "templates/html/class-results.html.vm" )
     #end
-    <tr style="border: 0;"><td colspan="3">&nbsp;</td></tr>
-  #end
+  </table>
+#end
 
-  #if( $result.testContext.skippedTests.size() > 0 )
-    <tr><td colspan="3" class="header skipped">Skipped Tests</td></tr>
+#if( $result.testContext.skippedTests.size() > 0 )
+  <table class="resultsTable" width="100%">
+    <tr><th colspan="3" class="header skipped">Skipped Tests</th></tr>
     #set ($sortedResults = $utils.sortByTestClass($result.testContext.skippedTests) )
     #foreach( $testClass in $sortedResults.keySet() )
       <tr>
@@ -68,11 +70,12 @@
       </tr>
       #parse( "templates/html/class-results.html.vm" )
     #end
-    <tr style="border: 0;"><td colspan="3">&nbsp;</td></tr>
-  #end
+  </table>
+#end
 
-  #if( $result.testContext.passedTests.size() > 0 )
-    <tr><td colspan="3" class="header passed">Passed Tests</td></tr>
+#if( $result.testContext.passedTests.size() > 0 )
+  <table class="resultsTable" width="100%">
+    <tr><th colspan="3" class="header passed">Passed Tests</th></tr>
     #set ($sortedResults = $utils.sortByTestClass($result.testContext.passedTests) )
     #foreach( $testClass in $sortedResults.keySet() )
       <tr>
@@ -80,9 +83,8 @@
       </tr>
       #parse( "templates/html/class-results.html.vm" )
     #end
-    <tr style="border: 0;"><td colspan="3">&nbsp;</td></tr>
-  #end
+  </table>
+#end
   
-</table>
 </body>
 </html>

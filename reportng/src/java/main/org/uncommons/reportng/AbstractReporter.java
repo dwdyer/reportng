@@ -170,6 +170,7 @@ public abstract class AbstractReporter implements IReporter
             while (line != null)
             {
                 writer.write(line);
+                writer.write('\n');
                 line = reader.readLine();
             }
             writer.flush();
