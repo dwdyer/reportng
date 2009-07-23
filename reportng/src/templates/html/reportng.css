@@ -110,9 +110,8 @@ td                  {font-size: 1.3em;}
                      margin-left: .5em;
                      display: none;}
 
-.description        {font-size: 1em;
-                     color: #000066;
-                     font-family: serif;}
+.description        {border-bottom: 1px dotted #006699;
+                     cursor: help;}
 
 
 

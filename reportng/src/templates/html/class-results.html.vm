@@ -7,11 +7,10 @@
 #foreach( $testResult in $sortedResults.get($testClass) )
 <tr>
   <td class="method">
-    $testResult.name
     #if( $testResult.method.description.length() > 0 )
-      <div class="description">
-        ($testResult.method.description)
-      </div>
+      <span class="description" title="$testResult.method.description">$testResult.name</span>
+    #else
+      $testResult.name
     #end
   </td>
   <td class="duration">
