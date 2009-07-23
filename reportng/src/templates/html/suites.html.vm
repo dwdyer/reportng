@@ -26,7 +26,6 @@
     #end
   </p>
 </div>
-<h3>Test Suites</h3>
 #foreach( $suite in $suites )
 <div class="header suite"
      style="margin: 2px 0; cursor: pointer; clear: right;"

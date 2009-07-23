@@ -22,7 +22,7 @@
 <h1>$meta.reportTitle</h1>
 #if( !$utils.allOutput.empty )
   <p>
-    <a href="output.html" target="main">Log Output</a>
+    <a href="output.html">Log Output</a>
     #if( $meta.coverageLink )
       &#183; <a href="$meta.coverageLink" target="_top">Coverage Report</a>
     #end
