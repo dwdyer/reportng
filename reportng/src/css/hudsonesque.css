@@ -1,15 +1,9 @@
 a                   {color: #204A87;}
 a:visited           {color: #5c3566}
-body                {font-family: Verdana, Helvetica, sans-serif;
-                     font-size: 9pt;}
+body                {font-family: Verdana, Helvetica, sans-serif;}
 
-.title              {font-size: 1.8em;
-                     font-weight: bold;}
-.header             {font-size: 1.2em;
-                     font-weight: bold;
+.header             {font-weight: bold;
                      background-color: #f0f0f0;}
-.small              {font-size: 0.9em;}
-
 
 .totalLabel         {font-weight: bold;
                      background-color: #ffffff;}
@@ -52,19 +46,18 @@ td.totalLabel       {border-bottom: 0;
 .zero               {background-color: transparent;
                      font-weight: normal;}
 
-table.resultsTable {border-collapse: collapse;
-                    border: 0;}
-.resultsTable tr   {border: 1px #b0b0b0 solid;
-                    border-collapse: collapse;}
-.resultsTable td   {vertical-align: top;
-                    padding-left: 5px;
-                    padding-right: 5px;}
+.resultsTable       {border-collapse: collapse;
+                     border: 0;}
+.resultsTable tr    {border: 1px #b0b0b0 solid;
+                     border-collapse: collapse;}
+.resultsTable td    {vertical-align: top;
+                     padding-left: 5px;
+                     padding-right: 5px;}
 
-table.configTable   {border: 1px solid #800000;
+.configTable        {border: 1px solid #800000;
                      background: #ffffdd;
                      color: #800000;
                      margin-bottom: 25px;}
-
 
 
 /* The +/- toggle used in the navigation frame. */
@@ -88,41 +81,21 @@ table.configTable   {border: 1px solid #800000;
 
 
 
-/* These classes are for information about an individual test result. */
-.result             {font-size: 0.9em;
-                     vertical-align: middle;}
-.dependency         {font-family: Courier New, monospace;
-                     font-weight: bold;}
-.arguments          {font-family: Courier New, monospace;
-                     font-weight: bold;}
-.testOutput         {font-family: Courier New, monospace;
-                     color: #777777;}
-.stackTrace         {font-size: 0.9em;
-                     display: none;}
-
-.description        {font-size: 0.9em;
-                     color: #000066;
-                     font-family: sans-serif;}
-
-
-
 /* The div used as a divider line in the overview tables. */
 .divider            {margin: 0;
                      height: 0;
                      border: 0;
                      display: none;}
 
-#systemInfo         {font-size: 0.9em;
-                     text-align: right;
-                     float: right;
-                     color: #777777;}
-
 /* Reporter log output (individual test ouput is styled by "testOutput" above). */
 #log                {font-family: Courier New, monospace;}
 
-#overviewTable      {border-collapse: collapse;
+.overviewTable      {border-collapse: collapse;
                      border: 0;}
-#overviewTable tr   {border-collapse: collapse;
+.overviewTable tr   {border-collapse: collapse;
                      border: 0;}
-#overviewTable td   {border-collapse: collapse;
+.overviewTable td   {border-collapse: collapse;
                      border: 1px #b0b0b0 solid;}
+.overviewTable th   {border-collapse: collapse;
+                     border: 1px #b0b0b0 solid;}
+
