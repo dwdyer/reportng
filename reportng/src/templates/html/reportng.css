@@ -73,7 +73,8 @@ td                  {font-size: 1.3em;}
 
 #sidebarHeader {padding: 1.8em 1em;
                 background-color: #eeeeee;
-                margin: 0 -1em 1.8em -1em;}
+                margin: 0 -1em 1.8em -1em;
+                border-bottom: 1px solid #999999;}
 
 /* The +/- toggle used in the navigation frame. */
 .toggle             {font-family: monospace;
@@ -107,11 +108,11 @@ td                  {font-size: 1.3em;}
                      color: #666666;}
 .stackTrace         {font-size: 0.9em;
                      line-height: 1.2em;
-                     margin-left: .5em;
+                     margin-left: 2em;
                      display: none;}
+.stackTrace .stackTrace {font-size: inherit;}
 
-.description        {border-bottom: 1px dotted #006699;
-                     cursor: help;}
+.description        {border-bottom: 1px dotted #006699;}
 
 
 
