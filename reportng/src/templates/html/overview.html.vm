@@ -46,6 +46,14 @@
       ${suite.name}
     </th>
   </tr>
+  <tr class="columnHeadings">
+    <td>&nbsp;</td>
+    <th>Duration</th>
+    <th>Passed</th>
+    <th>Skipped</th>
+    <th>Failed</th>
+    <th>Pass Rate</th>
+  </tr>
   #foreach ($result in $suite.results)
   #set ($notPassedTests = $result.testContext.skippedTests.size() + $result.testContext.failedTests.size())
   #set ($total = $result.testContext.passedTests.size() + $notPassedTests)
@@ -58,17 +66,8 @@
     <td class="test">
       <a href="suite${suiteId}_test${velocityCount}_results.html">${result.testContext.name}</a>
     </td>
-    <td class="duration" style="width: 75px;">
+    <td class="duration">
       $utils.formatDuration($utils.getDuration($result.testContext))s
-    </td>
-
-    <td class="passRate">
-      #if ($total > 0)
-      #set ($passRate = (($total - $notPassedTests) * 100 / $total))
-      $passRate%
-      #else
-      N/A
-      #end
     </td>
 
     #if ($result.testContext.passedTests.size() > 0)
@@ -88,19 +87,21 @@
     #else
     <td class="zero number">0</td>
     #end
-  </tr>
-  #end
-  <tr><td colspan="6" class="divider" style="padding: 0;"></td></tr>
-  <tr class="test">
-    <td colspan="2" class="totalLabel">Total</td>
-    <td class="passRate suite">
-      #if ($totalTests > 0)
-      #set ($passRate = (($totalTests - $totalSkipped - $totalFailed) * 100 / $totalTests))
+
+    <td class="passRate">
+      #if ($total > 0)
+      #set ($passRate = (($total - $notPassedTests) * 100 / $total))
       $passRate%
       #else
       N/A
       #end
     </td>
+  </tr>
+  #end
+
+  <tr class="suite">
+    <td colspan="2" class="totalLabel">Total</td>
+
     #if ($totalPassed > 0)
     <td class="passed number">$totalPassed</td>
     #else
@@ -118,6 +119,16 @@
     #else
     <td class="zero number">0</td>
     #end
+
+    <td class="passRate suite">
+      #if ($totalTests > 0)
+      #set ($passRate = (($totalTests - $totalSkipped - $totalFailed) * 100 / $totalTests))
+      $passRate%
+      #else
+      N/A
+      #end
+    </td>
+
   </tr>
 </table>
 #end

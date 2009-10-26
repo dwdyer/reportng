@@ -19,36 +19,37 @@
   <p>
     <a href="overview.html" target="main">Overview</a>
     #if( !$utils.allOutput.empty )
-    &#183; <a href="output.html" target="main">Log Output</a>
+    &#183; <a href="output.html" target="main">Log&nbsp;Output</a>
     #end
     #if( $meta.coverageLink )
-    &#183; <a href="$meta.coverageLink" target="_top">Coverage Report</a>
+    &#183; <a href="$meta.coverageLink" target="_top">Coverage&nbsp;Report</a>
     #end
   </p>
 </div>
-#foreach( $suite in $suites )
-<div class="header suite"
-     style="margin: 2px 0; cursor: pointer; clear: right;"
-     onclick="toggleDiv('tests-${velocityCount}'); toggle('toggle-${velocityCount}')">
-  <span id="toggle-${velocityCount}" class="toggle">&#x25bc;</span>${suite.name}
-</div>
-<div id="tests-${velocityCount}" style="display: block;">
-  #set( $suiteId = $velocityCount )
-  #foreach( $result in $suite.results )
-  <div class="test" style="margin: 2px 0; clear: right; font-size: 1.3em;">
-    #if( $result.testContext.failedTests.size() > 0 )
-    <span class="failureIndicator">&#x2718;</span>
-    #else
-      #if( $result.testContext.skippedTests.size() > 0 )
-      <span class="skipIndicator">&#x2714;</span>
+<div style="line-height: 1.7em;">
+  #foreach( $suite in $suites )
+  <div class="header suite"       
+       onclick="toggleDiv('tests-${velocityCount}'); toggle('toggle-${velocityCount}')">
+    <span id="toggle-${velocityCount}" class="toggle">&#x25bc;</span>${suite.name}
+  </div>
+  <div id="tests-${velocityCount}" style="display: block;">
+    #set( $suiteId = $velocityCount )
+    #foreach( $result in $suite.results )
+    <div class="test">
+      #if( $result.testContext.failedTests.size() > 0 )
+      <span class="failureIndicator" title="Some tests failed.">&#x2718;</span>
       #else
-      <span class="successIndicator">&#x2714;</span>
+        #if( $result.testContext.skippedTests.size() > 0 )
+        <span class="skipIndicator" title="All executed tests passed but some tests were skipped.">&#x2714;</span>
+        #else
+        <span class="successIndicator" title="All tests passed.">&#x2714;</span>
+        #end
       #end
+      <a href="suite${suiteId}_test${velocityCount}_results.html" target="main">$result.testContext.name</a>
+    </div>
     #end
-    <a href="suite${suiteId}_test${velocityCount}_results.html" target="main">$result.testContext.name</a>
   </div>
   #end
 </div>
-#end
 </body>
 </html>
