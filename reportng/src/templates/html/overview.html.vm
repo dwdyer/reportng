@@ -37,7 +37,7 @@
   #set ($totalSkipped = 0)
   #set ($totalFailed = 0)
   <tr>
-    <th colspan="6"class="header suite">
+    <th colspan="6" class="header suite">
       #if ($utils.hasGroups($suite))
         <div class="groupLink">
             <a href="suite${suiteId}_groups.html">Groups</a>
