@@ -50,7 +50,7 @@
 #if( $result.testContext.failedTests.size() > 0 )
   <table class="resultsTable" width="100%">
     <tr><th colspan="3" class="header failed">Failed Tests</th></tr>
-    #set ($sortedResults = $utils.sortByTestClass($result.testContext.failedTests) )    
+    #set ($sortedResults = $utils.sortByTestClass($result.testContext.failedTests) )
     #foreach( $testClass in $sortedResults.keySet() )
       <tr>
         <td colspan="3" class="group">$testClass.name</td>
