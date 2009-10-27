@@ -27,7 +27,7 @@ td                       {font-size: 1.3em;}
 .passRate                {font-weight: bold; text-align: right;}
 .duration                {text-align: right;}
 
-.resultsTable            {border: 0; width: 100%; margin-top: 1.8em;}
+.resultsTable            {border: 0; width: 100%; margin-top: 1.8em; line-height: 1.7em; border-spacing: 0.1em;}
 .resultsTable .method    {width: 18em;}
 .resultsTable .duration  {width: 6em;}
 .resultsTable td         {vertical-align: top; padding: 0 1em;}
@@ -38,7 +38,7 @@ td                       {font-size: 1.3em;}
 .columnHeadings th       {font-weight: normal;}
 
 
-.configTable             {border: 2px solid #800000; background: #ffffdd; color: #800000; margin-bottom: 25px;}
+.configTable             {border: 1px solid #800000; color: #800000; margin-bottom: 1.5em;}
 
 
 #sidebarHeader           {padding: 1.8em 1em; background-color: #eeeeee; margin: 0 -1em 1.8em -1em; border-bottom: 1px solid #999999;}
