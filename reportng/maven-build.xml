@@ -55,7 +55,7 @@
     <!-- Repository user name and password must be passed in on the command line for
          privacy reasons.  The properties are "maven.user" and "maven.password". -->
     <artifact:remoteRepository id="maven.repository"
-                               url="svn:https://maven2-repository.dev.java.net/svn/maven2-repository/trunk/www/repository/">
+                               url="svn:https://maven2-repository.dev.java.net/svn/maven2-repository/trunk/repository/">
       <authentication username="${maven.user}" password="${maven.password}"/>
     </artifact:remoteRepository>
     
