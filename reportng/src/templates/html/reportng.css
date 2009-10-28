@@ -18,7 +18,7 @@ td                       {font-size: 1.3em;}
 
 
 .suite                   {background-color: #999999; font-weight: bold;}
-.test                    {background-color: #eeeeee; padding-left: 20px;}
+.test                    {background-color: #eeeeee; padding-left: 2em;}
 .test .passed            {background-color: #88ee88;}
 .test .skipped           {background-color: #ffff77;}
 .test .failed            {background-color: #ff8888;}
@@ -41,7 +41,9 @@ td                       {font-size: 1.3em;}
 .configTable             {border: 1px solid #800000; color: #800000; margin-bottom: 1.5em;}
 
 
-#sidebarHeader           {padding: 1.8em 1em; background-color: #eeeeee; margin: 0 -1em 1.8em -1em; border-bottom: 1px solid #999999;}
+#sidebarHeader           {padding: 1.8em 1em; margin: 0 -1em 1.8em -1em;}
+#suites                  {line-height: 1.7em; border-spacing: 0.1em; width: 100%;}
+.tests                   {display: table-row-group;}
 .header.suite            {cursor: pointer; clear: right; height: 1.214em; margin-top: 1px;}
 div.test                 {margin-top: 0.1em; clear: right; font-size: 1.3em;}
 

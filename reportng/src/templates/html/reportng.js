@@ -1,15 +1,15 @@
-function toggleDiv(divId)
+function toggleRows(divId)
 {
     if (document.getElementById)
     {
         var current = document.getElementById(divId).style;
-        current.display = current.display == 'block' ? 'none' : 'block';
+        current.display = current.display == 'none' ? 'table-row-group' : 'none';
 
     }
     else if (document.all)
     {
         var current = document.all[divId].style;
-        current.display = current.display ? "" : "block";
+        current.display = current.display ? "" : "table-row-group";
     }
 }
 
