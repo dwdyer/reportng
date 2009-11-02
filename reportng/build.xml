@@ -21,7 +21,7 @@
   <property name="docs.dir"  location="./docs"/>
   <property name="api.dir" location="${docs.dir}/api" />
 
-  <property name="version" value="0.9.9"/>
+  <property name="version" value="1.0"/>
   <property name="artifact.identifier" value="reportng-${version}"/>
 
   <!-- Classpath for compilation and tests. -->

@@ -30,7 +30,7 @@
   #foreach( $suite in $suites )
   <thead>
     <tr>
-      <th class="header suite" onclick="toggleRows('tests-${velocityCount}'); toggle('toggle-${velocityCount}')">
+      <th class="header suite" onclick="toggleElement('tests-${velocityCount}', 'table-row-group'); toggle('toggle-${velocityCount}')">
         <span id="toggle-${velocityCount}" class="toggle">&#x25bc;</span>${suite.name}
       </th>
     </tr>

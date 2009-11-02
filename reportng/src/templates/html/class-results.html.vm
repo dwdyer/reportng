@@ -56,7 +56,7 @@
 
 
     #if( $testResult.throwable && ( $testResult.status == 2 || $meta.shouldShowExpectedExceptions() ))
-    <a href="javascript:toggleDiv('exception-$id')" title="Click to expand/collapse"><b>$utils.escapeHTMLString( $testResult.throwable.toString() )</b></a><br />
+    <a href="javascript:toggleElement('exception-$id', 'block')" title="Click to expand/collapse"><b>$utils.escapeHTMLString( $testResult.throwable.toString() )</b></a><br />
     <div class="stackTrace" id="exception-$id">
       #foreach( $element in $testResult.throwable.stackTrace )
         $utils.escapeHTMLString( $element.toString() )<br />
@@ -64,7 +64,7 @@
       #set( $causes = $utils.getCauses($testResult.throwable) )
       #foreach( $throwable in $causes )
         #set ($id = $id + 1)
-        <b>Caused by: </b> <a href="javascript:toggleDiv('exception-$id')" title="Click to expand/collapse">$utils.escapeHTMLString( $throwable.toString() )</a><br />
+        <b>Caused by: </b> <a href="javascript:toggleElement('exception-$id', 'block')" title="Click to expand/collapse">$utils.escapeHTMLString( $throwable.toString() )</a><br />
         <div class="stackTrace" id="exception-$id">
           #foreach( $element in $throwable.stackTrace )
             $utils.escapeHTMLString( $element.toString() )<br />
