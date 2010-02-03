@@ -120,8 +120,9 @@ public class ReportNGUtils
 
 
     /**
-     * Convert a Throwable into a list containing the throwable itself and all
-     * of its causes.
+     * Convert a Throwable into a list containing all of its causes.
+     * @param t The throwable for which the causes are to be returned. 
+     * @return A (possibly empty) list of {@link Throwable}s.
      */
     public List<Throwable> getCauses(Throwable t)
     {
@@ -203,12 +204,21 @@ public class ReportNGUtils
     }
 
 
+    /**
+     * @param result The test result to be checked for dependent groups.
+     * @return True if this test was dependent on any groups, false otherwise.
+     */
     public boolean hasDependentGroups(ITestResult result)
     {
         return result.getMethod().getGroupsDependedUpon().length > 0;
     }
 
 
+
+    /**
+     * @return A comma-separated string listing all dependent groups.  Returns an
+     * empty string it there are no dependent groups.
+     */
     public String getDependentGroups(ITestResult result)
     {
         String[] groups = result.getMethod().getGroupsDependedUpon();
@@ -216,12 +226,21 @@ public class ReportNGUtils
     }
 
 
+    /**
+     * @param result The test result to be checked for dependent methods.
+     * @return True if this test was dependent on any methods, false otherwise.
+     */
     public boolean hasDependentMethods(ITestResult result)
     {
         return result.getMethod().getMethodsDependedUpon().length > 0;
     }
 
 
+
+    /**
+     * @return A comma-separated string listing all dependent methods.  Returns an
+     * empty string it there are no dependent methods.
+     */
     public String getDependentMethods(ITestResult result)
     {
         String[] methods = result.getMethod().getMethodsDependedUpon();
@@ -329,23 +348,17 @@ public class ReportNGUtils
             switch (ch)
             {
                 case ' ':
-                {
                     // All spaces in a block of consecutive spaces are converted to
                     // non-breaking space (&nbsp;) except for the last one.  This allows
                     // significant whitespace to be retained without prohibiting wrapping.
                     char nextCh = i + 1 < s.length() ? s.charAt(i + 1) : 0;
                     buffer.append(nextCh==' ' ? "&nbsp;" : " ");
                     break;
-                }
                 case '\n':
-                {
                     buffer.append("<br/>\n");
                     break;
-                }
                 default:
-                {
                     buffer.append(escapeChar(ch));
-                }
             }
         }
         return buffer.toString();

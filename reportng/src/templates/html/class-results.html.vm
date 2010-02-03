@@ -7,7 +7,7 @@
 #foreach( $testResult in $sortedResults.get($testClass) )
 <tr>
   <td class="method">
-    #if( $testResult.method.description.length() > 0 )
+    #if( $testResult.method.description && $testResult.method.description.length() > 0 )
       <span class="description" title="$testResult.method.description">$testResult.name</span>
     #else
       $testResult.name
@@ -21,13 +21,7 @@
     #if( $testResult.status == 3 ) ## 3 means skipped.
       #if( $utils.hasDependentGroups($testResult) )
         <i>Depends on group(s): </i>
-        #foreach( $group in $testResult.method.groupsDependedUpon )
-          #if( $velocityCount < $arrayLength - 1 )
-            <span class="dependency">${group}</span>,
-          #else
-            <span class="dependency">${group}</span>
-          #end
-        #end
+        <span class="dependency">$utils.getDependentGroups($testResult)</span>
         <br />
       #end
       #if( $utils.hasDependentMethods($testResult) )
