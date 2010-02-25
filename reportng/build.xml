@@ -6,20 +6,20 @@
      GLOBAL BUILD PROPERTIES
 =================================================================== -->
   
-  <property name="src.dir" location="./src"/>
-  <property name="java.dir" location="${src.dir}/java" />
-  <property name="templates.dir" location="${src.dir}/templates" />
+  <property name="src.dir" value="./src"/>
+  <property name="java.dir" value="${src.dir}/java" />
+  <property name="templates.dir" value="${src.dir}/templates" />
 
-  <property name="lib.dir"  location="./lib"/>
+  <property name="lib.dir" value="./lib"/>
 
-  <property name="build.dir" location="./build"/>
-  <property name="classes.dir" location="${build.dir}/classes" />
+  <property name="build.dir" value="./build"/>
+  <property name="classes.dir" value="${build.dir}/classes" />
 
-  <property name="dist.dir" location="./dist"/>
-  <property name="release.dir" location="./release" />
+  <property name="dist.dir" value="./dist"/>
+  <property name="release.dir" value="./release" />
   
-  <property name="docs.dir"  location="./docs"/>
-  <property name="api.dir" location="${docs.dir}/api" />
+  <property name="docs.dir" value="./docs"/>
+  <property name="api.dir" value="${docs.dir}/api" />
 
   <property name="version" value="1.0.1"/>
   <property name="artifact.identifier" value="reportng-${version}"/>
