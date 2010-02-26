@@ -5,6 +5,7 @@
     <output-test url="file://$MODULE_DIR$/../../reportng/build/classes/test" />
     <exclude-output />
     <content url="file://$MODULE_DIR$/../..">
+      <excludeFolder url="file://$MODULE_DIR$/../../dist" />
       <excludeFolder url="file://$MODULE_DIR$/../../docs" />
     </content>
     <orderEntry type="inheritedJdk" />

@@ -70,7 +70,7 @@
 
   <!-- Copy all necessary files to deployment directory. -->
   <target name="dist" depends="jar" description="Generate the deployment tree." >
-    <uncommons:dist />
+    <uncommons:dist libdir="" />
   </target>
 
 
@@ -100,31 +100,16 @@
     <uncommons:test suites="${conf.dir}/testng.xml"
                     title="ReportNG Unit Test Report"
                     mincoverage="${minimum.coverage}" />
-
   </target>
 
 
   <!-- Generate a sample report. -->
   <target name="sample" depends="jar" description="Generate a sample test report.">
-    <mkdir dir="${docs.dir}/sample" />
-    <taskdef resource="testngtasks" classpathref="tool.path"/>
-    <path id="test.path">
-      <pathelement location="reportng/build/classes/test" />
-      <fileset dir="reportng/build" includes="*.jar"/>
-      <fileset dir="." includes="**/${lib.dir}/**/*.jar"/>
-      <path refid="tool.path" />
-    </path>
-    <testng classpathref="test.path"
-            outputdir="${docs.dir}/sample"
-            haltonfailure="false"
-            useDefaultListeners="false"
-            listeners="org.uncommons.reportng.HTMLReporter,org.uncommons.reportng.JUnitXMLReporter">
-      <xmlfileset dir="${conf.dir}" includes="sample-testng.xml,sample2-testng.xml"/>
-      <sysproperty key="org.uncommons.reportng.coverage-report" value="http://cobertura.sourceforge.net/sample/"/>
-      <sysproperty key="org.uncommons.reportng.title" value="ReportNG Sample Report"/>
-      <sysproperty key="org.uncommons.reportng.xml-dialect" value="JUnit"/>
-    </testng>
-
+    <uncommons:test suites="${conf.dir}/sample-testng.xml, ${conf.dir}/sample2-testng.xml"
+                    reportdir="${docs.dir}/sample"
+                    title="ReportNG Sample Report"
+                    dialect="JUnit"
+                    mincoverage="0" />
     <!-- Generate an HTML report from the JUnit XML. -->
     <mkdir dir="${docs.dir}/sample/xslt" />
     <junitreport todir="${docs.dir}/sample/xslt">
