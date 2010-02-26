@@ -1,0 +1,139 @@
+<project name="reportng"
+         xmlns:uncommons="antlib:org.uncommons.antlib"
+         default="dist"
+         basedir=".">
+  <description>Reporting plug-in for TestNG.</description>
+
+  
+<!-- ==================================================================
+     GLOBAL BUILD PROPERTIES
+=================================================================== -->
+  
+  <!-- Project-global locations. -->
+  <property name="conf.dir" value="etc" />
+  <property name="lib.dir" value="lib" />
+  <property name="dist.dir" value="dist" />
+  <property name="docs.dir" value="docs" />
+  <property name="release.dir" value="release" />
+  <property name="temp.dir" value="temp" />
+
+  <!-- Classpath for compilation and tests. -->
+  <path id="tool.path">
+    <fileset dir="${lib.dir}" includes="**/*.jar" />
+  </path>
+
+  <taskdef uri="antlib:org.uncommons.antlib"
+           resource="org/uncommons/antlib/antlib.xml"
+           classpathref="tool.path"/>
+
+  <property name="version" value="1.0.1"/>
+  <property name="artifact.identifier" value="reportng-${version}"/>
+
+  <!-- This is the minimum coverage percentage (for both lines and
+       branches) that will be tolerated.  This is used to prevent
+       regressions in coverage.  The threshold will be raised as
+       test coverage improves. -->
+  <property name="minimum.coverage" value="55" />
+
+
+<!-- ==================================================================
+     TARGETS FOR BUILDING THE SOFTWARE
+=================================================================== -->
+
+  <!-- Builds everything from scratch. -->
+  <target name="all" depends="clean, dist" description="Builds everything, excluding docs, from scratch."/>  
+  
+  
+  <!-- Deletes all directories and files created by the build process. -->
+  <target name="clean" description="Remove all files created by the build process." >
+    <delete dir="${docs.dir}" />
+    <delete dir="${dist.dir}" />
+    <delete dir="${release.dir}" />
+    <delete dir="${temp.dir}" />
+    <uncommons:clean module="core" />
+  </target>    
+  
+  
+  <!-- Build all Java code. -->
+  <target name="compile" description="Compile the source." >
+    <uncommons:compile module="reportng" />
+  </target>
+
+
+  <!-- Build application JAR files. -->
+  <target name="jar" depends="compile" description="Create the application JAR files.">
+    <uncommons:jar module="reportng"
+                   jarfile="${artifact.identifier}.jar"
+                   classpath="velocity-dep-1.4.jar" />
+  </target>
+
+
+  <!-- Copy all necessary files to deployment directory. -->
+  <target name="dist" depends="jar" description="Generate the deployment tree." >
+    <uncommons:dist />
+  </target>
+
+
+  <!-- Create the release artifacts. -->
+  <target name="release"
+          depends="clean, dist"
+          description="Creates the release archives.">
+    <uncommons:release name="${artifact.identifier}">
+      <additionalcontents>
+        <tarfileset dir="src/css" prefix="${artifact.identifier}/stylesheets" includes="*.css" />
+      </additionalcontents>
+    </uncommons:release>
+  </target>
+
+
+  <target name="release-maven"
+          depends="clean, dist"
+          description="Deploys the software to the Java.net Maven repository.">
+    <uncommons:maven-deploy module="reportng"
+                            version="${version}"
+                            username="${maven.user}"
+                            password="${maven.password}"/>
+  </target>
+
+
+  <target name="test" depends="jar" description="Run the unit tests.">
+    <uncommons:test suites="${conf.dir}/testng.xml"
+                    title="ReportNG Unit Test Report"
+                    mincoverage="${minimum.coverage}" />
+
+  </target>
+
+
+  <!-- Generate a sample report. -->
+  <target name="sample" depends="jar" description="Generate a sample test report.">
+    <mkdir dir="${docs.dir}/sample" />
+    <taskdef resource="testngtasks" classpathref="tool.path"/>
+    <path id="test.path">
+      <pathelement location="reportng/build/classes/test" />
+      <fileset dir="reportng/build" includes="*.jar"/>
+      <fileset dir="." includes="**/${lib.dir}/**/*.jar"/>
+      <path refid="tool.path" />
+    </path>
+    <testng classpathref="test.path"
+            outputdir="${docs.dir}/sample"
+            haltonfailure="false"
+            useDefaultListeners="false"
+            listeners="org.uncommons.reportng.HTMLReporter,org.uncommons.reportng.JUnitXMLReporter">
+      <xmlfileset dir="${conf.dir}" includes="sample-testng.xml,sample2-testng.xml"/>
+      <sysproperty key="org.uncommons.reportng.coverage-report" value="http://cobertura.sourceforge.net/sample/"/>
+      <sysproperty key="org.uncommons.reportng.title" value="ReportNG Sample Report"/>
+      <sysproperty key="org.uncommons.reportng.xml-dialect" value="JUnit"/>
+    </testng>
+
+    <!-- Generate an HTML report from the JUnit XML. -->
+    <mkdir dir="${docs.dir}/sample/xslt" />
+    <junitreport todir="${docs.dir}/sample/xslt">
+      <fileset dir="${docs.dir}/sample/xml">
+        <include name="*.xml"/>
+      </fileset>
+      <report format="frames" todir="${docs.dir}/sample/xslt"/>
+    </junitreport>
+  </target>
+  
+  
+</project>

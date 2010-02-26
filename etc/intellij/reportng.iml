@@ -6,6 +6,7 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../reportng">
       <sourceFolder url="file://$MODULE_DIR$/../../reportng/src/java/main" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../reportng/src/java/resources" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../reportng/src/java/test" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/../../reportng/build" />
     </content>
@@ -14,13 +15,21 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../reportng/lib/velocity-dep-1.4.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/compiletime/testng/testng-5.10-jdk15.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="testng-5.8-jdk15" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../reportng/lib/runtime/velocity-dep-1.4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
 
