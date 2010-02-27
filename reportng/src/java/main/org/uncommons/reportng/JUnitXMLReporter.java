@@ -38,7 +38,7 @@ public class JUnitXMLReporter extends AbstractReporter
 {                             
     private static final String RESULTS_KEY = "results";
 
-    private static final String TEMPLATES_PATH = "templates/xml/";
+    private static final String TEMPLATES_PATH = "org/uncommons/reportng/templates/xml/";
     private static final String RESULTS_FILE = "results.xml";
 
     private static final String REPORT_DIRECTORY = "xml";
