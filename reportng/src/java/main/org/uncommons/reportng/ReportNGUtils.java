@@ -312,18 +312,12 @@ public class ReportNGUtils
     {
         switch (character)
         {
-            case '<':
-                return "&lt;";
-            case '>':
-                return "&gt;";
-            case '"':
-                return "&quot;";
-            case '\'':
-                return "&apos;";
-            case '&':
-                return "&amp;";
-            default:
-                return String.valueOf(character);
+            case '<': return "&lt;";
+            case '>': return "&gt;";
+            case '"': return "&quot;";
+            case '\'': return "&apos;";
+            case '&': return "&amp;";
+            default: return String.valueOf(character);
         }
     }
 
