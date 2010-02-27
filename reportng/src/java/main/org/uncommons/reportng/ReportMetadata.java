@@ -15,12 +15,13 @@
 // ============================================================================
 package org.uncommons.reportng;
 
-import java.util.Date;
+import java.io.File;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.net.UnknownHostException;
-import java.net.InetAddress;
-import java.io.File;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Provides access to static information useful when generating a report.
@@ -28,14 +29,15 @@ import java.io.File;
  */
 public final class ReportMetadata
 {
-    private static final String PROPERTY_KEY_PREFIX = "org.uncommons.reportng.";
-    private static final String TITLE_KEY = PROPERTY_KEY_PREFIX + "title";
-    private static final String DEFAULT_TITLE = "Test Results Report";
-    private static final String COVERAGE_KEY = PROPERTY_KEY_PREFIX + "coverage-report";
-    private static final String EXCEPTIONS_KEY = PROPERTY_KEY_PREFIX + "show-expected-exceptions";
-    private static final String OUTPUT_KEY = PROPERTY_KEY_PREFIX + "escape-output";
-    private static final String XML_DIALECT_KEY = PROPERTY_KEY_PREFIX + "xml-dialect";
-    private static final String STYLESHEET_KEY = PROPERTY_KEY_PREFIX + "stylesheet";
+    static final String PROPERTY_KEY_PREFIX = "org.uncommons.reportng.";
+    static final String TITLE_KEY = PROPERTY_KEY_PREFIX + "title";
+    static final String DEFAULT_TITLE = "Test Results Report";
+    static final String COVERAGE_KEY = PROPERTY_KEY_PREFIX + "coverage-report";
+    static final String EXCEPTIONS_KEY = PROPERTY_KEY_PREFIX + "show-expected-exceptions";
+    static final String OUTPUT_KEY = PROPERTY_KEY_PREFIX + "escape-output";
+    static final String XML_DIALECT_KEY = PROPERTY_KEY_PREFIX + "xml-dialect";
+    static final String STYLESHEET_KEY = PROPERTY_KEY_PREFIX + "stylesheet";
+    static final String LOCALE_KEY = PROPERTY_KEY_PREFIX + "locale";
 
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("EEEE dd MMMM yyyy");
     private static final DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm z");
@@ -136,28 +138,51 @@ public final class ReportMetadata
     /**
      * @return The user account used to run the tests and the host name of the
      * test machine.
+     * @throws UnknownHostException If there is a problem accessing the machine's host name.
      */
     public String getUser() throws UnknownHostException
     {
         String user = System.getProperty("user.name");
         String host = InetAddress.getLocalHost().getHostName();
-        return user + "@" + host;
+        return user + '@' + host;
     }
 
 
     public String getJavaInfo()
     {
-        String version = System.getProperty("java.version");
-        String vendor = System.getProperty("java.vendor");
-        return "Java " + version + " (" + vendor + ")";
+        return String.format("Java %s (%s)",
+                             System.getProperty("java.version"),
+                             System.getProperty("java.vendor"));
     }
 
 
     public String getPlatform()
     {
-        String osName = System.getProperty("os.name");
-        String osVersion = System.getProperty("os.version");
-        String architecture = System.getProperty("os.arch");
-        return osName + " " + osVersion + " (" + architecture +")";
+        return String.format("%s %s (%s)",
+                             System.getProperty("os.name"),
+                             System.getProperty("os.version"),
+                             System.getProperty("os.arch"));
+    }
+
+
+    /**
+     * @return The locale specified by the System properties, or the platform default locale
+     * if none is specified.
+     */
+    public Locale getLocale()
+    {
+        if (System.getProperties().containsKey(LOCALE_KEY))
+        {
+            String locale = System.getProperty(LOCALE_KEY);
+                String[] components = locale.split("_", 3);
+            switch (components.length)
+            {
+                case 1: return new Locale(locale);
+                case 2: return new Locale(components[0], components[1]);
+                case 3: return new Locale(components[0], components[1], components[2]);
+                default: System.err.println("Invalid locale specified: " + locale);  
+            }
+        }
+        return Locale.getDefault();
     }
 }

@@ -20,18 +20,18 @@
     ## Display the dependencies for skipped test methods.
     #if( $testResult.status == 3 ) ## 3 means skipped.
       #if( $utils.hasDependentGroups($testResult) )
-        <i>Depends on group(s): </i>
+        <i>$messages.getString("dependsOnGroups"): </i>
         <span class="dependency">$utils.getDependentGroups($testResult)</span>
         <br />
       #end
       #if( $utils.hasDependentMethods($testResult) )
-        <i>Depends on method(s): </i>
+        <i>$messages.getString("dependsOnMethods"): </i>
         <span class="dependency">$utils.getDependentMethods($testResult)</span>
       #end
     #end
 
     #if( $utils.hasArguments($testResult) )
-      <i>Method Arguments: </i><span class="arguments">$utils.getArguments($testResult)</span><br />
+      <i>$messages.getString("methodArguments"): </i><span class="arguments">$utils.getArguments($testResult)</span><br />
     #end
 
     ## Show logger output for the test.
@@ -50,7 +50,7 @@
 
 
     #if( $testResult.throwable && ( $testResult.status == 2 || $meta.shouldShowExpectedExceptions() ))
-    <a href="javascript:toggleElement('exception-$id', 'block')" title="Click to expand/collapse"><b>$utils.escapeHTMLString( $testResult.throwable.toString() )</b></a><br />
+    <a href="javascript:toggleElement('exception-$id', 'block')" title="$messages.getString("clickToExpandCollapse")"><b>$utils.escapeHTMLString( $testResult.throwable.toString() )</b></a><br />
     <div class="stackTrace" id="exception-$id">
       #foreach( $element in $testResult.throwable.stackTrace )
         $utils.escapeHTMLString( $element.toString() )<br />
@@ -58,7 +58,7 @@
       #set( $causes = $utils.getCauses($testResult.throwable) )
       #foreach( $throwable in $causes )
         #set ($id = $id + 1)
-        <b>Caused by: </b> <a href="javascript:toggleElement('exception-$id', 'block')" title="Click to expand/collapse">$utils.escapeHTMLString( $throwable.toString() )</a><br />
+        <b>$messages.getString("causedBy"): </b> <a href="javascript:toggleElement('exception-$id', 'block')" title="Click to expand/collapse">$utils.escapeHTMLString( $throwable.toString() )</a><br />
         <div class="stackTrace" id="exception-$id">
           #foreach( $element in $throwable.stackTrace )
             $utils.escapeHTMLString( $element.toString() )<br />

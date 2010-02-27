@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="$messages.locale.language" lang="$messages.locale.language">
 <head>
-  <title>$meta.reportTitle - Suites</title>
+  <title>$meta.reportTitle - $messages.getString("suites")</title>
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <meta name="description" content="TestNG unit test results." />
   <link href="reportng.css" rel="stylesheet" type="text/css" />
@@ -17,12 +17,12 @@
 <div id="sidebarHeader">
   <h2>$meta.reportTitle</h2>
   <p>
-    <a href="overview.html" target="main">Overview</a>
+    <a href="overview.html" target="main">$messages.getString("overview")</a>
     #if( !$utils.allOutput.empty )
-    &#183; <a href="output.html" target="main">Log&nbsp;Output</a>
+    &#183; <a href="output.html" target="main">$messages.getString("logOutput")</a>
     #end
     #if( $meta.coverageLink )
-    &#183; <a href="$meta.coverageLink" target="_top">Coverage&nbsp;Report</a>
+    &#183; <a href="$meta.coverageLink" target="_top">$messages.getString("coverageReport")</a>
     #end
   </p>
 </div>
@@ -41,12 +41,12 @@
     <tr>
       <td class="test">
         #if( $result.testContext.failedTests.size() > 0 )
-        <span class="failureIndicator" title="Some tests failed.">&#x2718;</span>
+        <span class="failureIndicator" title="$messages.getString("failed.tooltip")">&#x2718;</span>
         #else
           #if( $result.testContext.skippedTests.size() > 0 )
-          <span class="skipIndicator" title="All executed tests passed but some tests were skipped.">&#x2714;</span>
+          <span class="skipIndicator" title="$messages.getString("skipped.tooltip")">&#x2714;</span>
           #else
-          <span class="successIndicator" title="All tests passed.">&#x2714;</span>
+          <span class="successIndicator" title="$messages.getString("passed.tooltip")">&#x2714;</span>
           #end
         #end
         <a href="suite${suiteId}_test${velocityCount}_results.html" target="main">$result.testContext.name</a>

@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.ResourceBundle;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.testng.IReporter;
@@ -45,6 +46,9 @@ public abstract class AbstractReporter implements IReporter
     protected static final ReportMetadata META = new ReportMetadata();
     private static final String UTILS_KEY ="utils";
     private static final ReportNGUtils UTILS = new ReportNGUtils();
+    private static final String MESSAGES_KEY ="messages";
+    private static final ResourceBundle MESSAGES = ResourceBundle.getBundle("org.uncommons.reportng.messages.reportng",
+                                                                            META.getLocale());
 
     private final String classpathPrefix;
 
@@ -71,7 +75,7 @@ public abstract class AbstractReporter implements IReporter
 
     /**
      * Helper method that creates a Velocity context and initialises it
-     * with a reference to the ReportNG utils and report metadata.
+     * with a reference to the ReportNG utils, report metadata and localised messages.
      * @return An initialised Velocity context.
      */
     protected VelocityContext createContext()
@@ -79,6 +83,7 @@ public abstract class AbstractReporter implements IReporter
         VelocityContext context = new VelocityContext();
         context.put(META_KEY, META);
         context.put(UTILS_KEY, UTILS);
+        context.put(MESSAGES_KEY, MESSAGES);
         return context;
     }
 
