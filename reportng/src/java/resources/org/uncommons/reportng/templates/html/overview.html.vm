@@ -13,9 +13,8 @@
 </head>
 <body>
 <div id="meta">
-  $messages.getString("generatedBy") <a href="http://www.testng.org" target="_top">TestNG</a>
-  $messages.getString("with") <a href="http://reportng.dev.java.net" target="_top">ReportNG</a>
-  $messages.getString("at") $meta.reportTime $messages.getString("onDate") $meta.reportDate
+  $messages.getString("generatedBy")
+  $messages.getString("atTime") $meta.reportTime $messages.getString("onDate") $meta.reportDate
   <br /><span id="systemInfo">$meta.user&nbsp;/&nbsp;$meta.javaInfo&nbsp;/&nbsp;$meta.platform</span>
 </div>
 

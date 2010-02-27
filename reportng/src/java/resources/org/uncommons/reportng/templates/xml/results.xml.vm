@@ -23,7 +23,7 @@
 #end
 #set( $causes = $utils.getCauses($testResult.throwable) )
 #foreach( $throwable in $causes )
-Caused by: $throwable.toString()
+$messages.getString("causedBy"): $throwable.toString()
 #foreach( $element in $throwable.stackTrace )
   $element.toString()
 #end

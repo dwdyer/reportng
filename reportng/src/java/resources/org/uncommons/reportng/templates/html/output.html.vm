@@ -14,8 +14,7 @@
 <body>
   <h1>$messages.getString("logOutput")</h1>
   <p>
-    $messages.getString("logOutput.description")
-    <a href="http://testng.org/javadocs/org/testng/Reporter.html">TestNG Reporter</a>.
+    $messages.getString("logOutput.description")    
   </p>
 
   <div id="log">
