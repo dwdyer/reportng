@@ -99,7 +99,7 @@
   #end
 
   <tr class="suite">
-    <td colspan="2" class="totalLabel">Total</td>
+    <td colspan="2" class="totalLabel">$messages.getString("total")</td>
 
     #if ($totalPassed > 0)
     <td class="passed number">$totalPassed</td>
