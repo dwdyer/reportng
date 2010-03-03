@@ -50,7 +50,7 @@
     <delete dir="${dist.dir}" />
     <delete dir="${release.dir}" />
     <delete dir="${temp.dir}" />
-    <uncommons:clean module="core" />
+    <uncommons:clean module="reportng" />
   </target>    
   
   

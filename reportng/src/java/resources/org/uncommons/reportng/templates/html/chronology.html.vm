@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="$messages.locale.language" lang="$messages.locale.language">
+<head>
+<title>$meta.reportTitle - $suite.name - $messages.getString("chronology")</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="description" content="TestNG unit test results." />
+<link href="reportng.css" rel="stylesheet" type="text/css" />
+#if ($meta.stylesheetPath)
+<link href="custom.css" rel="stylesheet" type="text/css" />
+#end
+</head>
+<body>
+  <h1>$messages.getString("chronologyOf") $suite.name</h1>
+  <table class="resultsTable">
+    <tr>
+      <th>$messages.getString("startTime")</th>
+      <th>$messages.getString("thread")</th>
+      <th>$messages.getString("method")</th>
+    </tr>
+  #set ($previous = 0)
+  #foreach ($method in $methods)
+    <tr>
+      <td>$utils.formatDuration($methods.get(0).date, $method.date)s</td>
+      <td>$method.id</td>
+      <td>$method.realClass.name.<b>$method.methodName</b></td>
+    </tr>
+  #end
+  </table>
+</body>
+</html>

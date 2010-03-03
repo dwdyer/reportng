@@ -52,6 +52,7 @@ public class HTMLReporter extends AbstractReporter
     private static final String OVERVIEW_FILE = "overview.html";
     private static final String GROUPS_FILE = "groups.html";
     private static final String RESULTS_FILE = "results.html";
+    private static final String CHRONOLOGY_FILE = "chronology.html";
     private static final String OUTPUT_FILE = "output.html";
     private static final String STYLE_FILE = "reportng.css";
     private static final String CUSTOM_STYLE_FILE = "custom.css";
@@ -66,6 +67,7 @@ public class HTMLReporter extends AbstractReporter
     private static final String FAILED_TESTS_KEY = "failedTests";
     private static final String SKIPPED_TESTS_KEY = "skippedTests";
     private static final String PASSED_TESTS_KEY = "passedTests";
+    private static final String METHODS_KEY = "methods";
 
     private static final String REPORT_DIRECTORY = "html";
 
@@ -106,6 +108,7 @@ public class HTMLReporter extends AbstractReporter
             createSuiteList(suites, outputDirectory);
             createGroups(suites, outputDirectory);
             createResults(suites, outputDirectory);
+            createChronology(suites, outputDirectory);
             createLog(outputDirectory);
             copyResources(outputDirectory);
         }
@@ -176,10 +179,32 @@ public class HTMLReporter extends AbstractReporter
                 context.put(FAILED_TESTS_KEY, sortByTestClass(result.getTestContext().getFailedTests()));
                 context.put(SKIPPED_TESTS_KEY, sortByTestClass(result.getTestContext().getSkippedTests()));
                 context.put(PASSED_TESTS_KEY, sortByTestClass(result.getTestContext().getPassedTests()));
-                generateFile(new File(outputDirectory, "suite" + index + "_test" + index2 + '_' + RESULTS_FILE),
+                String fileName = String.format("suite%d_test%d_%s", index, index2, RESULTS_FILE);
+                generateFile(new File(outputDirectory, fileName),
                              RESULTS_FILE + TEMPLATE_EXTENSION,
                              context);
                 ++index2;
+            }
+            ++index;
+        }
+    }
+
+
+    private void createChronology(List<ISuite> suites, File outputDirectory) throws Exception
+    {
+        int index = 1;
+        for (ISuite suite : suites)
+        {
+            List<ITestNGMethod> methods = new ArrayList<ITestNGMethod>(suite.getInvokedMethods());
+            if (!methods.isEmpty())
+            {
+                VelocityContext context = createContext();
+                context.put(SUITE_KEY, suite);
+                context.put(METHODS_KEY, methods);
+                String fileName = String.format("suite%d_%s", index, CHRONOLOGY_FILE);
+                generateFile(new File(outputDirectory, fileName),
+                             CHRONOLOGY_FILE + TEMPLATE_EXTENSION,
+                             context);
             }
             ++index;
         }
@@ -228,7 +253,8 @@ public class HTMLReporter extends AbstractReporter
                 VelocityContext context = createContext();
                 context.put(SUITE_KEY, suite);
                 context.put(GROUPS_KEY, groups);
-                generateFile(new File(outputDirectory, "suite" + index + "_" + GROUPS_FILE),
+                String fileName = String.format("suite%d_%s", index, GROUPS_FILE);
+                generateFile(new File(outputDirectory, fileName),
                              GROUPS_FILE + TEMPLATE_EXTENSION,
                              context);                
             }
@@ -288,4 +314,3 @@ public class HTMLReporter extends AbstractReporter
         }
     }
 }
-                                                            
