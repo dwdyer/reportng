@@ -22,7 +22,7 @@
 #if( !$utils.allOutput.empty )
   <p>
     <a href="output.html">$messages.getString("logOutput")</a>
-    #if( $meta.coverageLink )
+    #if ($meta.coverageLink)
       &#183; <a href="$meta.coverageLink" target="_top">$messages.getString("coverageReport")</a>
     #end
   </p>
@@ -30,7 +30,7 @@
 
 #foreach ($suite in $suites)
 <table class="overviewTable">
-  #set( $suiteId = $velocityCount )
+  #set ($suiteId = $velocityCount)
   #set ($totalTests = 0)
   #set ($totalPassed = 0)
   #set ($totalSkipped = 0)

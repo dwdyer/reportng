@@ -20,16 +20,10 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import org.testng.IClass;
-import org.testng.IResultMap;
 import org.testng.ISuite;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
@@ -43,11 +37,6 @@ import org.testng.Reporter;
 public class ReportNGUtils
 {
     private static final NumberFormat DURATION_FORMAT = new DecimalFormat("#0.000");
-
-    private static final Comparator<ITestResult> RESULT_COMPARATOR = new TestResultComparator();
-
-    private static final Comparator<IClass> CLASS_COMPARATOR = new TestClassComparator();
-
 
     /**
      * Returns the aggregate of the elapsed times for each test result.
@@ -94,28 +83,6 @@ public class ReportNGUtils
     {
         double seconds = (double) elapsed / 1000;
         return DURATION_FORMAT.format(seconds);
-    }
-
-
-    public SortedMap<IClass, List<ITestResult>> sortByTestClass(IResultMap results)
-    {
-        SortedMap<IClass, List<ITestResult>> sortedResults = new TreeMap<IClass, List<ITestResult>>(CLASS_COMPARATOR);
-        for (ITestResult result : results.getAllResults())
-        {
-            List<ITestResult> resultsForClass = sortedResults.get(result.getTestClass());
-            if (resultsForClass == null)
-            {
-                resultsForClass = new ArrayList<ITestResult>();
-                sortedResults.put(result.getTestClass(), resultsForClass);
-            }
-            int index = Collections.binarySearch(resultsForClass, result, RESULT_COMPARATOR);
-            if (index < 0)
-            {
-                index = Math.abs(index + 1);
-            }
-            resultsForClass.add(index, result);
-        }
-        return sortedResults;
     }
 
 

@@ -18,8 +18,8 @@
   </p>
 
   <div id="log">
-    #foreach( $line in $utils.allOutput )
-      #if( $meta.shouldEscapeOutput() )
+    #foreach ($line in $utils.allOutput)
+      #if ($meta.shouldEscapeOutput())
         $utils.escapeHTMLString($line)<br />
       #else
         $line

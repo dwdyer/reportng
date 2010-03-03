@@ -18,16 +18,16 @@
   <h2>$meta.reportTitle</h2>
   <p>
     <a href="overview.html" target="main">$messages.getString("overview")</a>
-    #if( !$utils.allOutput.empty )
+    #if (!$utils.allOutput.empty)
     &#183; <a href="output.html" target="main">$messages.getString("logOutput")</a>
     #end
-    #if( $meta.coverageLink )
+    #if ($meta.coverageLink)
     &#183; <a href="$meta.coverageLink" target="_top">$messages.getString("coverageReport")</a>
     #end
   </p>
 </div>
 <table id="suites">
-  #foreach( $suite in $suites )
+  #foreach ($suite in $suites)
   <thead>
     <tr>
       <th class="header suite" onclick="toggleElement('tests-${velocityCount}', 'table-row-group'); toggle('toggle-${velocityCount}')">
@@ -36,14 +36,14 @@
     </tr>
   </thead>
   <tbody id="tests-${velocityCount}" class="tests">
-    #set( $suiteId = $velocityCount )
-    #foreach( $result in $suite.results )
+    #set ($suiteId = $velocityCount)
+    #foreach ($result in $suite.results)
     <tr>
       <td class="test">
-        #if( $result.testContext.failedTests.size() > 0 )
+        #if ($result.testContext.failedTests.size() > 0)
         <span class="failureIndicator" title="$messages.getString("failed.tooltip")">&#x2718;</span>
         #else
-          #if( $result.testContext.skippedTests.size() > 0 )
+          #if ($result.testContext.skippedTests.size() > 0)
           <span class="skipIndicator" title="$messages.getString("skipped.tooltip")">&#x2714;</span>
           #else
           <span class="successIndicator" title="$messages.getString("passed.tooltip")">&#x2714;</span>

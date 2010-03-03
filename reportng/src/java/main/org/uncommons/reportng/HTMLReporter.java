@@ -25,11 +25,16 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.Comparator;
+import java.util.ArrayList;
+import java.util.Collections;
 import org.apache.velocity.VelocityContext;
 import org.testng.ISuite;
 import org.testng.ISuiteResult;
 import org.testng.ITestNGMethod;
 import org.testng.Reporter;
+import org.testng.IClass;
+import org.testng.ITestResult;
+import org.testng.IResultMap;
 import org.testng.xml.XmlSuite;
 
 /**
@@ -56,11 +61,17 @@ public class HTMLReporter extends AbstractReporter
     private static final String SUITES_KEY = "suites";
     private static final String GROUPS_KEY = "groups";
     private static final String RESULT_KEY = "result";
+    private static final String FAILED_CONFIG_KEY = "failedConfigurations";
+    private static final String SKIPPED_CONFIG_KEY = "skippedConfigurations";
+    private static final String FAILED_TESTS_KEY = "failedTests";
+    private static final String SKIPPED_TESTS_KEY = "skippedTests";
+    private static final String PASSED_TESTS_KEY = "passedTests";
 
     private static final String REPORT_DIRECTORY = "html";
 
     private static final Comparator<ITestNGMethod> METHOD_COMPARATOR = new TestMethodComparator();
-
+    private static final Comparator<ITestResult> RESULT_COMPARATOR = new TestResultComparator();
+    private static final Comparator<IClass> CLASS_COMPARATOR = new TestClassComparator();
 
     public HTMLReporter()
     {
@@ -160,6 +171,11 @@ public class HTMLReporter extends AbstractReporter
             {
                 VelocityContext context = createContext();
                 context.put(RESULT_KEY, result);
+                context.put(FAILED_CONFIG_KEY, sortByTestClass(result.getTestContext().getFailedConfigurations()));
+                context.put(SKIPPED_CONFIG_KEY, sortByTestClass(result.getTestContext().getSkippedConfigurations()));
+                context.put(FAILED_TESTS_KEY, sortByTestClass(result.getTestContext().getFailedTests()));
+                context.put(SKIPPED_TESTS_KEY, sortByTestClass(result.getTestContext().getSkippedTests()));
+                context.put(PASSED_TESTS_KEY, sortByTestClass(result.getTestContext().getPassedTests()));
                 generateFile(new File(outputDirectory, "suite" + index + "_test" + index2 + '_' + RESULTS_FILE),
                              RESULTS_FILE + TEMPLATE_EXTENSION,
                              context);
@@ -168,6 +184,32 @@ public class HTMLReporter extends AbstractReporter
             ++index;
         }
     }
+
+
+    /**
+     * Group test methods by class and sort alphabetically.
+     */ 
+    private SortedMap<IClass, List<ITestResult>> sortByTestClass(IResultMap results)
+    {
+        SortedMap<IClass, List<ITestResult>> sortedResults = new TreeMap<IClass, List<ITestResult>>(CLASS_COMPARATOR);
+        for (ITestResult result : results.getAllResults())
+        {
+            List<ITestResult> resultsForClass = sortedResults.get(result.getTestClass());
+            if (resultsForClass == null)
+            {
+                resultsForClass = new ArrayList<ITestResult>();
+                sortedResults.put(result.getTestClass(), resultsForClass);
+            }
+            int index = Collections.binarySearch(resultsForClass, result, RESULT_COMPARATOR);
+            if (index < 0)
+            {
+                index = Math.abs(index + 1);
+            }
+            resultsForClass.add(index, result);
+        }
+        return sortedResults;
+    }
+
 
 
     /**
