@@ -124,7 +124,7 @@ public abstract class AbstractReporter implements IReporter
                                          String targetFileName) throws IOException
     {
         String resourcePath = classpathPrefix + resourceName;
-        InputStream resourceStream = ClassLoader.getSystemResourceAsStream(resourcePath);
+        InputStream resourceStream = getClass().getClassLoader().getResourceAsStream(resourcePath);
         copyStream(outputDirectory, resourceStream, targetFileName);
     }
 
