@@ -1,0 +1,11 @@
+Changes in version 1.1
+----------------------
+
+* Template refactoring and fixing of Velocity warnings/errors.
+
+* i18n
+
+* Added chronology page for listing tests in order of execution.
+
+* Don't use System ClassLoader for loading templates.  Fixes problem using
+  ReportNG with Gradle (see http://jira.codehaus.org/browse/GRADLE-836).
