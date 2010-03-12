@@ -3,18 +3,20 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="$messages.locale.language" lang="$messages.locale.language">
 <head>
-<title>$meta.reportTitle - $suite.name - $messages.getString("chronology")</title>
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-<meta name="description" content="TestNG unit test results." />
-<link href="reportng.css" rel="stylesheet" type="text/css" />
-#if ($meta.stylesheetPath)
-<link href="custom.css" rel="stylesheet" type="text/css" />
-#end
+  <title>$meta.reportTitle - $suite.name - $messages.getString("chronology")</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta name="description" content="TestNG unit test results." />
+  <link href="reportng.css" rel="stylesheet" type="text/css" />
+  #if ($meta.stylesheetPath)
+  <link href="custom.css" rel="stylesheet" type="text/css" />
+  #end
+  <script type="text/javascript" src="sorttable.js"></script>
 </head>
 <body>
   <h1>$messages.getString("chronologyOf") $suite.name</h1>
-  <table class="resultsTable">
-    <tr>
+  <table class="resultsTable sortable">
+    <tr class="columnHeadings">
+      <th>&nbsp;</th>
       <th>$messages.getString("startTime")</th>
       <th>$messages.getString("thread")</th>
       <th>$messages.getString("method")</th>
@@ -22,6 +24,7 @@
   #set ($previous = 0)
   #foreach ($method in $methods)
     <tr>
+      <td>$velocityCount</td>
       <td>$utils.formatDuration($methods.get(0).date, $method.date)s</td>
       <td>$method.id</td>
       <td>$method.realClass.name.<b>$method.methodName</b></td>

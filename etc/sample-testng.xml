@@ -1,8 +1,8 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="ReportNG Sample" verbose="1" >
+<suite name="ReportNG Sample" verbose="1" thread-count="2">
 
-  <test name="All Sample Tests" >
+  <test name="All Sample Tests" parallel="true">
     <packages>
       <package name="org.uncommons.reportng.sample.*" />
     </packages>

@@ -1,5 +1,5 @@
-a                   {color: #204A87;}
-a:visited           {color: #5c3566}
+a                   {color: #204a87;}
+a:visited           {color: #5c3566;}
 body                {font-family: Verdana, Helvetica, sans-serif;}
 h1                  {font-family: Verdana, Helvetica, sans-serif;}
 h2                  {font-family: Verdana, Helvetica, sans-serif;}
@@ -9,18 +9,18 @@ h2                  {font-family: Verdana, Helvetica, sans-serif;}
 .totalLabel         {font-weight: bold; background-color: #ffffff;}
 td.totalLabel       {border-bottom: 0; border-left: 0;}
 
-
 .passed             {background-color: inherit; color: #3465a4; font-weight: bold;}
 .skipped            {background-color: inherit; color: #ddbb00; font-weight: bold;}
 .failed             {background-color: inherit; color: #ef2929; font-weight: bold;}
 .failedConfig       {background-color: #ef2929; font-weight: bold; color: #ffffff}
 .skippedConfig      {background-color: #ddbb00; font-weight: bold; color: #ffffff}
 
-
 .suite              {background-color: #f0f0f0;}
 .test               {background-color: inherit;}
 .group              {background-color: #f0f0f0; color: #000000; font-weight: bold;}
-.groupLink          {font-size: 0.9em; font-weight: normal;}
+.suiteLinks         {font-size: 0.9em; font-weight: normal;}
+.suiteLinks a       {color: #204a87; margin-left: .5em;}
+.suiteLinks a:visited {color: #5c3566; margin-left: .5em;}
 
 .test .passed       {background-color: inherit;}
 .test .skipped      {background-color: inherit;}
@@ -30,10 +30,9 @@ td.totalLabel       {border-bottom: 0; border-left: 0;}
 #suites .test       {border: 1px #b0b0b0 solid; margin-top: 0;}
 
 #suites             {border-collapse: collapse; border: 0;}
-#suites        tr   {border-collapse: collapse; border: 0;}
-#suites        td   {border-collapse: collapse; border: 1px #b0b0b0 solid;}
-#suites        th   {border-collapse: collapse; border: 1px #b0b0b0 solid;}
-
+#suites tr          {border-collapse: collapse; border: 0;}
+#suites td          {border-collapse: collapse; border: 1px #b0b0b0 solid;}
+#suites th          {border-collapse: collapse; border: 1px #b0b0b0 solid;}
 
 .zero               {background-color: inherit;}
 

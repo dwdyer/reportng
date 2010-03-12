@@ -19,7 +19,7 @@
 </div>
 
 <h1>$meta.reportTitle</h1>
-#if( !$utils.allOutput.empty )
+#if (!$utils.allOutput.empty)
   <p>
     <a href="output.html">$messages.getString("logOutput")</a>
     #if ($meta.coverageLink)
@@ -37,11 +37,14 @@
   #set ($totalFailed = 0)
   <tr>
     <th colspan="6" class="header suite">
-      #if ($utils.hasGroups($suite))
-        <div class="groupLink">
-            <a href="suite${suiteId}_groups.html">$messages.getString("groups")</a>
-        </div>
-      #end
+      <div class="suiteLinks">
+        #if (!$suite.invokedMethods.empty)
+        <a href="suite${suiteId}_chronology.html">$messages.getString("chronology")</a>
+        #end
+        #if ($utils.hasGroups($suite))
+        <a href="suite${suiteId}_groups.html">$messages.getString("groups")</a>
+        #end        
+      </div>
       ${suite.name}
     </th>
   </tr>
