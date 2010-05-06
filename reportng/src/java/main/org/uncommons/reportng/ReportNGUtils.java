@@ -23,9 +23,12 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.testng.ISuite;
+import org.testng.ISuiteResult;
 import org.testng.ITestContext;
+import org.testng.ITestNGMethod;
 import org.testng.ITestResult;
 import org.testng.Reporter;
 
@@ -323,5 +326,77 @@ public class ReportNGUtils
             }
         }
         return buffer.toString();
+    }
+
+
+    /**
+     * TestNG returns a compound thread ID that includes the thread name and its numeric ID,
+     * separated by an 'at' sign.  We only want to use the thread name as the ID is mostly
+     * unimportant and it takes up too much space in the generated report.
+     * @param threadId The compound thread ID.
+     * @return The thread name.
+     */
+    public String stripThreadName(String threadId)
+    {
+        int index = threadId.lastIndexOf('@');
+        return index >= 0 ? threadId.substring(0, index) : threadId;
+    }
+
+
+    /**
+     * Find the earliest start time of the specified methods.
+     * @param methods A list of test methods.
+     * @return The earliest start time.
+     */
+    public long getStartTime(List<ITestNGMethod> methods)
+    {
+        long startTime = System.currentTimeMillis();
+        for (ITestNGMethod method : methods)
+        {
+            startTime = Math.min(startTime, method.getDate());
+        }
+        return startTime;
+    }
+
+
+    public long getEndTime(ISuite suite, ITestNGMethod method, List<ITestNGMethod> methods)
+    {
+        boolean found = false;
+        for (ITestNGMethod m : methods)
+        {
+            if (m == method)
+            {
+                found = true;
+            }
+            else if (found && m.getId().equals(method.getId()))
+            {
+                return m.getDate();
+            }
+        }
+        return getEndTime(suite, method);
+    }
+
+
+    /**
+     * Returns the timestamp for the time at which the suite finished executing.
+     * This is determined by finding the latest end time for each of the individual
+     * tests in the suite.
+     * @param suite The suite to find the end time of. 
+     * @return The end time (as a number of milliseconds since 00:00 1st January 1970 UTC).
+     */
+    private long getEndTime(ISuite suite, ITestNGMethod method)
+    {
+        // Find the latest end time for all tests in the suite.
+        for (Map.Entry<String, ISuiteResult> entry : suite.getResults().entrySet())
+        {
+            for (ITestNGMethod m : entry.getValue().getTestContext().getAllTestMethods())
+            {
+                if (method == m)
+                {
+                    return entry.getValue().getTestContext().getEndDate().getTime();
+                }
+            }
+        }
+        throw new IllegalStateException("Could not find matching end time.");
     }
 }
