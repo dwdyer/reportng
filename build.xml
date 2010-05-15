@@ -80,7 +80,7 @@
           description="Creates the release archives.">
     <uncommons:release name="${artifact.identifier}">
       <additionalcontents>
-        <tarfileset dir="src/css" prefix="${artifact.identifier}/stylesheets" includes="*.css" />
+        <tarfileset dir="reportng/${src.dir}/css" prefix="${artifact.identifier}/stylesheets" includes="*.css" />
       </additionalcontents>
     </uncommons:release>
   </target>
