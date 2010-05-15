@@ -13,7 +13,7 @@
   <script type="text/javascript" src="sorttable.js"></script>
 </head>
 <body>
-  <h1>$messages.getString("chronologyOf") $suite.name</h1>
+  <h1>$suite.name - $messages.getString("chronology")</h1>
   <table class="resultsTable sortable">
     <tr class="columnHeadings">
       <th>&nbsp;</th>
