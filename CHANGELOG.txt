@@ -1,3 +1,15 @@
+Changes in version 1.1.1
+------------------------
+
+* Fix for NullPointerException when method thread ID is null (ISSUE#47).
+
+* Fix for IllegalStateException generating chronology when @AfterXXX methods
+  are being used.
+
+* Disabled generation of chronology due to inaccuracies in output.  Probably
+  due to TestNG issues #85 and #86.
+
+
 Changes in version 1.1
 ----------------------
 
