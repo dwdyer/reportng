@@ -15,7 +15,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/compiletime/testng/testng-5.10-jdk15.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../reportng/lib/runtime/velocity-dep-1.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -24,7 +24,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../reportng/lib/runtime/velocity-dep-1.4.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/compiletime/testng/testng-5.12.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
