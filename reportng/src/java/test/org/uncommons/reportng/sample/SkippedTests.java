@@ -24,7 +24,7 @@ import org.testng.annotations.Test;
  */
 public class SkippedTests
 {
-    @Test(dependsOnGroups = "failures")
+    @Test(dependsOnGroups = "should-fail")
     public void skippedDueToDependentGroup()
     {
         assert false : "This method is supposed to be skipped.";
