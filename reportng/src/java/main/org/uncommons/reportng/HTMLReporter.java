@@ -107,7 +107,8 @@ public class HTMLReporter extends AbstractReporter
             createSuiteList(suites, outputDirectory);
             createGroups(suites, outputDirectory);
             createResults(suites, outputDirectory);
-            createChronology(suites, outputDirectory);
+            // Chronology disabled until I figure out how to make it less nonsensical.
+            //createChronology(suites, outputDirectory);
             createLog(outputDirectory);
             copyResources(outputDirectory);
         }
