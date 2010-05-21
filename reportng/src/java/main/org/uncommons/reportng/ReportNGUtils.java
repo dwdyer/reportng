@@ -338,8 +338,15 @@ public class ReportNGUtils
      */
     public String stripThreadName(String threadId)
     {
-        int index = threadId.lastIndexOf('@');
-        return index >= 0 ? threadId.substring(0, index) : threadId;
+        if (threadId == null)
+        {
+            return null;
+        }
+        else
+        {
+            int index = threadId.lastIndexOf('@');
+            return index >= 0 ? threadId.substring(0, index) : threadId;
+        }
     }
 
 
