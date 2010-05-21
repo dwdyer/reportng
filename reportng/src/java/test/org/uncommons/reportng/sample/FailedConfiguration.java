@@ -42,6 +42,6 @@ public class FailedConfiguration
     @Test
     public void thisShouldBeSkipped()
     {
-
+        assert false : "This method is supposed to be skipped.";
     }
 }

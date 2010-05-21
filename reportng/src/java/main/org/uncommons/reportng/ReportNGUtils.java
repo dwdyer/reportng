@@ -375,6 +375,7 @@ public class ReportNGUtils
             {
                 found = true;
             }
+            // Once a method is found, find subsequent method on same thread.
             else if (found && m.getId().equals(method.getId()))
             {
                 return m.getDate();
@@ -396,11 +397,27 @@ public class ReportNGUtils
         // Find the latest end time for all tests in the suite.
         for (Map.Entry<String, ISuiteResult> entry : suite.getResults().entrySet())
         {
-            for (ITestNGMethod m : entry.getValue().getTestContext().getAllTestMethods())
+            ITestContext testContext = entry.getValue().getTestContext();
+            for (ITestNGMethod m : testContext.getAllTestMethods())
             {
                 if (method == m)
                 {
-                    return entry.getValue().getTestContext().getEndDate().getTime();
+                    return testContext.getEndDate().getTime();
+                }
+            }
+            // If we can't find a matching test method it must be a configuration method.
+            for (ITestNGMethod m : testContext.getPassedConfigurations().getAllMethods())
+            {
+                if (method == m)
+                {
+                    return testContext.getEndDate().getTime();
+                }
+            }
+            for (ITestNGMethod m : testContext.getFailedConfigurations().getAllMethods())
+            {
+                if (method == m)
+                {
+                    return testContext.getEndDate().getTime();
                 }
             }
         }
