@@ -204,9 +204,12 @@ public abstract class AbstractReporter implements IReporter
      */
     protected void removeEmptyDirectories(File outputDirectory)
     {
-        for (File file : outputDirectory.listFiles(new EmptyDirectoryFilter()))
+        if (outputDirectory.exists())
         {
-            file.delete();
+            for (File file : outputDirectory.listFiles(new EmptyDirectoryFilter()))
+            {
+                file.delete();
+            }
         }
     }
 
