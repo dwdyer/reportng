@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 #set ($totalTests = $results.passedTests.size() + $results.skippedTests.size() + $results.failedTests.size())
-<testsuite name="$results.testClass.name"
+<testsuite name="$results.testClass.xmlTest.name"
            tests="$totalTests"
            failures="$results.failedTests.size()"
            errors="0"
@@ -8,7 +8,11 @@
            time="$utils.formatDuration($results.duration)">
   <properties />
   #foreach ($testResult in $results.failedTests)
-    <testcase name="$testResult.name" time="$utils.formatDuration($testResult.startMillis, $testResult.endMillis)">
+    #if ($testResult.testName)
+      <testcase name="$testResult.name" time="$utils.formatDuration($testResult.startMillis, $testResult.endMillis)" classname="$results.testClass.name ($testResult.testName)">
+    #else
+      <testcase name="$testResult.name" time="$utils.formatDuration($testResult.startMillis, $testResult.endMillis)" classname="$results.testClass.name">
+    #end
       #if ($testResult.throwable)
       <failure type="$testResult.throwable.class.name"
         #if ($testResult.throwable.message)
@@ -43,13 +47,21 @@ $messages.getString("causedBy"): $throwable.toString()
   #end
 
   #foreach ($testResult in $results.skippedTests)
-    <testcase name="$testResult.name" time="0.0">
+    #if ($testResult.testName)
+      <testcase name="$testResult.name" time="0.0" classname="$results.testClass.name ($testResult.testName)">
+    #else
+      <testcase name="$testResult.name" time="0.0" classname="$results.testClass.name">
+    #end
       <skipped />
     </testcase>
   #end
 
   #foreach ($testResult in $results.passedTests)
-    <testcase name="$testResult.name" time="$utils.formatDuration($testResult.startMillis, $testResult.endMillis)" />
+    #if ($testResult.testName)
+      <testcase name="$testResult.name" time="$utils.formatDuration($testResult.startMillis, $testResult.endMillis)" classname="$results.testClass.name ($testResult.testName)" />
+    #else
+      <testcase name="$testResult.name" time="$utils.formatDuration($testResult.startMillis, $testResult.endMillis)" classname="$results.testClass.name" />
+    #end
   #end
 
 </testsuite>
