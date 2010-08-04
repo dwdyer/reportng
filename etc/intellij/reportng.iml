@@ -24,7 +24,7 @@
     <orderEntry type="module-library">
       <library name="TestNG">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/compiletime/testng/testng-5.13beta.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/compiletime/testng/testng-5.13.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

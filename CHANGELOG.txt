@@ -3,6 +3,8 @@ Changes in version 1.1.2
 
 * Fix for NullPointerException when directory does not exist.
 
+* Patch for test instance names in TestNG 5.13.1.
+
 
 Changes in version 1.1.1
 ------------------------
