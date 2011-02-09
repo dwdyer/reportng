@@ -18,6 +18,8 @@ package org.uncommons.reportng;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+
 import java.util.List;
 import java.util.Collection;
 import java.util.Map;
@@ -309,9 +311,17 @@ public class HTMLReporter extends AbstractReporter
         copyClasspathResource(outputDirectory, "sorttable.js", "sorttable.js");
         // If there is a custom stylesheet, copy that.
         File customStylesheet = META.getStylesheetPath();
+        
         if (customStylesheet != null)
         {
-            copyFile(outputDirectory, customStylesheet, CUSTOM_STYLE_FILE);
+           if (customStylesheet.exists()) {
+        	   copyFile(outputDirectory, customStylesheet, CUSTOM_STYLE_FILE);
+           }
+           else { //If not found, try to read the file as a resource on the classpath 
+        	      //useful when reportng is called by a jarred up library
+        	   InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream(customStylesheet.getCanonicalPath());
+        	   copyStream(outputDirectory, is, CUSTOM_STYLE_FILE);
+           }
         }
     }
 }

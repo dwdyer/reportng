@@ -159,7 +159,7 @@ public abstract class AbstractReporter implements IReporter
      * @param targetFileName The file to write the stream contents to.
      * @throws IOException If the stream cannot be copied.
      */
-    private void copyStream(File outputDirectory,
+    protected void copyStream(File outputDirectory,
                             InputStream stream,
                             String targetFileName) throws IOException
     {
