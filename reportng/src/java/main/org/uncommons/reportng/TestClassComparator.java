@@ -15,8 +15,8 @@
 //=============================================================================
 package org.uncommons.reportng;
 
-import org.testng.IClass;
 import java.util.Comparator;
+import org.testng.IClass;
 
 /**
  * Comparator for sorting classes alphabetically by fully-qualified name.

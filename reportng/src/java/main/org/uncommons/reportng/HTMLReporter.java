@@ -18,24 +18,25 @@ package org.uncommons.reportng;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.Comparator;
-import java.util.ArrayList;
-import java.util.Collections;
 import org.apache.velocity.VelocityContext;
+import org.testng.IClass;
+import org.testng.IResultMap;
 import org.testng.ISuite;
 import org.testng.ISuiteResult;
 import org.testng.ITestNGMethod;
-import org.testng.Reporter;
-import org.testng.IClass;
 import org.testng.ITestResult;
-import org.testng.IResultMap;
+import org.testng.Reporter;
 import org.testng.xml.XmlSuite;
 
 /**
@@ -309,9 +310,23 @@ public class HTMLReporter extends AbstractReporter
         copyClasspathResource(outputDirectory, "sorttable.js", "sorttable.js");
         // If there is a custom stylesheet, copy that.
         File customStylesheet = META.getStylesheetPath();
+
         if (customStylesheet != null)
         {
-            copyFile(outputDirectory, customStylesheet, CUSTOM_STYLE_FILE);
+            if (customStylesheet.exists())
+            {
+                copyFile(outputDirectory, customStylesheet, CUSTOM_STYLE_FILE);
+            }
+            else
+            {
+                // If not found, try to read the file as a resource on the classpath
+                // useful when reportng is called by a jarred up library
+                InputStream stream = ClassLoader.getSystemClassLoader().getResourceAsStream(customStylesheet.getPath());
+                if (stream != null)
+                {
+                    copyStream(outputDirectory, stream, CUSTOM_STYLE_FILE);
+                }
+            }
         }
     }
 }
