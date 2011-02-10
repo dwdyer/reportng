@@ -319,8 +319,9 @@ public class HTMLReporter extends AbstractReporter
            }
            else { //If not found, try to read the file as a resource on the classpath 
         	      //useful when reportng is called by a jarred up library
-        	   InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream(customStylesheet.getCanonicalPath());
-        	   copyStream(outputDirectory, is, CUSTOM_STYLE_FILE);
+        	   InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream(customStylesheet.getPath());
+        	   if (is != null) 
+                       copyStream(outputDirectory, is, CUSTOM_STYLE_FILE);
            }
         }
     }
