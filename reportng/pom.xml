@@ -23,9 +23,8 @@
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
-      <version>5.0</version>
-      <classifier>jdk15</classifier>
-    </dependency>
+      <version>[5.0,)</version>
+     </dependency>
     <dependency>
       <groupId>velocity</groupId>
       <artifactId>velocity</artifactId>
