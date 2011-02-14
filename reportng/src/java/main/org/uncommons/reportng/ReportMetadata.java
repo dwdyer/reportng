@@ -38,6 +38,7 @@ public final class ReportMetadata
     static final String XML_DIALECT_KEY = PROPERTY_KEY_PREFIX + "xml-dialect";
     static final String STYLESHEET_KEY = PROPERTY_KEY_PREFIX + "stylesheet";
     static final String LOCALE_KEY = PROPERTY_KEY_PREFIX + "locale";
+    static final String VELOCITY_LOG_KEY = PROPERTY_KEY_PREFIX + "velocity-log";
 
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("EEEE dd MMMM yyyy");
     private static final DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm z");
@@ -132,6 +133,15 @@ public final class ReportMetadata
     public boolean allowSkippedTestsInXML()
     {
         return !System.getProperty(XML_DIALECT_KEY, "testng").equalsIgnoreCase("junit");
+    }
+
+
+    /**
+     * @return True if Velocity should generate a log file, false otherwise.
+     */
+    public boolean shouldGenerateVelocityLog()
+    {
+        return System.getProperty(VELOCITY_LOG_KEY, "false").equalsIgnoreCase("true");
     }
 
 

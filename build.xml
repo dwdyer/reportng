@@ -91,6 +91,7 @@
           description="Deploys the software to the Java.net Maven repository.">
     <uncommons:maven-deploy module="reportng"
                             version="${version}"
+                            repository="svn:https://svn.java.net/svn/maven2-repository~svn/trunk/repository/"
                             username="${maven.user}"
                             password="${maven.password}"/>
   </target>

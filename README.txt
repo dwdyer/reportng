@@ -83,4 +83,9 @@ output:
       dialect of the XML format. Other tools, such as Ant's junitreport task,
       do not have a notion of skipped tests.  For these tools the dialect can
       be set to "junit" and skipped tests will be marked as failures.
+
+  org.uncommons.reportng.velocity-log
+      Since version 1.1.3, ReportNG will no longer generate a Velocity log file
+      by default.  If you want a log file you should set this property to
+      "true".
       

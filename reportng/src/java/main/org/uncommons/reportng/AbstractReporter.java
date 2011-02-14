@@ -33,7 +33,7 @@ import org.apache.velocity.app.Velocity;
 import org.testng.IReporter;
 
 /**
- * Convenient base class for the ReportNG reporters.  Provides commmon functionality.
+ * Convenient base class for the ReportNG reporters.  Provides common functionality.
  * @author Daniel Dyer
  */
 public abstract class AbstractReporter implements IReporter
@@ -62,6 +62,12 @@ public abstract class AbstractReporter implements IReporter
         Velocity.setProperty("resource.loader", "classpath");
         Velocity.setProperty("classpath.resource.loader.class",
                              "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+        if (!META.shouldGenerateVelocityLog())
+        {
+            Velocity.setProperty("runtime.log.logsystem.class",
+                                 "org.apache.velocity.runtime.log.NullLogSystem");
+        }
+
         try
         {
             Velocity.init();
