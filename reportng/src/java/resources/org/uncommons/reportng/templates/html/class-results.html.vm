@@ -31,6 +31,10 @@
         <i>$messages.getString("dependsOnMethods"): </i>
         <span class="dependency">$utils.getDependentMethods($testResult)</span>
       #end
+      #if ($utils.hasSkipException($testResult))
+      	<i>$messages.getString("skipped.reason"): </i>
+      	<span class="dependency">$utils.getSkipExceptionMessage($testResult)</span>
+      #end
     #end
 
     #if ($utils.hasArguments($testResult))
