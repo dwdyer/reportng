@@ -31,6 +31,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import org.apache.velocity.VelocityContext;
 import org.testng.IClass;
+import org.testng.IInvokedMethod;
 import org.testng.IResultMap;
 import org.testng.ISuite;
 import org.testng.ISuiteResult;
@@ -196,7 +197,7 @@ public class HTMLReporter extends AbstractReporter
         int index = 1;
         for (ISuite suite : suites)
         {
-            List<ITestNGMethod> methods = new ArrayList<ITestNGMethod>(suite.getInvokedMethods());
+            List<IInvokedMethod> methods = suite.getAllInvokedMethods();
             if (!methods.isEmpty())
             {
                 VelocityContext context = createContext();

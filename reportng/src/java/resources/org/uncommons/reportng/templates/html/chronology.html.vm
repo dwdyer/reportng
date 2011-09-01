@@ -27,9 +27,9 @@
     <tr>
       <td class="number">$velocityCount.</td>
       <td class="duration">$utils.formatDuration($utils.getStartTime($methods), $method.date)s</td>
-      <td>$method.realClass.name.<b>$method.methodName</b></td>
+      <td>$method.testMethod.realClass.name.<b>$method.testMethod.methodName</b></td>
       <td class="duration">$utils.formatDuration($method.date, $utils.getEndTime($suite, $method, $methods))s</td>
-      <td class="thread">$utils.stripThreadName($method.id)</td>
+      <td class="thread">$utils.stripThreadName($method.testMethod.id)</td>
     </tr>
   #end
   </table>
