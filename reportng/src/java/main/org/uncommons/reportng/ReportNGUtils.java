@@ -25,6 +25,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.testng.IInvokedMethod;
 import org.testng.ISuite;
 import org.testng.ISuiteResult;
 import org.testng.ITestContext;
@@ -227,15 +228,7 @@ public class ReportNGUtils
     
     public String getSkipExceptionMessage(ITestResult result) 
     {
-    	if (hasSkipException(result))
-    	{
-    		SkipException se = (SkipException) result.getThrowable();
-    		return se.getMessage();
-    	}
-    	else
-    	{
-    		return "";
-    	}
+        return hasSkipException(result) ? result.getThrowable().getMessage() : "";
     }
 
 
@@ -376,10 +369,10 @@ public class ReportNGUtils
      * @param methods A list of test methods.
      * @return The earliest start time.
      */
-    public long getStartTime(List<ITestNGMethod> methods)
+    public long getStartTime(List<IInvokedMethod> methods)
     {
         long startTime = System.currentTimeMillis();
-        for (ITestNGMethod method : methods)
+        for (IInvokedMethod method : methods)
         {
             startTime = Math.min(startTime, method.getDate());
         }
@@ -387,17 +380,17 @@ public class ReportNGUtils
     }
 
 
-    public long getEndTime(ISuite suite, ITestNGMethod method, List<ITestNGMethod> methods)
+    public long getEndTime(ISuite suite, IInvokedMethod method, List<IInvokedMethod> methods)
     {
         boolean found = false;
-        for (ITestNGMethod m : methods)
+        for (IInvokedMethod m : methods)
         {
             if (m == method)
             {
                 found = true;
             }
             // Once a method is found, find subsequent method on same thread.
-            else if (found && m.getId().equals(method.getId()))
+            else if (found && m.getTestMethod().getId().equals(method.getTestMethod().getId()))
             {
                 return m.getDate();
             }
@@ -413,7 +406,7 @@ public class ReportNGUtils
      * @param suite The suite to find the end time of. 
      * @return The end time (as a number of milliseconds since 00:00 1st January 1970 UTC).
      */
-    private long getEndTime(ISuite suite, ITestNGMethod method)
+    private long getEndTime(ISuite suite, IInvokedMethod method)
     {
         // Find the latest end time for all tests in the suite.
         for (Map.Entry<String, ISuiteResult> entry : suite.getResults().entrySet())
