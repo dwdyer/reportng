@@ -31,6 +31,7 @@ import org.testng.ITestContext;
 import org.testng.ITestNGMethod;
 import org.testng.ITestResult;
 import org.testng.Reporter;
+import org.testng.SkipException;
 
 /**
  * Utility class that provides various helper methods that can be invoked
@@ -215,6 +216,26 @@ public class ReportNGUtils
     {
         String[] methods = result.getMethod().getMethodsDependedUpon();
         return commaSeparate(Arrays.asList(methods));
+    }
+    
+    
+    public boolean hasSkipException(ITestResult result) 
+    {
+    	return result.getThrowable() instanceof SkipException;
+    }
+    
+    
+    public String getSkipExceptionMessage(ITestResult result) 
+    {
+    	if (hasSkipException(result))
+    	{
+    		SkipException se = (SkipException) result.getThrowable();
+    		return se.getMessage();
+    	}
+    	else
+    	{
+    		return "";
+    	}
     }
 
 
