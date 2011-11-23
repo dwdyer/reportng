@@ -29,6 +29,7 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+
 import org.apache.velocity.VelocityContext;
 import org.testng.IClass;
 import org.testng.IInvokedMethod;
@@ -221,6 +222,14 @@ public class HTMLReporter extends AbstractReporter
         SortedMap<IClass, List<ITestResult>> sortedResults = new TreeMap<IClass, List<ITestResult>>(CLASS_COMPARATOR);
         for (ITestResult result : results.getAllResults())
         {
+        	//omit other than prefixed classes
+        	if (META.getFilteredNameSuffix() != null 
+        			&& META.getFilteredNameSuffix().length() > 0) {
+        		if (!result.getTestClass().getName().matches("^.*" + META.getFilteredNameSuffix() +"$")) {
+        			continue;
+        		}
+        	}
+        	
             List<ITestResult> resultsForClass = sortedResults.get(result.getTestClass());
             if (resultsForClass == null)
             {

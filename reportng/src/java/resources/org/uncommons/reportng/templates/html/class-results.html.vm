@@ -9,11 +9,16 @@
     #set ($testInstanceName = "")
     #if ($testResult.testName)
       #set ($testInstanceName = " ($testResult.testName)")
+    #end    
+    #if ($formatter)
+        #set ($name = $formatter.prettifyTestMethodName($testResult.name))
+    #else 
+        #set ($name = $testResult.name)
     #end
     #if ($testResult.method.description && $testResult.method.description.length() > 0)
-      <span class="description" title="$testResult.method.description">$testResult.name$testInstanceName</span>
+      <span class="description" title="$testResult.method.description">$name$testInstanceName</span>
     #else
-      $testResult.name$testInstanceName
+      $name$testInstanceName
     #end
   </td>
   <td class="duration">

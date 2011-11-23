@@ -23,6 +23,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import org.uncommons.reportng.formatters.Formatter;
+
 /**
  * Provides access to static information useful when generating a report.
  * @author Daniel Dyer
@@ -38,6 +40,8 @@ public final class ReportMetadata
     static final String XML_DIALECT_KEY = PROPERTY_KEY_PREFIX + "xml-dialect";
     static final String STYLESHEET_KEY = PROPERTY_KEY_PREFIX + "stylesheet";
     static final String LOCALE_KEY = PROPERTY_KEY_PREFIX + "locale";
+    static final String NAME_SUFFIX = PROPERTY_KEY_PREFIX + "name-suffix";
+    static final String NAME_FORMATTER = PROPERTY_KEY_PREFIX + "name-formatter";
     static final String VELOCITY_LOG_KEY = PROPERTY_KEY_PREFIX + "velocity-log";
 
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("EEEE dd MMMM yyyy");
@@ -75,6 +79,30 @@ public final class ReportMetadata
         return System.getProperty(TITLE_KEY, DEFAULT_TITLE);
     }
 
+    public String getFilteredNameSuffix()
+    {
+        return System.getProperty(NAME_SUFFIX);
+    }    
+    
+    public Formatter getFormatter() {
+    	String formatterClazz = System.getProperty(NAME_FORMATTER);
+    	if (formatterClazz == null)
+    		return null;
+    	
+    	Formatter formatter = null;
+    	
+    	try {
+    		formatter = (Formatter) Class.forName(formatterClazz).newInstance();
+    		if (getFilteredNameSuffix() != null
+    				&& getFilteredNameSuffix().length() > 0) {
+    			formatter.setTestClassSuffix(getFilteredNameSuffix());
+    		}
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    	
+    	return formatter;
+    }
 
     /**
      * @return The URL (absolute or relative) of an HTML coverage report associated
