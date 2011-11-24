@@ -1,3 +1,31 @@
+This branch readme addendum
+---------------------------
+
+Tiny disclaimer: I'm branching the original ReportNG to ammend the report slightly 
+- so that it is aligned with the CMMI template in the project I'm currently involved in. 
+
+Changes include: 
+ * fixing pom.xml to allow Maven builds,
+ * adding TestDox formatter
+   (substitute class and method names with a human readable form)
+ * define formatter with configuration parameter 
+   "org.uncommons.reportng.name-formatter"
+ * allow tests filtering (only classes matching 
+   "org.uncommons.reportng.name-suffix" will be included in the report)
+ * hacking velocity templates to parse the names
+ * adding QDox dependency to resolve test methods 
+   parameters names and add them to the report. That way method 
+   arguments in the test methods are called by the original, sourcecode
+   names.
+
+This is the very early stage and I'm planning to rework the hacks. Plan is to
+ * make ReportNG configurable to use external Velocity templates
+ * make ReportNG pluggable so that user can define what formatters are used
+   (standard, human readable, resolving parameter names, etc). 
+
+
+
+
 How to use ReportNG
 ===================
 
