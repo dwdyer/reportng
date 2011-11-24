@@ -20,6 +20,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>qdox</groupId>
+			<artifactId>qdox</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
 			<version>[5.0,)</version>

@@ -7,6 +7,8 @@ h2                       {font-family: Arial, Helvetica, sans-serif; font-weight
 p                        {font-size: 1.3em;}
 td                       {font-size: 1.3em;}
 
+.row-bg					{background-color: #eeeeee;}
+
 .header                  {font-size: 1.4em; font-weight: bold; text-align: left;}
 .passed                  {background-color: #44aa44;}
 .skipped                 {background-color: #ffaa00;}

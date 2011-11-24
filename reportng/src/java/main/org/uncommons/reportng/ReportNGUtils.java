@@ -15,6 +15,8 @@
 //=============================================================================
 package org.uncommons.reportng;
 
+import java.io.File;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -25,6 +27,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.management.RuntimeErrorException;
+
 import org.testng.IInvokedMethod;
 import org.testng.ISuite;
 import org.testng.ISuiteResult;
@@ -33,6 +38,13 @@ import org.testng.ITestNGMethod;
 import org.testng.ITestResult;
 import org.testng.Reporter;
 import org.testng.SkipException;
+import org.uncommons.reportng.formatters.TestDoxFormatter;
+
+import com.thoughtworks.qdox.JavaDocBuilder;
+import com.thoughtworks.qdox.model.JavaClass;
+import com.thoughtworks.qdox.model.JavaMethod;
+import com.thoughtworks.qdox.model.JavaParameter;
+import com.thoughtworks.qdox.model.JavaSource;
 
 /**
  * Utility class that provides various helper methods that can be invoked
@@ -139,13 +151,48 @@ public class ReportNGUtils
 
     public String getArguments(ITestResult result)
     {
-        Object[] arguments = result.getParameters();
-        List<String> argumentStrings = new ArrayList<String>(arguments.length);
-        for (Object argument : arguments)
-        {
-            argumentStrings.add(renderArgument(argument));
-        }
-        return commaSeparate(argumentStrings);
+    	String className = result.getTestClass().getName();
+    	
+    	JavaDocBuilder builder = new JavaDocBuilder();
+    	String path = getClass().getResource("/").getFile() 
+			+ "../../src/test/java/" + className.replace(".", "/") + ".java";
+    	File f = new File(path);
+    	
+    	System.out.println(path);
+    	
+    	try {
+	    	JavaSource src = builder.addSource(f);
+	    	JavaClass cls = src.getClasses()[0];
+	    	
+	    	JavaMethod[] methods = cls.getMethods();
+	
+	    	List<String> params = new ArrayList<String>();
+	    	for(JavaMethod m : methods) {
+	    		if (!m.getName().equals(result.getMethod().getMethodName())) {
+	    			continue;
+	    		}
+	    		for (JavaParameter p : m.getParameters()) {
+	    			params.add(p.getName());
+	    		}
+	    	}
+	    	
+	        Object[] arguments = result.getParameters();
+	        List<String> argumentStrings = new ArrayList<String>(arguments.length);
+	        for (int i=0; i<arguments.length; i++)
+	        {
+	        	Object argument = arguments[i];
+	        	
+	        	TestDoxFormatter formatter = new TestDoxFormatter();
+	        	String prettifyTestMethodName = "";
+	        	if (params.size() == arguments.length)
+	        		prettifyTestMethodName = " &nbsp; ==> " + formatter.prettifyTestMethodName(params.get(i)) + ": ";
+	            argumentStrings.add(prettifyTestMethodName + renderArgument(argument));
+	        }
+	        return breakLineSeparate(argumentStrings);
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    		throw new RuntimeException(e);
+    	}
     }
 
 
@@ -244,7 +291,7 @@ public class ReportNGUtils
      * @param strings The Strings to combine.
      * @return The combined, comma-separated, String.
      */
-    private String commaSeparate(Collection<String> strings)
+    private String genericSeparate(Collection<String> strings, String separator)
     {
         StringBuilder buffer = new StringBuilder();
         Iterator<String> iterator = strings.iterator();
@@ -254,12 +301,21 @@ public class ReportNGUtils
             buffer.append(string);
             if (iterator.hasNext())
             {
-                buffer.append(", ");
+                buffer.append(separator);
             }
         }
         return buffer.toString();
     }
+    
+    private String commaSeparate(Collection<String> strings)
+    {
+    	return genericSeparate(strings, ", ");
+    }
 
+    private String breakLineSeparate(Collection<String> strings)
+    {
+    	return genericSeparate(strings, "<br />");
+    }
 
     /**
      * Replace any angle brackets, quotes, apostrophes or ampersands with the
