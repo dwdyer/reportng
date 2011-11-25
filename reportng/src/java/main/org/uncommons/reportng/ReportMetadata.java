@@ -40,6 +40,8 @@ public final class ReportMetadata
     static final String LOCALE_KEY = PROPERTY_KEY_PREFIX + "locale";
     static final String NAME_SUFFIX = PROPERTY_KEY_PREFIX + "name-suffix";
     static final String CUSTOM_UTILS_CLASS = PROPERTY_KEY_PREFIX + "custom-utils-class";
+    static final String TEMPLATES_PATH = PROPERTY_KEY_PREFIX + "templates-path";
+    static final String DEFAULT_TEMPLATES_PATH = "org/uncommons/reportng/templates/html/";
     static final String VELOCITY_LOG_KEY = PROPERTY_KEY_PREFIX + "velocity-log";
 
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("EEEE dd MMMM yyyy");
@@ -94,6 +96,11 @@ public final class ReportMetadata
     {
         return System.getProperty(NAME_SUFFIX, "");
     }    
+    
+    public String getTemplatesPath() 
+    {
+    	return System.getProperty(TEMPLATES_PATH, DEFAULT_TEMPLATES_PATH);
+    }
     
     /**
      * @return The URL (absolute or relative) of an HTML coverage report associated

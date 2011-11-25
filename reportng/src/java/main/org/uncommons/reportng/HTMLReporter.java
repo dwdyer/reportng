@@ -50,7 +50,7 @@ public class HTMLReporter extends AbstractReporter
 {
     private static final String FRAMES_PROPERTY = "org.uncommons.reportng.frames";
 
-    private static final String TEMPLATES_PATH = "org/uncommons/reportng/templates/html/";
+    private static final String TEMPLATES_PATH = META.getTemplatesPath();
     private static final String INDEX_FILE = "index.html";
     private static final String SUITES_FILE = "suites.html";
     private static final String OVERVIEW_FILE = "overview.html";

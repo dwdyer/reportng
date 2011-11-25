@@ -21,6 +21,7 @@ Changes include:
 This is the very early stage and I'm planning to rework the hacks. Plan is to
  * make ReportNG configurable to use external Velocity templates
  * make ReportNG pluggable so that user can define what formatters are used
+   (standard, human readable, resolving parameter names, etc). 
 
 
 
