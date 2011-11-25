@@ -58,3 +58,16 @@ Fully blown, extended configuration
 	</configuration>			
 </plugin>
 
+
+<dependency>
+	<groupId>org.uncommons</groupId>
+	<artifactId>reportng</artifactId>
+	<version>1.1.4-SNAPSHOT</version>
+	<scope>test</scope>
+</dependency>
+<dependency>
+	<groupId>org.uncommons</groupId>
+	<artifactId>reportng-testdoc</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<scope>test</scope>
+</dependency>
