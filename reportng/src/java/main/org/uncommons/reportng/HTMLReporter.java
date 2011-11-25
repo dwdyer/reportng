@@ -222,12 +222,8 @@ public class HTMLReporter extends AbstractReporter
         SortedMap<IClass, List<ITestResult>> sortedResults = new TreeMap<IClass, List<ITestResult>>(CLASS_COMPARATOR);
         for (ITestResult result : results.getAllResults())
         {
-        	//TODO: omit other than prefixed classes
-        	if (META.getFilteredNameSuffix() != null 
-        			&& META.getFilteredNameSuffix().length() > 0) {
-        		if (!result.getTestClass().getName().matches("^.*" + META.getFilteredNameSuffix() +"$")) {
-        			continue;
-        		}
+        	if (!isTestMethodMatched(result.getTestClass().getName())) {
+        		continue;
         	}
         	
             List<ITestResult> resultsForClass = sortedResults.get(result.getTestClass());
@@ -246,6 +242,18 @@ public class HTMLReporter extends AbstractReporter
         return sortedResults;
     }
 
+    public boolean isTestMethodMatched(String name) {
+    	if (META.getFilteredNameSuffix() == null || 
+    			META.getFilteredNameSuffix().length() == 0) {
+    		return true;
+    	}
+    	
+		if (name.matches("^.*" + META.getFilteredNameSuffix() +"$")) {
+			return true;
+		}
+    	
+    	return false;
+    }
 
     /**
      * Generate a groups list for each suite.

@@ -92,7 +92,7 @@ public final class ReportMetadata
 
     public String getFilteredNameSuffix()
     {
-        return System.getProperty(NAME_SUFFIX, "Test");
+        return System.getProperty(NAME_SUFFIX, "");
     }    
     
     /**
