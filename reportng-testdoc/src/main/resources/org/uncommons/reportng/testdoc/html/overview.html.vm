@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="$messages.locale.language" lang="$messages.locale.language">
+<head>
+  <title>$meta.reportTitle - $messages.getString("overview")</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta name="description" content="TestNG unit test results." />
+  <link href="reportng.css" rel="stylesheet" type="text/css" />
+  #if ($meta.stylesheetPath)
+  <link href="custom.css" rel="stylesheet" type="text/css" />
+  #end
+</head>
+<body>
+<div id="meta">
+  $messages.getString("generatedBy")
+  $messages.getString("atTime") $meta.reportTime $messages.getString("onDate") $meta.reportDate
+  <br /><span id="systemInfo">$meta.user&nbsp;/&nbsp;$meta.javaInfo&nbsp;/&nbsp;$meta.platform</span>
+</div>
+
+<h1>$meta.reportTitle</h1>
+#if (!$utils.allOutput.empty)
+  <p>
+    <a href="output.html">$messages.getString("logOutput")</a>
+    #if ($meta.coverageLink)
+      &#183; <a href="$meta.coverageLink" target="_top">$messages.getString("coverageReport")</a>
+    #end
+  </p>
+#end
+
+#foreach ($suite in $suites)
+<table class="overviewTable">
+  #set ($suiteId = $velocityCount)
+  #set ($totalTests = 0)
+  #set ($totalPassed = 0)
+  #set ($totalSkipped = 0)
+  #set ($totalFailed = 0)
+  <tr>
+    <th colspan="6" class="header suite">
+      <div class="suiteLinks">
+        #if (!$suite.invokedMethods.empty)
+        ##<a href="suite${suiteId}_chronology.html">$messages.getString("chronology")</a>
+        #end
+        #if ($utils.hasGroups($suite))
+        <a href="suite${suiteId}_groups.html">$messages.getString("groups")</a>
+        #end        
+      </div>
+      ${suite.name}
+    </th>
+  </tr>
+  <tr class="columnHeadings">
+    <td>&nbsp;</td>
+    <th>$messages.getString("duration")</th>
+    <th>$messages.getString("passed")</th>
+    <th>$messages.getString("skipped")</th>
+    <th>$messages.getString("failed")</th>
+    <th>$messages.getString("passRate")</th>
+  </tr>
+  #foreach ($result in $suite.results)
+  #set ($notPassedTests = $result.testContext.skippedTests.size() + $result.testContext.failedTests.size())
+  #set ($total = $result.testContext.passedTests.size() + $notPassedTests)
+  #set ($totalTests = $totalTests + $total)
+  #set ($totalPassed = $totalPassed + $result.testContext.passedTests.size())
+  #set ($totalSkipped = $totalSkipped + $result.testContext.skippedTests.size())
+  #set ($totalFailed = $totalFailed + $result.testContext.failedTests.size())
+
+  <tr class="test">
+    <td class="test">
+      <a href="suite${suiteId}_test${velocityCount}_results.html">${result.testContext.name}</a>
+    </td>
+    <td class="duration">
+      $utils.formatDuration($utils.getDuration($result.testContext))s
+    </td>
+
+    #if ($result.testContext.passedTests.size() > 0)
+    <td class="passed number">$result.testContext.passedTests.size()</td>
+    #else
+    <td class="zero number">0</td>
+    #end
+
+    #if ($result.testContext.skippedTests.size() > 0)
+    <td class="skipped number">$result.testContext.skippedTests.size()</td>
+    #else
+    <td class="zero number">0</td>
+    #end
+
+    #if ($result.testContext.failedTests.size() > 0)
+    <td class="failed number">$result.testContext.failedTests.size()</td>
+    #else
+    <td class="zero number">0</td>
+    #end
+
+    <td class="passRate">
+      #if ($total > 0)
+      #set ($passRate = (($total - $notPassedTests) * 100 / $total))
+      $passRate%
+      #else
+      $messages.getString("notApplicable")
+      #end
+    </td>
+  </tr>
+  #end
+
+  <tr class="suite">
+    <td colspan="2" class="totalLabel">$messages.getString("total")</td>
+
+    #if ($totalPassed > 0)
+    <td class="passed number">$totalPassed</td>
+    #else
+    <td class="zero number">0</td>
+    #end
+
+    #if ($totalSkipped > 0)
+    <td class="skipped number">$totalSkipped</td>
+    #else
+    <td class="zero number">0</td>
+    #end
+
+    #if ($totalFailed > 0)
+    <td class="failed number">$totalFailed</td>
+    #else
+    <td class="zero number">0</td>
+    #end
+
+    <td class="passRate suite">
+      #if ($totalTests > 0)
+      #set ($passRate = (($totalTests - $totalSkipped - $totalFailed) * 100 / $totalTests))
+      $passRate%
+      #else
+      $messages.getString("notApplicable")
+      #end
+    </td>
+
+  </tr>
+</table>
+#end
+</body>
+</html>

@@ -99,7 +99,7 @@ public final class ReportMetadata
     
     public String getTemplatesPath() 
     {
-    	return System.getProperty(TEMPLATES_PATH, DEFAULT_TEMPLATES_PATH);
+    	return System.getProperty(TEMPLATES_PATH);//, DEFAULT_TEMPLATES_PATH);
     }
     
     /**
@@ -229,8 +229,7 @@ public final class ReportMetadata
 		try {
 			utils = (ReportNGUtils) Class.forName(utilsClazz).newInstance();
 		} catch (Exception e) {
-			throw new RuntimeException(e);
-//			utils = new ReportNGUtils();
+			utils = new ReportNGUtils();
 		}
 
 		return utils;

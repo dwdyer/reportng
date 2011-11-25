@@ -29,7 +29,7 @@
       </tr>
       #set ($classResults = $failedConfigurations.get($testClass))
 	  #set ($classTemplate = "class-results.html.vm")
-	  #parse("$meta.templatesPath$classTemplate")
+      #parse("$meta.templatesPath$classTemplate")
     #end
 
     #if ($skippedConfigurations.size() > 0)
@@ -54,7 +54,7 @@
     <tr><th colspan="3" class="header failed">$messages.getString("failedTests")</th></tr>
     #foreach ($testClass in $failedTests.keySet())
       <tr>
-        <td colspan="3" class="group">$testClass.name</td>
+        <td colspan="3" class="group">$utils.formatter.prettifyTestClassName($testClass.name)</td>
       </tr>
       #set ($classResults = $failedTests.get($testClass))
 	  #set ($classTemplate = "class-results.html.vm")
@@ -68,7 +68,7 @@
     <tr><th colspan="3" class="header skipped">$messages.getString("skippedTests")</th></tr>
     #foreach ($testClass in $skippedTests.keySet())
       <tr>
-        <td colspan="3" class="group">$testClass.name</td>
+        <td colspan="3" class="group">$utils.formatter.prettifyTestClassName($testClass.name)</td>
       </tr>
       #set ($classResults = $skippedTests.get($testClass))
 	  #set ($classTemplate = "class-results.html.vm")
@@ -79,10 +79,10 @@
 
 #if ($passedTests.size() > 0)
   <table class="resultsTable">
-    <tr><th colspan="3" class="header passed">$messages.getString("passedTests")</th></tr>
+    <tr><th colspan="2" class="header passed">$messages.getString("passedTests")</th></tr>
     #foreach ($testClass in $passedTests.keySet())
       <tr>
-        <td colspan="3" class="group">$testClass.name</td>
+        <td colspan="3" class="group">$utils.formatter.prettifyTestClassName($testClass.name)</td>
       </tr>
       #set ($classResults = $passedTests.get($testClass))
 	  #set ($classTemplate = "class-results.html.vm")

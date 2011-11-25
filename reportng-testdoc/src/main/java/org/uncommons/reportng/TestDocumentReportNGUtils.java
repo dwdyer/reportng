@@ -28,8 +28,6 @@ public class TestDocumentReportNGUtils extends ReportNGUtils {
 			+ "../../src/test/java/" + className.replace(".", "/") + ".java";
     	File f = new File(path);
     	
-    	System.out.println(path);
-    	
     	try {
 	    	JavaSource src = builder.addSource(f);
 	    	JavaClass cls = src.getClasses()[0];
