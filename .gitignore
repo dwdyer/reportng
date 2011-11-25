@@ -6,8 +6,8 @@ docs
 website
 release
 temp
-
-/reportng/.settings
-/reportng/target
-/reportng/.classpath
-/reportng/.project
+test-output/
+.settings
+target
+.classpath
+.project

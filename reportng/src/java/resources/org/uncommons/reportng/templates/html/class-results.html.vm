@@ -12,15 +12,10 @@
     #if ($testResult.testName)
       #set ($testInstanceName = " ($testResult.testName)")
     #end    
-    #if ($formatter)
-        #set ($name = $formatter.prettifyTestMethodName($testResult.name))
-    #else 
-        #set ($name = $testResult.name)
-    #end
     #if ($testResult.method.description && $testResult.method.description.length() > 0)
-      <span class="description" title="$testResult.method.description">$name$testInstanceName</span>
+      <span class="description" title="$testResult.method.description">$utils.formatter.prettifyTestMethodName($testResult.name)$testInstanceName</span>
     #else
-      $name$testInstanceName
+      $utils.formatter.prettifyTestMethodName($testResult.name)$testInstanceName
     #end
   </td>
   <td class="duration">

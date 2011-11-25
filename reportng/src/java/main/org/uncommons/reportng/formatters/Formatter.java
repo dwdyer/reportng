@@ -8,10 +8,4 @@ public interface Formatter {
 
 	public String prettifyTestMethodName(String testMethod);
 
-	public boolean isATestMethod(String method);
-
-	public boolean isTestClass(String clazz);
-
-	public void setTestClassSuffix(String suffix);
-
 }

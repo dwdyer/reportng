@@ -32,7 +32,7 @@ public class ReportMetadataTest
         // Make sure we know what the default locale is before we start.
         Locale.setDefault(new Locale("en", "GB"));
 
-        ReportMetadata metadata = new ReportMetadata();
+        ReportMetadata metadata = ReportMetadata.getReportMetadata();
         String locale = metadata.getLocale().toString();
         assert locale.equals("en_GB") : "Wrong locale: " + locale;
     }
@@ -44,7 +44,7 @@ public class ReportMetadataTest
         // Unset any previously set property.
         System.setProperty(ReportMetadata.LOCALE_KEY, "fr");
 
-        ReportMetadata metadata = new ReportMetadata();
+        ReportMetadata metadata = ReportMetadata.getReportMetadata();
         String locale = metadata.getLocale().toString();
         assert locale.equals("fr") : "Wrong locale: " + locale;
     }
@@ -56,7 +56,7 @@ public class ReportMetadataTest
         // Unset any previously set property.
         System.setProperty(ReportMetadata.LOCALE_KEY, "fr_CA");
 
-        ReportMetadata metadata = new ReportMetadata();
+        ReportMetadata metadata = ReportMetadata.getReportMetadata();
         String locale = metadata.getLocale().toString();
         assert locale.equals("fr_CA") : "Wrong locale: " + locale;
     }
@@ -68,7 +68,7 @@ public class ReportMetadataTest
         // Unset any previously set property.
         System.setProperty(ReportMetadata.LOCALE_KEY, "fr_CA_POSIX");
 
-        ReportMetadata metadata = new ReportMetadata();
+        ReportMetadata metadata = ReportMetadata.getReportMetadata();
         String locale = metadata.getLocale().toString();
         assert locale.equals("fr_CA_POSIX") : "Wrong locale: " + locale;
     }

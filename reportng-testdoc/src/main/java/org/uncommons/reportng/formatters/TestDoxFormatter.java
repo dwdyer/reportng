@@ -2,9 +2,20 @@ package org.uncommons.reportng.formatters;
 
 
 public class TestDoxFormatter implements Formatter {
-	private static String CLASS_SUFFIX = "Test";
-	private static String METHOD_PREFIX = "test";
+	private final String CLASS_SUFFIX;
+	private final String METHOD_PREFIX;
 
+	public TestDoxFormatter() {
+		CLASS_SUFFIX = "Test";
+		METHOD_PREFIX = "test";
+	}
+
+	
+	public TestDoxFormatter(String classSuffix, String methodPrefix) {
+		CLASS_SUFFIX = classSuffix;
+		METHOD_PREFIX = methodPrefix;
+	}
+	
 	public String prettifyTestClassName(String className) {
 		className = ((className == null)?"":className);
 		className = trimPackagePrefix(className);
@@ -66,7 +77,4 @@ public class TestDoxFormatter implements Formatter {
 		return clazz.endsWith(CLASS_SUFFIX);
 	}
 
-	public void setTestClassSuffix(String s) {
-		CLASS_SUFFIX = s;
-	}
 }

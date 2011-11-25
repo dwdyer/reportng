@@ -51,14 +51,8 @@
   <table class="resultsTable">
     <tr><th colspan="3" class="header failed">$messages.getString("failedTests")</th></tr>
     #foreach ($testClass in $failedTests.keySet())
-      #if ($formatter)
-          #set ($name = $formatter.prettifyTestClassName($testClass.name))
-      #else 
-          #set ($name = $testClass.name)
-      #end
-    
       <tr>
-        <td colspan="3" class="group">$name</td>
+        <td colspan="3" class="group">$utils.formatter.prettifyTestClassName($testClass.name)</td>
       </tr>
       #set ($classResults = $failedTests.get($testClass))
       #parse ("org/uncommons/reportng/templates/html/class-results.html.vm")
@@ -70,14 +64,8 @@
   <table class="resultsTable" width="100%">
     <tr><th colspan="3" class="header skipped">$messages.getString("skippedTests")</th></tr>
     #foreach ($testClass in $skippedTests.keySet())
-      #if ($formatter)
-          #set ($name = $formatter.prettifyTestClassName($testClass.name))
-      #else 
-          #set ($name = $testClass.name)
-      #end
-
       <tr>
-        <td colspan="3" class="group">$name</td>
+        <td colspan="3" class="group">$utils.formatter.prettifyTestClassName($testClass.name)</td>
       </tr>
       #set ($classResults = $skippedTests.get($testClass))
       #parse ("org/uncommons/reportng/templates/html/class-results.html.vm")
@@ -89,14 +77,8 @@
   <table class="resultsTable">
     <tr><th colspan="2" class="header passed">$messages.getString("passedTests")</th></tr>
     #foreach ($testClass in $passedTests.keySet())
-      #if ($formatter)
-          #set ($name = $formatter.prettifyTestClassName($testClass.name))
-      #else 
-          #set ($name = $testClass.name)
-      #end
-    
       <tr>
-        <td colspan="2" class="group">$name</td>
+        <td colspan="3" class="group">$utils.formatter.prettifyTestClassName($testClass.name)</td>
       </tr>
       #set ($classResults = $passedTests.get($testClass))
       #parse ("org/uncommons/reportng/templates/html/class-results.html.vm")

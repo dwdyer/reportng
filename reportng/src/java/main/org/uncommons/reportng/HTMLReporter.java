@@ -222,7 +222,7 @@ public class HTMLReporter extends AbstractReporter
         SortedMap<IClass, List<ITestResult>> sortedResults = new TreeMap<IClass, List<ITestResult>>(CLASS_COMPARATOR);
         for (ITestResult result : results.getAllResults())
         {
-        	//omit other than prefixed classes
+        	//TODO: omit other than prefixed classes
         	if (META.getFilteredNameSuffix() != null 
         			&& META.getFilteredNameSuffix().length() > 0) {
         		if (!result.getTestClass().getName().matches("^.*" + META.getFilteredNameSuffix() +"$")) {
@@ -245,7 +245,6 @@ public class HTMLReporter extends AbstractReporter
         }
         return sortedResults;
     }
-
 
 
     /**

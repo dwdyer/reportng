@@ -28,6 +28,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.ResourceBundle;
+
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.testng.IReporter;
@@ -43,10 +44,8 @@ public abstract class AbstractReporter implements IReporter
     protected static final String TEMPLATE_EXTENSION = ".vm";
 
     private static final String META_KEY ="meta";
-    private static final String FORMATTER_KEY ="formatter";
-    protected static final ReportMetadata META = new ReportMetadata();
+    protected static final ReportMetadata META = ReportMetadata.getReportMetadata();
     private static final String UTILS_KEY ="utils";
-    private static final ReportNGUtils UTILS = new ReportNGUtils();
     private static final String MESSAGES_KEY ="messages";
     private static final ResourceBundle MESSAGES = ResourceBundle.getBundle("org.uncommons.reportng.messages.reportng",
                                                                             META.getLocale());
@@ -89,8 +88,7 @@ public abstract class AbstractReporter implements IReporter
     {
         VelocityContext context = new VelocityContext();
         context.put(META_KEY, META);
-        context.put(FORMATTER_KEY, META.getFormatter());
-        context.put(UTILS_KEY, UTILS);
+        context.put(UTILS_KEY, META.getUtilsClass());
         context.put(MESSAGES_KEY, MESSAGES);
         return context;
     }

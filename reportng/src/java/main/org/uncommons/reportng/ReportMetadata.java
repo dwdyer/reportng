@@ -23,8 +23,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import org.uncommons.reportng.formatters.Formatter;
-
 /**
  * Provides access to static information useful when generating a report.
  * @author Daniel Dyer
@@ -41,13 +39,26 @@ public final class ReportMetadata
     static final String STYLESHEET_KEY = PROPERTY_KEY_PREFIX + "stylesheet";
     static final String LOCALE_KEY = PROPERTY_KEY_PREFIX + "locale";
     static final String NAME_SUFFIX = PROPERTY_KEY_PREFIX + "name-suffix";
-    static final String NAME_FORMATTER = PROPERTY_KEY_PREFIX + "name-formatter";
+    static final String CUSTOM_UTILS_CLASS = PROPERTY_KEY_PREFIX + "custom-utils-class";
     static final String VELOCITY_LOG_KEY = PROPERTY_KEY_PREFIX + "velocity-log";
 
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("EEEE dd MMMM yyyy");
     private static final DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm z");
     
+    private static ReportMetadata instance;
 
+    private ReportMetadata() {
+    	
+    }
+    
+    public static synchronized ReportMetadata getReportMetadata() {
+    	if (null == instance) {
+    		instance = new ReportMetadata();
+    	}
+    	
+    	return instance;
+    }
+    
     /**
      * The date/time at which this report is being generated.
      */
@@ -81,29 +92,9 @@ public final class ReportMetadata
 
     public String getFilteredNameSuffix()
     {
-        return System.getProperty(NAME_SUFFIX);
+        return System.getProperty(NAME_SUFFIX, "Test");
     }    
     
-    public Formatter getFormatter() {
-    	String formatterClazz = System.getProperty(NAME_FORMATTER);
-    	if (formatterClazz == null)
-    		return null;
-    	
-    	Formatter formatter = null;
-    	
-    	try {
-    		formatter = (Formatter) Class.forName(formatterClazz).newInstance();
-    		if (getFilteredNameSuffix() != null
-    				&& getFilteredNameSuffix().length() > 0) {
-    			formatter.setTestClassSuffix(getFilteredNameSuffix());
-    		}
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    	}
-    	
-    	return formatter;
-    }
-
     /**
      * @return The URL (absolute or relative) of an HTML coverage report associated
      * with the test run.  Null if there is no coverage report.
@@ -223,4 +214,18 @@ public final class ReportMetadata
         }
         return Locale.getDefault();
     }
+    
+	public ReportNGUtils getUtilsClass() {
+		String utilsClazz = System.getProperty(CUSTOM_UTILS_CLASS);
+
+		ReportNGUtils utils;
+		try {
+			utils = (ReportNGUtils) Class.forName(utilsClazz).newInstance();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+//			utils = new ReportNGUtils();
+		}
+
+		return utils;
+	}    
 }

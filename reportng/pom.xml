@@ -6,7 +6,7 @@
 	<name>ReportNG</name>
 	<groupId>org.uncommons</groupId>
 	<artifactId>reportng</artifactId>
-	<version>1.1.3-testdoc</version>
+	<version>1.1.4-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<url>https://reportng.dev.java.net/</url>
 
@@ -19,11 +19,6 @@
 	</licenses>
 
 	<dependencies>
-		<dependency>
-			<groupId>qdox</groupId>
-			<artifactId>qdox</artifactId>
-			<version>1.6.1</version>
-		</dependency>
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
