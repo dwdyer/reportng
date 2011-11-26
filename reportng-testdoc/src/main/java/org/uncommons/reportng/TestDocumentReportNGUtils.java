@@ -18,49 +18,108 @@ public class TestDocumentReportNGUtils extends ReportNGUtils {
 
 	private static ReportMetadata META = ReportMetadata.getReportMetadata();
 	
-	@Override
-    public String getArguments(ITestResult result)
-    {
-    	String className = result.getTestClass().getName();
-    	
-    	JavaDocBuilder builder = new JavaDocBuilder();
-    	String path = getClass().getResource("/").getFile() 
-			+ "../../src/test/java/" + className.replace(".", "/") + ".java";
-    	File f = new File(path);
-    	
-    	try {
-	    	JavaSource src = builder.addSource(f);
-	    	JavaClass cls = src.getClasses()[0];
-	    	
-	    	JavaMethod[] methods = cls.getMethods();
+	static String TEST_CLASS_PATH_PROPERTY = 
+		ReportMetadata.PROPERTY_KEY_PREFIX + "testdoc.test-class-path";
 	
+	public String getTestClassPath() {
+		return System.getProperty(TEST_CLASS_PATH_PROPERTY, null);
+	}
+
+	private JavaClass getClassWrapperBySource(String className, File f) {
+		JavaDocBuilder builder = new JavaDocBuilder();
+		JavaSource src;
+		try {
+			src = builder.addSource(f);
+		} catch (Exception e) {
+			return null;
+		}
+		
+    	//trimpackage
+		if (className.lastIndexOf(".") != -1) {
+			className = className.substring(className.lastIndexOf(".") + 1);
+		}	
+		
+    	for (JavaClass cls : src.getClasses()) {
+    		if (cls.getName().equals(className)) {
+    			return cls;
+    		}
+    	}
+    	
+    	return null;
+	}
+	
+	private JavaClass getClassWrapper(String className) {
+
+		final String JAVA_CLASS_SUFFIX = ".java";
+		
+		String path = getClass().getResource("/").getFile()
+				+ getTestClassPath() 
+				+ className.replace(".", "/")
+				+ JAVA_CLASS_SUFFIX;
+    	File f = new File(path);
+
+    	JavaClass cls = getClassWrapperBySource(className, f);
+    	
+    	//this will extract parameter names from the compiled class
+    	//which eventually means they will be named p0, p1 etc
+    	//I don't like it
+//    	if (cls == null) {
+//    		JavaDocBuilder builder = new JavaDocBuilder();
+//    		cls = builder.getClassByName(className);
+//    	}
+    	
+    	return cls;
+	}
+	
+	public List<String> mergeParametersNamesWithArgumentStrigns(
+			String className, 
+			String methodName, 
+			List<String> argumentStrings) {
+		
+		JavaClass cls = getClassWrapper(className);
+		
+		if (cls != null) {
+	    	JavaMethod[] methods = cls.getMethods();
+	    	
 	    	List<String> params = new ArrayList<String>();
 	    	for(JavaMethod m : methods) {
-	    		if (!m.getName().equals(result.getMethod().getMethodName())) {
+	    		if (!m.getName().equals(methodName)) {
 	    			continue;
 	    		}
 	    		for (JavaParameter p : m.getParameters()) {
 	    			params.add(p.getName());
 	    		}
 	    	}
-	    	
-	        Object[] arguments = result.getParameters();
-	        List<String> argumentStrings = new ArrayList<String>(arguments.length);
-	        for (int i=0; i<arguments.length; i++)
-	        {
-	        	Object argument = arguments[i];
-	        	
-	        	TestDoxFormatter formatter = new TestDoxFormatter();
-	        	String prettifyTestMethodName = "";
-	        	if (params.size() == arguments.length)
-	        		prettifyTestMethodName = " &nbsp; ==> " + formatter.prettifyTestMethodName(params.get(i)) + ": ";
-	            argumentStrings.add(prettifyTestMethodName + renderArgument(argument));
-	        }
-	        return breakLineSeparate(argumentStrings);
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    		throw new RuntimeException(e);
-    	}
+	
+	    	List<String> mergedArgumentStrings = new ArrayList<String>();
+	    	if (params.size() == argumentStrings.size()) {
+		        for (int i=0; i<params.size(); i++)
+		        {
+		        	
+		        	TestDoxFormatter formatter = new TestDoxFormatter();
+		        	String prettifyTestMethodName = " &nbsp; => " + formatter.prettifyTestMethodName(params.get(i)) + ": ";
+		        	mergedArgumentStrings.add(prettifyTestMethodName + argumentStrings.get(i));
+		        }		
+		        argumentStrings = mergedArgumentStrings;
+	    	}
+		}
+    	return argumentStrings;
+	}
+	
+	@Override
+    public String getArguments(ITestResult result)
+    {
+    	String className = result.getTestClass().getName();
+    	String methodName = result.getMethod().getMethodName();
+
+    	Object[] arguments = result.getParameters();
+        List<String> argumentStrings = new ArrayList<String>(arguments.length);
+        for (Object argument : arguments)
+        {
+        	argumentStrings.add(renderArgument(argument));
+        }
+        
+        return breakLineSeparate(mergeParametersNamesWithArgumentStrigns(className, methodName, argumentStrings));
     }
 
 	@Override

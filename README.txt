@@ -43,6 +43,9 @@ Fully blown, extended configuration
 			<org.uncommons.reportng.templates-path>
 				org/uncommons/reportng/testdoc/html/
 			</org.uncommons.reportng.templates-path>
+	            		<org.uncommons.reportng.testdoc.test-class-path>
+	            			../../src/test/java/
+			</org.uncommons.reportng.testdoc.test-class-path>
 		</systemPropertyVariables>
 		<properties>
 			<property>
