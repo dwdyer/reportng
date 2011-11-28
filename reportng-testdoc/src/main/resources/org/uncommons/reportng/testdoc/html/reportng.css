@@ -7,6 +7,8 @@ h2                       {font-family: Arial, Helvetica, sans-serif; font-weight
 p                        {font-size: 1.3em;}
 td                       {font-size: 1.3em;}
 
+td.firstrow             {padding-top: 3px}
+
 .row-bg					{background-color: #eeeeee;}
 
 .header                  {font-size: 1.4em; font-weight: bold; text-align: left;}
@@ -22,17 +24,17 @@ td                       {font-size: 1.3em;}
 .test .passed            {background-color: #88ee88;}
 .test .skipped           {background-color: #ffff77;}
 .test .failed            {background-color: #ff8888;}
-.group                   {background-color: #cccccc; color: #000000; font-weight: bold;}
+.group                   {background-color: #cccccc; color: #000000; font-weight: bold; border-bottom: 1px solid black;}
 .suiteLinks              {float: right; font-weight: normal; vertical-align: middle;}
 .suiteLinks a            {color: #ffffff; margin-left: .5em;}
 .passRate                {font-weight: bold; text-align: right;}
 .duration                {text-align: right;}
 .thread                  {white-space: nowrap;}
 
-.resultsTable            {border: 0; width: 100%; margin-top: 1.8em; line-height: 1.7em; border-spacing: 0.1em;}
+.resultsTable            {border: 0; width: 100%; margin-top: 1.8em; line-height: 1.7em; border-spacing: 0 em; border-collapse: collapse;}
 .resultsTable .method    {width: 18em;}
 .resultsTable .duration  {width: 6em;}
-.resultsTable td         {vertical-align: top; padding: 0 1em;}
+.resultsTable td         {vertical-align: top; padding: 0.2 em;}
 .resultsTable th         {padding: 0 .5em;}
 .number                  {text-align: right;}
 .zero                    {font-weight: normal;}

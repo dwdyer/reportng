@@ -2,11 +2,11 @@
 ## methods in a single class for inclusion in the HTML report.  It assumes that the
 ## the results for the class are in a variable called $classResults.  $id is a page
 ## scope variable that is used to assign unique identifiers to divs.
-## #macro( isOdd $number $oddText $evenText )#if( 0 == $number%2 )$evenText#else$oddText#end#end
+
+#macro( isOdd $number $oddText $evenText )#if( 0 == $number%2 )$evenText#else$oddText#end#end
 
 #foreach ($testResult in $classResults)
-<tr class="row-bg"><td colspan="2"></td></tr>
-<tr>
+<tr class="#isOdd( $velocityCount "" "row-bg" )">
   <td class="method">
     #set ($testInstanceName = "")
     #if ($testResult.testName)
@@ -22,7 +22,7 @@
     $utils.formatDuration($testResult.startMillis, $testResult.endMillis)s
   </td>
 </tr>
-<tr>
+<tr class="#isOdd( $velocityCount "" "row-bg" )">
   <td colspan="2" class="result">
     ## Display the dependencies for skipped test methods.
     #if ($testResult.status == 3) ## 3 means skipped.
@@ -81,4 +81,5 @@
     #set ($id = $id + 1)
   </td>
 </tr>
+
 #end
