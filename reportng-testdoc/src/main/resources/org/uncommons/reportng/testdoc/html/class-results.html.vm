@@ -13,7 +13,7 @@
       #set ($testInstanceName = " ($testResult.testName)")
     #end    
     #if ($testResult.method.description && $testResult.method.description.length() > 0)
-      <span class="description" title="$testResult.method.description">$utils.formatter.prettifyTestMethodName($testResult.name)$testInstanceName</span>
+      <span class="description" title="$testResult.method.description">$testResult.method.description$testInstanceName</span>
     #else
       $utils.formatter.prettifyTestMethodName($testResult.name)$testInstanceName
     #end
