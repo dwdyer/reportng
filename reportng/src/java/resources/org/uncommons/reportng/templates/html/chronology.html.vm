@@ -1,3 +1,40 @@
+$report.setDesiredWidth(3600)
+#set ($threadHeight = 35)
+#set ($threadHeader = 110)
+#macro( result $method )
+#if ($method.success) passed#elseif ($method.skipped) skipped#else failed#end#end
+
+#macro( widthForDuration $method )
+## treat base width as 200px, add an extra pixel per millisecond.
+## statistics based approach does not lend itself well to direct
+## pixel per time interpetation of graphic - but it does make more
+## of the tests visible
+## #set ( $deviation = $method.durationMillis - $chronology.averageDuration )
+## #set ( $w = $deviation + 200)
+#set ($w = $report.getWidth($method))
+#if ($w < 1)
+#set ($w = 1)
+#end
+width:${w}px#end
+
+#macro ( positionForStart $method )
+left:${report.getStart($method)}px#end
+
+#macro( threadColor $count)
+  #set ( $colors = ["#eeeeee", "#dddddd"] )
+  #set ( $index =  $count % $colors.size() )
+$colors.get($index)#end
+
+#macro ( testDetail $method )
+  #set ($parameters = $method.parameters)
+  <span class="test-detail">
+  <b>${method.className}</b></br>
+  <b>${method.name}</b><br/>
+  #if ($parameters.trim().length() > 0)
+  parameters:$parameters<br/>#end
+  start:$utils.formatDuration($chronology.suiteStartTime, $method.startTimeMillis)s<br/>
+  duration:$utils.formatDuration($method.durationMillis)s</span>#end
+
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -7,31 +44,189 @@
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <meta name="description" content="TestNG unit test results." />
   <link href="reportng.css" rel="stylesheet" type="text/css" />
+  <link href="tooltip/ssn.tooltip.css" rel="stylesheet" type="text/css" />
   #if ($meta.stylesheetPath)
   <link href="custom.css" rel="stylesheet" type="text/css" />
   #end
-  <script type="text/javascript" src="sorttable.js"></script>
+  <style>
+    .threadname {
+      display:table-cell;
+      width:${threadHeader}px;
+      float:left;
+      text-align:left;
+    }
+    .testcase {
+      color:#ffffff;
+      display:inline-block;
+      height:${threadHeight}px;
+      padding:0px;
+      margin:1px 0;
+      background-image:url(spacer.png);
+      background-repeat:repeat-y;
+      overflow:hidden;
+      vertical-align:middle;
+    }
+    .test-detail {
+      width:250px;
+      overflow: hidden;
+      display: inline-block;
+    }
+    .idle {
+      display:inline-block;
+      margin:0px;
+      padding:0px;
+      border:0;
+    }
+    .method {
+      display:inline-block;
+      font-size:12pt;
+      float:left;
+      padding:0 2px;
+    }
+    .duration {
+      font-size:8pt;
+      position: relative;
+      top:3px;
+      float:right;
+      padding:0 2px;      
+    }
+    .start {
+      font-size:8pt;
+      position:relative;
+      top:3px;
+      float:left;
+      padding:0 2px;      
+    }
+
+    .legend {
+      overflow: hidden;
+      height:15px;
+    }
+
+    .tooltip {
+      position: relative;
+      cursor: help;
+      display: inline-block;
+      text-decoration: none;
+      color: #222;
+      outline: none;
+    }
+
+    .tooltip span.content {
+      visibility: hidden;
+      position: absolute; 
+      font-size: 10pt;
+      top: 30px;
+      left: 50%;
+      z-index: 999;
+      width: 250px;
+      margin-left: -137px;
+      padding: 10px;
+      border: 2px solid #ccc;
+      opacity: .9;
+      background-color: #ddd;                     
+      background-image: -webkit-linear-gradient(rgba(255,255,255,.1), rgba(255,255,255,0));
+      background-image: -moz-linear-gradient(rgba(255,255,255,.1), rgba(255,255,255,0));
+      background-image: -ms-linear-gradient(rgba(255,255,255,.1), rgba(255,255,255,0));
+      background-image: -o-linear-gradient(rgba(255,255,255,.1), rgba(255,255,255,0));
+      background-image: linear-gradient(rgba(255,255,255,.1), rgba(255,255,255,0));  
+      -moz-border-radius: 4px;
+      border-radius: 4px;  
+      -moz-box-shadow: 0 1px 2px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.5) inset;
+      -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.5) inset;
+      box-shadow: 0 1px 2px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.5) inset;  
+    }
+
+    .tooltip:hover {
+      border: 0; /* IE6 fix */
+    }
+
+    .tooltip:hover span.content {
+      visibility: visible;
+    }
+
+    .tooltip span.content:before,
+    .tooltip span.content:after {
+      content: "";
+      position: absolute;
+      z-index: 1000;
+      top: -8px;
+      left: 50%;
+      margin-left: -8px; 
+      /* this creates the triangle */ 
+      border-bottom: 8px solid #ddd;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;        
+      border-top: 0;  
+    }
+
+    .passed-tooltip span.content {
+      border-color: #296929;
+      background-color: #44aa44;
+    }
+
+    .passed-tooltip span.content:after,
+    .passed-tooltip span.content:before {
+      border-bottom-color: #296929;
+    }
+
+    .failed-tooltip span.content {
+      border-color: #9E1E1E;
+      background-color: #ff4444;
+    }
+
+    .failed-tooltip span.content:after,
+    .failed-tooltip span.content:before {
+      border-bottom-color: #9E1E1E;
+    }
+
+    .skipped-tooltip span.content {
+      border-color: #ED8A09;
+      background-color: #ffaa00;
+    }
+
+    .skipped-tooltip span.content:after,
+    .skipped-tooltip span.content:before {
+      border-bottom-color: #ED8A09;
+    }
+  </style>
+  
 </head>
 <body>
   <h1>$suite.name - $messages.getString("chronology")</h1>
-  <table class="resultsTable sortable">
-    <tr class="columnHeadings">
-      <th>&nbsp;</th>
-      <th>$messages.getString("startTime")</th>
-      <th>$messages.getString("method")</th>
-      <th>$messages.getString("duration")</th>
-      <th>$messages.getString("thread")</th>
-    </tr>
-  #set ($previous = 0)
-  #foreach ($method in $methods)
-    <tr>
-      <td class="number">$velocityCount.</td>
-      <td class="duration">$utils.formatDuration($utils.getStartTime($methods), $method.date)s</td>
-      <td>$method.testMethod.realClass.name.<b>$method.testMethod.methodName</b></td>
-      <td class="duration">$utils.formatDuration($method.date, $utils.getEndTime($suite, $method, $methods))s</td>
-      <td class="thread">$utils.stripThreadName($method.testMethod.id)</td>
-    </tr>
+  
+  #set ($totalDuration = $report.scale($chronology.totalDuration) + ${threadHeader})
+  #set ($tick  = $report.increment($chronology.totalDuration))
+  #set ($width = $report.scale($tick))
+  #set ($marks = $report.marks($tick))
+
+  #foreach ($thread in $chronology.threadNames)
+    <div class="thread" style="background-color:#threadColor($velocityCount);width:${totalDuration}px">
+      #set ($methods = $chronology.getMethods($thread))
+      <span class="threadname">$utils.stripThreadName($thread)<br/>
+      $methods.size() tests in $utils.formatDuration($chronology.getThreadDuration($thread))s</span>
+      #foreach ($method in $methods)<span 
+      class="idle" style="width:$report.getStart($method)px;"></span><span 
+      class="tooltip #result($method)-tooltip"><span 
+        class="testcase #result($method)" style="#widthForDuration($method);"><span 
+          class="method" style="#widthForDuration($method)">$method.name</span><span 
+          class="start">$utils.formatDuration($chronology.suiteStartTime, $method.startTimeMillis)s</span><span
+          class="duration">$utils.formatDuration($method.durationMillis)s</span><span 
+          class="content">#testDetail($method)</span></span></span>#end
+    </div>
   #end
-  </table>
+  <div class="legend" style="width:${totalDuration}px">
+      <span class="threadname">&nbsp;</span>
+    #set ($top = $chronology.threadCount * $threadHeight)
+    #set ($top = $top + 200)
+    #foreach ($i in [0..$marks])
+      #set ($elapsed = $tick * $i)
+      #set ($position = $report.scale($elapsed) + ${threadHeader} + 5)
+      <span class="idle" style="position:absolute;left:${position}px;">$utils.formatDuration($elapsed)s</span>#end
+  </div>
+  <br/>
+  <div>Elapsed Time: $utils.formatDuration($chronology.totalDuration)</div>
+  <div>Average Test: $utils.formatDuration($chronology.averageDuration)</div>
+  <div>Total Tests: $chronology.totalTests</div>
 </body>
 </html>

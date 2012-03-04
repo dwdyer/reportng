@@ -25,6 +25,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import org.testng.IInvokedMethod;
 import org.testng.ISuite;
 import org.testng.ISuiteResult;
@@ -390,14 +391,13 @@ public class ReportNGUtils
                 found = true;
             }
             // Once a method is found, find subsequent method on same thread.
-            else if (found && m.getTestMethod().getId().equals(method.getTestMethod().getId()))
+            if (found && m.getTestMethod().getId().equals(method.getTestMethod().getId()))
             {
                 return m.getDate();
             }
         }
         return getEndTime(suite, method);
     }
-
 
     /**
      * Returns the timestamp for the time at which the suite finished executing.

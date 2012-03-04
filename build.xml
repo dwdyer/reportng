@@ -26,6 +26,9 @@
            resource="org/uncommons/antlib/antlib.xml"
            classpathref="tool.path"/>
 
+  <property name="reportng.pom.groupId" value="org.reportng"/>
+  <property name="reportng.pom.artifactId" value="reportng"/>
+  
   <property name="version" value="1.1.4"/>
   <property name="artifact.identifier" value="reportng-${version}"/>
 
@@ -91,7 +94,7 @@
           description="Deploys the software to the Java.net Maven repository.">
     <uncommons:maven-deploy module="reportng"
                             version="${version}"
-                            repository="svn:https://svn.java.net/svn/maven2-repository~svn/trunk/repository/"
+                            repository="file:///home/wkemper/.m2/repository/"
                             username="${maven.user}"
                             password="${maven.password}"/>
   </target>

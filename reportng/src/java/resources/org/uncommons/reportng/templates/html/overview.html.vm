@@ -39,7 +39,7 @@
     <th colspan="6" class="header suite">
       <div class="suiteLinks">
         #if (!$suite.invokedMethods.empty)
-        ##<a href="suite${suiteId}_chronology.html">$messages.getString("chronology")</a>
+        <a href="suite${suiteId}_chronology.html">$messages.getString("chronology")</a>
         #end
         #if ($utils.hasGroups($suite))
         <a href="suite${suiteId}_groups.html">$messages.getString("groups")</a>
