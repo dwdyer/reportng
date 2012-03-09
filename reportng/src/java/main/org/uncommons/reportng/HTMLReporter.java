@@ -310,7 +310,7 @@ public class HTMLReporter extends AbstractReporter
     private void copyResources(File outputDirectory) throws IOException
     {
         copyClasspathResources(outputDirectory, 
-            "reportng.css", "reportng.js", "sorttable.js", "spacer.png");
+            "reportng.css", "reportng.js", "jquery-1.7.1.js", "mousewheel.js", "spacer.png");
 
         // If there is a custom stylesheet, copy that.
         File customStylesheet = META.getStylesheetPath();

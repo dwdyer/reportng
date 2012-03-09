@@ -1,40 +1,6 @@
 $report.setDesiredWidth(3600)
 #set ($threadHeight = 35)
 #set ($threadHeader = 110)
-#macro( result $method )
-#if ($method.success) passed#elseif ($method.skipped) skipped#else failed#end#end
-
-#macro( widthForDuration $method )
-## treat base width as 200px, add an extra pixel per millisecond.
-## statistics based approach does not lend itself well to direct
-## pixel per time interpetation of graphic - but it does make more
-## of the tests visible
-## #set ( $deviation = $method.durationMillis - $chronology.averageDuration )
-## #set ( $w = $deviation + 200)
-#set ($w = $report.getWidth($method))
-#if ($w < 1)
-#set ($w = 1)
-#end
-width:${w}px#end
-
-#macro ( positionForStart $method )
-left:${report.getStart($method)}px#end
-
-#macro( threadColor $count)
-  #set ( $colors = ["#eeeeee", "#dddddd"] )
-  #set ( $index =  $count % $colors.size() )
-$colors.get($index)#end
-
-#macro ( testDetail $method )
-  #set ($parameters = $method.parameters)
-  <span class="test-detail">
-  <b>${method.className}</b></br>
-  <b>${method.name}</b><br/>
-  #if ($parameters.trim().length() > 0)
-  parameters:$parameters<br/>#end
-  start:$utils.formatDuration($chronology.suiteStartTime, $method.startTimeMillis)s<br/>
-  duration:$utils.formatDuration($method.durationMillis)s</span>#end
-
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -66,9 +32,12 @@ $colors.get($index)#end
       vertical-align:middle;
     }
     .test-detail {
-      width:250px;
       overflow: hidden;
       display: inline-block;
+    }
+    .stack-trace {
+      font-size:10px;
+      font-family:Courier;
     }
     .idle {
       display:inline-block;
@@ -131,9 +100,9 @@ $colors.get($index)#end
       background-image: linear-gradient(rgba(255,255,255,.1), rgba(255,255,255,0));  
       -moz-border-radius: 4px;
       border-radius: 4px;  
-      -moz-box-shadow: 0 1px 2px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.5) inset;
-      -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.5) inset;
-      box-shadow: 0 1px 2px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.5) inset;  
+      -moz-box-shadow: 0 1px 2px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.5);
+      -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.5);
+      box-shadow: 0 1px 2px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.5);  
     }
 
     .tooltip:hover {
@@ -156,7 +125,7 @@ $colors.get($index)#end
       border-bottom: 8px solid #ddd;
       border-left: 8px solid transparent;
       border-right: 8px solid transparent;        
-      border-top: 0;  
+      border-top: 0;
     }
 
     .passed-tooltip span.content {
@@ -172,6 +141,8 @@ $colors.get($index)#end
     .failed-tooltip span.content {
       border-color: #9E1E1E;
       background-color: #ff4444;
+      width: 600px;
+      margin-left: -312px;
     }
 
     .failed-tooltip span.content:after,
@@ -189,10 +160,51 @@ $colors.get($index)#end
       border-bottom-color: #ED8A09;
     }
   </style>
-  
+  <script src="jquery-1.7.1.js"></script>
+  <script src="mousewheel.js"></script>
+  <script>
+    $(window).on('mousewheel', function(event, delta) {
+        window.scrollBy(delta * -250, 0);
+        return false;
+    });
+  </script>
 </head>
 <body>
   <h1>$suite.name - $messages.getString("chronology")</h1>
+
+#macro( result $method )
+#if ($method.success) passed#elseif ($method.skipped) skipped#else failed#end#end
+
+#macro( widthForDuration $method )
+#set ($w = $report.getWidth($method))
+#if ($w < 1)
+#set ($w = 1)
+#end
+width:${w}px#end
+
+#macro ( positionForStart $method )
+left:${report.getStart($method)}px#end
+
+#macro( threadColor $count)
+  #set ( $colors = ["#eeeeee", "#dddddd"] )
+  #set ( $index =  $count % $colors.size() )
+$colors.get($index)#end
+
+#macro ( testDetail $method )
+  #set ($parameters = $method.parameters)
+  <span class="test-detail">
+  <b>${method.className}</b>
+  <br/><b>${method.name}</b>
+  #if ($parameters.trim().length() > 0)
+  <br/>parameters:$parameters#end
+  <br/>start:$utils.formatDuration($chronology.suiteStartTime, $method.startTimeMillis)s
+  <br/>duration:$utils.formatDuration($method.durationMillis)s
+  #if ($method.failure) <br/><b>$method.failure.message</b>
+    <span class="stack-trace">
+    #foreach ($frame in $method.failure.stackTrace)
+      <br/>$frame
+    #end
+  </span>#end</span>#end
   
   #set ($totalDuration = $report.scale($chronology.totalDuration) + ${threadHeader})
   #set ($tick  = $report.increment($chronology.totalDuration))

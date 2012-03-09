@@ -12,6 +12,9 @@ import org.testng.ITestNGMethod;
 import org.testng.ITestResult;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Predicate;
+import static com.google.common.collect.Iterables.size;
+import static com.google.common.collect.Iterables.filter;
 import com.google.common.collect.TreeMultimap;
 
 /**
@@ -79,18 +82,41 @@ public class Chronology
             return result.isSuccess();
         }
         
-        @Override
-        public int compareTo(TimedMethod o) 
+        public boolean isFailure()
         {
-            return (int) (getStartTimeMillis() - o.getStartTimeMillis());
+            return result.getStatus() == ITestResult.FAILURE;
+        }
+        
+        public Throwable getFailure()
+        {
+            return result.getThrowable();
+        }
+        
+        public String getStackTrace()
+        {
+            Throwable exception = getFailure();
+            return Joiner.on('\n').join(exception.getStackTrace());
         }
 
         public String getThreadName() 
         {
             return result.getMethod().getId();
         }
+
+        @Override
+        public int compareTo(TimedMethod o) 
+        {
+            return (int) (getStartTimeMillis() - o.getStartTimeMillis());
+        }
     }
     
+    private static final Predicate<TimedMethod> IS_TEST_FILTER = 
+        new Predicate<TimedMethod>() {
+            @Override public boolean apply(TimedMethod input) {
+                return input.getMethod().isTest();
+            }
+        };
+        
     private final TreeMultimap<String,TimedMethod> testingThreads;
     private final ISuite suite;
     private int averageDuration;
@@ -112,6 +138,7 @@ public class Chronology
             ITestContext context = result.getTestContext();
             add(context.getPassedTests());
             add(context.getFailedButWithinSuccessPercentageTests());
+            add(context.getFailedConfigurations());
             add(context.getFailedTests());
             add(context.getSkippedTests());
         }
@@ -197,7 +224,7 @@ public class Chronology
 
     public int getTotalTests()
     {
-        return testingThreads.size();
+        return size(filter(testingThreads.values(), IS_TEST_FILTER));
     }
     
     public TimedMethod getPreceedingMethod(TimedMethod method) 

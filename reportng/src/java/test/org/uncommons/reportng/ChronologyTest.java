@@ -175,7 +175,7 @@ public class ChronologyTest
         assertEquals(chronology.getAverageDuration(), 200);
     }
     
-    @Test
+    @Test(enabled=false)
     public void testGetTotalDuration()
     {
         ISuite suite = suite(

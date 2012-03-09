@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [Default suite]">
+  <test name="Default test(failed)" preserve-order="true">
+    <classes>
+      <class name="org.uncommons.reportng.ChronologyTest">
+        <methods>
+          <include name="testThreadCountWhenMoreThanOne"/>
+          <include name="testGetPreceedingMethod"/>
+          <include name="testThreadCountWhenOnlyOne"/>
+          <include name="sleepAfter"/>
+          <include name="sleepBefore"/>
+        </methods>
+      </class>
+    </classes>
+  </test>
+</suite>
