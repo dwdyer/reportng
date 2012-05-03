@@ -15,7 +15,6 @@
 //=============================================================================
 package org.uncommons.reportng;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileFilter;
@@ -24,10 +23,10 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.ResourceBundle;
+
+import org.apache.commons.io.IOUtils;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.testng.IReporter;
@@ -170,33 +169,7 @@ public abstract class AbstractReporter implements IReporter
                               String targetFileName) throws IOException
     {
         File resourceFile = new File(outputDirectory, targetFileName);
-        BufferedReader reader = null;
-        Writer writer = null;
-        try
-        {
-            reader = new BufferedReader(new InputStreamReader(stream, ENCODING));
-            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(resourceFile), ENCODING));
-
-            String line = reader.readLine();
-            while (line != null)
-            {
-                writer.write(line);
-                writer.write('\n');
-                line = reader.readLine();
-            }
-            writer.flush();
-        }
-        finally
-        {
-            if (reader != null)
-            {
-                reader.close();
-            }
-            if (writer != null)
-            {
-                writer.close();
-            }
-        }
+        IOUtils.copy(stream, new FileOutputStream(resourceFile));
     }
 
 

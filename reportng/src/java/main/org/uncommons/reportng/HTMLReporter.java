@@ -29,6 +29,7 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+
 import org.apache.velocity.VelocityContext;
 import org.testng.IClass;
 import org.testng.IInvokedMethod;
@@ -68,7 +69,8 @@ public class HTMLReporter extends AbstractReporter
     private static final String FAILED_TESTS_KEY = "failedTests";
     private static final String SKIPPED_TESTS_KEY = "skippedTests";
     private static final String PASSED_TESTS_KEY = "passedTests";
-    private static final String METHODS_KEY = "methods";
+    private static final String CHRONOLOGY_KEY = "chronology";
+    private static final String CHRONOLOGY_REPORT_KEY = "report";
 
     private static final String REPORT_DIRECTORY = "html";
 
@@ -109,8 +111,7 @@ public class HTMLReporter extends AbstractReporter
             createSuiteList(suites, outputDirectory);
             createGroups(suites, outputDirectory);
             createResults(suites, outputDirectory);
-            // Chronology disabled until I figure out how to make it less nonsensical.
-            //createChronology(suites, outputDirectory);
+            createChronology(suites, outputDirectory);
             createLog(outputDirectory);
             copyResources(outputDirectory);
         }
@@ -200,9 +201,11 @@ public class HTMLReporter extends AbstractReporter
             List<IInvokedMethod> methods = suite.getAllInvokedMethods();
             if (!methods.isEmpty())
             {
+                Chronology chronology = new Chronology(suite);
                 VelocityContext context = createContext();
                 context.put(SUITE_KEY, suite);
-                context.put(METHODS_KEY, methods);
+                context.put(CHRONOLOGY_KEY, chronology);
+                context.put(CHRONOLOGY_REPORT_KEY, new ChronologyTool(chronology));
                 String fileName = String.format("suite%d_%s", index, CHRONOLOGY_FILE);
                 generateFile(new File(outputDirectory, fileName),
                              CHRONOLOGY_FILE + TEMPLATE_EXTENSION,
@@ -306,9 +309,9 @@ public class HTMLReporter extends AbstractReporter
      */
     private void copyResources(File outputDirectory) throws IOException
     {
-        copyClasspathResource(outputDirectory, "reportng.css", "reportng.css");
-        copyClasspathResource(outputDirectory, "reportng.js", "reportng.js");
-        copyClasspathResource(outputDirectory, "sorttable.js", "sorttable.js");
+        copyClasspathResources(outputDirectory, 
+            "reportng.css", "reportng.js", "jquery-1.7.1.js", "mousewheel.js", "spacer.png");
+
         // If there is a custom stylesheet, copy that.
         File customStylesheet = META.getStylesheetPath();
 
@@ -328,6 +331,15 @@ public class HTMLReporter extends AbstractReporter
                     copyStream(outputDirectory, stream, CUSTOM_STYLE_FILE);
                 }
             }
+        }
+    }
+
+
+    private void copyClasspathResources(File outputDirectory, String... resources) throws IOException
+    {
+        for (String resource : resources) 
+        {
+            copyClasspathResource(outputDirectory, resource, resource);
         }
     }
 }
