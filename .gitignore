@@ -6,3 +6,8 @@ docs
 website
 release
 temp
+test-output/
+.settings
+target
+.classpath
+.project

@@ -38,12 +38,29 @@ public final class ReportMetadata
     static final String XML_DIALECT_KEY = PROPERTY_KEY_PREFIX + "xml-dialect";
     static final String STYLESHEET_KEY = PROPERTY_KEY_PREFIX + "stylesheet";
     static final String LOCALE_KEY = PROPERTY_KEY_PREFIX + "locale";
+    static final String NAME_SUFFIX = PROPERTY_KEY_PREFIX + "name-suffix";
+    static final String CUSTOM_UTILS_CLASS = PROPERTY_KEY_PREFIX + "custom-utils-class";
+    static final String TEMPLATES_PATH = PROPERTY_KEY_PREFIX + "templates-path";
+    static final String DEFAULT_TEMPLATES_PATH = "org/uncommons/reportng/templates/html/";
     static final String VELOCITY_LOG_KEY = PROPERTY_KEY_PREFIX + "velocity-log";
 
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("EEEE dd MMMM yyyy");
     private static final DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm z");
     
+    private static ReportMetadata instance;
 
+    private ReportMetadata() {
+    	
+    }
+    
+    public static synchronized ReportMetadata getReportMetadata() {
+    	if (null == instance) {
+    		instance = new ReportMetadata();
+    	}
+    	
+    	return instance;
+    }
+    
     /**
      * The date/time at which this report is being generated.
      */
@@ -75,7 +92,16 @@ public final class ReportMetadata
         return System.getProperty(TITLE_KEY, DEFAULT_TITLE);
     }
 
-
+    public String getFilteredNameSuffix()
+    {
+        return System.getProperty(NAME_SUFFIX, "");
+    }    
+    
+    public String getTemplatesPath() 
+    {
+    	return System.getProperty(TEMPLATES_PATH);//, DEFAULT_TEMPLATES_PATH);
+    }
+    
     /**
      * @return The URL (absolute or relative) of an HTML coverage report associated
      * with the test run.  Null if there is no coverage report.
@@ -195,4 +221,17 @@ public final class ReportMetadata
         }
         return Locale.getDefault();
     }
+    
+	public ReportNGUtils getUtilsClass() {
+		String utilsClazz = System.getProperty(CUSTOM_UTILS_CLASS);
+
+		ReportNGUtils utils;
+		try {
+			utils = (ReportNGUtils) Class.forName(utilsClazz).newInstance();
+		} catch (Exception e) {
+			utils = new ReportNGUtils();
+		}
+
+		return utils;
+	}    
 }

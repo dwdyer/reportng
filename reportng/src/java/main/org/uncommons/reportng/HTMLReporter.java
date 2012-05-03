@@ -29,6 +29,7 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+
 import org.apache.velocity.VelocityContext;
 import org.testng.IClass;
 import org.testng.IInvokedMethod;
@@ -49,7 +50,7 @@ public class HTMLReporter extends AbstractReporter
 {
     private static final String FRAMES_PROPERTY = "org.uncommons.reportng.frames";
 
-    private static final String TEMPLATES_PATH = "org/uncommons/reportng/templates/html/";
+    private static final String TEMPLATES_PATH = META.getTemplatesPath();
     private static final String INDEX_FILE = "index.html";
     private static final String SUITES_FILE = "suites.html";
     private static final String OVERVIEW_FILE = "overview.html";
@@ -221,6 +222,10 @@ public class HTMLReporter extends AbstractReporter
         SortedMap<IClass, List<ITestResult>> sortedResults = new TreeMap<IClass, List<ITestResult>>(CLASS_COMPARATOR);
         for (ITestResult result : results.getAllResults())
         {
+        	if (!isTestMethodMatched(result.getTestClass().getName())) {
+        		continue;
+        	}
+        	
             List<ITestResult> resultsForClass = sortedResults.get(result.getTestClass());
             if (resultsForClass == null)
             {
@@ -237,7 +242,18 @@ public class HTMLReporter extends AbstractReporter
         return sortedResults;
     }
 
-
+    public boolean isTestMethodMatched(String name) {
+    	if (META.getFilteredNameSuffix() == null || 
+    			META.getFilteredNameSuffix().length() == 0) {
+    		return true;
+    	}
+    	
+		if (name.matches("^.*" + META.getFilteredNameSuffix() +"$")) {
+			return true;
+		}
+    	
+    	return false;
+    }
 
     /**
      * Generate a groups list for each suite.

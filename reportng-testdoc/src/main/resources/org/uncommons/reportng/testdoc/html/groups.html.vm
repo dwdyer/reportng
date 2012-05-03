@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="$messages.locale.language" lang="$messages.locale.language">
+<head>
+  <title>$meta.reportTitle - $suite.name - $messages.getString("groups")</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta name="description" content="TestNG unit test results." />
+  <link href="reportng.css" rel="stylesheet" type="text/css" />
+  #if ($meta.stylesheetPath)
+  <link href="custom.css" rel="stylesheet" type="text/css" />
+  #end
+</head>
+<body>
+  <h1>$messages.getString("groupsFor") $suite.name</h1>
+
+  <table class="resultsTable">
+  #foreach ($group in $groups.keySet())
+    <tr>
+      <td class="group">$group</td>
+    </tr>
+    #foreach ($test in $groups.get($group))
+    <tr>
+      <td>${test.realClass.name}.<b>${test.methodName}</b></td>    
+    </tr>
+    #end
+  #end
+  </table>
+</body>
+</html>
