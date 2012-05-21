@@ -48,6 +48,7 @@ import org.testng.xml.XmlSuite;
 public class HTMLReporter extends AbstractReporter
 {
     private static final String FRAMES_PROPERTY = "org.uncommons.reportng.frames";
+    private static final String ONLY_FAILURES_PROPERTY = "org.uncommons.reportng.onlyreportfailures";
 
     private static final String TEMPLATES_PATH = "org/uncommons/reportng/templates/html/";
     private static final String INDEX_FILE = "index.html";
@@ -95,6 +96,7 @@ public class HTMLReporter extends AbstractReporter
         removeEmptyDirectories(new File(outputDirectoryName));
         
         boolean useFrames = System.getProperty(FRAMES_PROPERTY, "true").equals("true");
+        boolean onlyFailures = System.getProperty(ONLY_FAILURES_PROPERTY, "false").equals("true");
 
         File outputDirectory = new File(outputDirectoryName, REPORT_DIRECTORY);
         outputDirectory.mkdir();
@@ -108,7 +110,7 @@ public class HTMLReporter extends AbstractReporter
             createOverview(suites, outputDirectory, !useFrames);
             createSuiteList(suites, outputDirectory);
             createGroups(suites, outputDirectory);
-            createResults(suites, outputDirectory);
+            createResults(suites, outputDirectory, onlyFailures);
             // Chronology disabled until I figure out how to make it less nonsensical.
             //createChronology(suites, outputDirectory);
             createLog(outputDirectory);
@@ -166,7 +168,8 @@ public class HTMLReporter extends AbstractReporter
      * @param outputDirectory The target directory for the generated file(s).
      */
     private void createResults(List<ISuite> suites,
-                               File outputDirectory) throws Exception
+                               File outputDirectory,
+                               boolean onlyShowFailures) throws Exception
     {
         int index = 1;
         for (ISuite suite : suites)
@@ -174,6 +177,12 @@ public class HTMLReporter extends AbstractReporter
             int index2 = 1;
             for (ISuiteResult result : suite.getResults().values())
             {
+                if (onlyShowFailures && result.getTestContext().getFailedTests().size() == 0)
+                {
+                    //onlyShowFailures is true and this result doesn't have any failures, so skip file creation
+                    continue;
+                }
+
                 VelocityContext context = createContext();
                 context.put(RESULT_KEY, result);
                 context.put(FAILED_CONFIG_KEY, sortByTestClass(result.getTestContext().getFailedConfigurations()));
