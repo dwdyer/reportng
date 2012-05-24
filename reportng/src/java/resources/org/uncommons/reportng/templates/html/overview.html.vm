@@ -64,6 +64,7 @@
   #set ($totalSkipped = $totalSkipped + $result.testContext.skippedTests.size())
   #set ($totalFailed = $totalFailed + $result.testContext.failedTests.size())
 
+  #if (($onlyreportfailures && $result.testContext.failedTests.size() > 0) || ( !$onlyreportfailures))
   <tr class="test">
     <td class="test">
       <a href="suite${suiteId}_test${velocityCount}_results.html">${result.testContext.name}</a>
@@ -100,8 +101,9 @@
     </td>
   </tr>
   #end
+  #end
 
-  <tr class="suite">
+    <tr class="suite">
     <td colspan="2" class="totalLabel">$messages.getString("total")</td>
 
     #if ($totalPassed > 0)

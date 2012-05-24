@@ -70,6 +70,7 @@ public class HTMLReporter extends AbstractReporter
     private static final String SKIPPED_TESTS_KEY = "skippedTests";
     private static final String PASSED_TESTS_KEY = "passedTests";
     private static final String METHODS_KEY = "methods";
+    private static final String ONLY_FAILURES_KEY = "onlyreportfailures";
 
     private static final String REPORT_DIRECTORY = "html";
 
@@ -107,13 +108,13 @@ public class HTMLReporter extends AbstractReporter
             {
                 createFrameset(outputDirectory);
             }
-            createOverview(suites, outputDirectory, !useFrames);
-            createSuiteList(suites, outputDirectory);
+            createOverview(suites, outputDirectory, !useFrames, onlyFailures);
+            createSuiteList(suites, outputDirectory, onlyFailures);
             createGroups(suites, outputDirectory);
             createResults(suites, outputDirectory, onlyFailures);
             // Chronology disabled until I figure out how to make it less nonsensical.
             //createChronology(suites, outputDirectory);
-            createLog(outputDirectory);
+            createLog(outputDirectory,onlyFailures);
             copyResources(outputDirectory);
         }
         catch (Exception ex)
@@ -138,10 +139,12 @@ public class HTMLReporter extends AbstractReporter
 
     private void createOverview(List<ISuite> suites,
                                 File outputDirectory,
-                                boolean isIndex) throws Exception
+                                boolean isIndex,
+                                boolean onlyFailures) throws Exception
     {
         VelocityContext context = createContext();
         context.put(SUITES_KEY, suites);
+        context.put(ONLY_FAILURES_KEY, onlyFailures);
         generateFile(new File(outputDirectory, isIndex ? INDEX_FILE : OVERVIEW_FILE),
                      OVERVIEW_FILE + TEMPLATE_EXTENSION,
                      context);
@@ -153,10 +156,12 @@ public class HTMLReporter extends AbstractReporter
      * @param outputDirectory The target directory for the generated file(s).
      */
     private void createSuiteList(List<ISuite> suites,
-                                 File outputDirectory) throws Exception
+                                 File outputDirectory,
+                                 boolean onlyFailures) throws Exception
     {
         VelocityContext context = createContext();
         context.put(SUITES_KEY, suites);
+        context.put(ONLY_FAILURES_KEY, onlyFailures);
         generateFile(new File(outputDirectory, SUITES_FILE),
                      SUITES_FILE + TEMPLATE_EXTENSION,
                      context);
@@ -180,6 +185,7 @@ public class HTMLReporter extends AbstractReporter
                 if (onlyShowFailures && result.getTestContext().getFailedTests().size() == 0)
                 {
                     //onlyShowFailures is true and this result doesn't have any failures, so skip file creation
+                    ++index2; //increment the suite number because the velocity template will
                     continue;
                 }
 
@@ -278,11 +284,12 @@ public class HTMLReporter extends AbstractReporter
      * Generate a groups list for each suite.
      * @param outputDirectory The target directory for the generated file(s).
      */
-    private void createLog(File outputDirectory) throws Exception
+    private void createLog(File outputDirectory, boolean onlyFailures) throws Exception
     {
         if (!Reporter.getOutput().isEmpty())
         {
             VelocityContext context = createContext();
+            context.put(ONLY_FAILURES_KEY, onlyFailures);
             generateFile(new File(outputDirectory, OUTPUT_FILE),
                          OUTPUT_FILE + TEMPLATE_EXTENSION,
                          context);

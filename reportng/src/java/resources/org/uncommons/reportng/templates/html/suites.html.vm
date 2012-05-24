@@ -38,7 +38,8 @@
   <tbody id="tests-${velocityCount}" class="tests">
     #set ($suiteId = $velocityCount)
     #foreach ($result in $suite.results)
-    <tr>
+        #if (($onlyreportfailures && $result.testContext.failedTests.size() > 0) || ( !$onlyreportfailures))
+        <tr>
       <td class="test">
         #if ($result.testContext.failedTests.size() > 0)
         <span class="failureIndicator" title="$messages.getString("failed.tooltip")">&#x2718;</span>
@@ -52,6 +53,7 @@
         <a href="suite${suiteId}_test${velocityCount}_results.html" target="main">$result.testContext.name</a>
       </td>
     </tr>
+    #end
     #end
   </tbody>
   #end
