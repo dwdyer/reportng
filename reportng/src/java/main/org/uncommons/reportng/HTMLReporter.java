@@ -182,9 +182,10 @@ public class HTMLReporter extends AbstractReporter
             int index2 = 1;
             for (ISuiteResult result : suite.getResults().values())
             {
-                if (onlyShowFailures && result.getTestContext().getFailedTests().size() == 0)
+                boolean failuresExist = ((result.getTestContext().getFailedTests().size() > 0) || (result.getTestContext().getFailedConfigurations().size() > 0));
+                if (onlyShowFailures && !failuresExist)
                 {
-                    //onlyShowFailures is true and this result doesn't have any failures, so skip file creation
+                    //onlyShowFailures is true and this result doesn't have any failed tests or configurations, so skip file creation
                     ++index2; //increment the suite number because the velocity template will
                     continue;
                 }
