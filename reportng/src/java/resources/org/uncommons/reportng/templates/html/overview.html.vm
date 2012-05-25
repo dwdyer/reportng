@@ -63,8 +63,9 @@
   #set ($totalPassed = $totalPassed + $result.testContext.passedTests.size())
   #set ($totalSkipped = $totalSkipped + $result.testContext.skippedTests.size())
   #set ($totalFailed = $totalFailed + $result.testContext.failedTests.size())
+  #set ($failuresExist = $result.testContext.failedTests.size()>0 || $result.testContext.failedConfigurations.size()>0)
 
-  #if (($onlyreportfailures && $result.testContext.failedTests.size() > 0) || ( !$onlyreportfailures))
+  #if (($onlyreportfailures && $failuresExist) || (!$onlyreportfailures))
   <tr class="test">
     <td class="test">
       <a href="suite${suiteId}_test${velocityCount}_results.html">${result.testContext.name}</a>

@@ -38,7 +38,9 @@
   <tbody id="tests-${velocityCount}" class="tests">
     #set ($suiteId = $velocityCount)
     #foreach ($result in $suite.results)
-        #if (($onlyreportfailures && $result.testContext.failedTests.size() > 0) || ( !$onlyreportfailures))
+        #set ($failuresExist = $result.testContext.failedTests.size()>0 || $result.testContext.failedConfigurations.size()>0)
+
+        #if (($onlyreportfailures && $failuresExist) || (!$onlyreportfailures))
         <tr>
       <td class="test">
         #if ($result.testContext.failedTests.size() > 0)
