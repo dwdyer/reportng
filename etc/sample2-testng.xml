@@ -3,9 +3,9 @@
 <suite name="Another Suite" verbose="1" >
 
   <!-- Use the same tests again. -->
-  <test name="Only Skipped Tests" >
+  <test name="Only Successful Tests" >
     <classes>
-      <class name="org.uncommons.reportng.sample.SkippedTests" />
+      <class name="org.uncommons.reportng.sample.SuccessfulTests" />
     </classes>
   </test>
 

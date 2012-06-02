@@ -40,7 +40,7 @@
     #foreach ($result in $suite.results)
         #set ($failuresExist = $result.testContext.failedTests.size()>0 || $result.testContext.failedConfigurations.size()>0)
 
-        #if (($onlyreportfailures && $failuresExist) || (!$onlyreportfailures))
+        #if (($onlyReportFailures && $failuresExist) || (!$onlyReportFailures))
         <tr>
       <td class="test">
         #if ($result.testContext.failedTests.size() > 0)

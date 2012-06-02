@@ -48,7 +48,7 @@ import org.testng.xml.XmlSuite;
 public class HTMLReporter extends AbstractReporter
 {
     private static final String FRAMES_PROPERTY = "org.uncommons.reportng.frames";
-    private static final String ONLY_FAILURES_PROPERTY = "org.uncommons.reportng.onlyreportfailures";
+    private static final String ONLY_FAILURES_PROPERTY = "org.uncommons.reportng.failures-only";
 
     private static final String TEMPLATES_PATH = "org/uncommons/reportng/templates/html/";
     private static final String INDEX_FILE = "index.html";
@@ -70,7 +70,7 @@ public class HTMLReporter extends AbstractReporter
     private static final String SKIPPED_TESTS_KEY = "skippedTests";
     private static final String PASSED_TESTS_KEY = "passedTests";
     private static final String METHODS_KEY = "methods";
-    private static final String ONLY_FAILURES_KEY = "onlyreportfailures";
+    private static final String ONLY_FAILURES_KEY = "onlyReportFailures";
 
     private static final String REPORT_DIRECTORY = "html";
 
@@ -114,7 +114,7 @@ public class HTMLReporter extends AbstractReporter
             createResults(suites, outputDirectory, onlyFailures);
             // Chronology disabled until I figure out how to make it less nonsensical.
             //createChronology(suites, outputDirectory);
-            createLog(outputDirectory,onlyFailures);
+            createLog(outputDirectory, onlyFailures);
             copyResources(outputDirectory);
         }
         catch (Exception ex)
@@ -182,25 +182,22 @@ public class HTMLReporter extends AbstractReporter
             int index2 = 1;
             for (ISuiteResult result : suite.getResults().values())
             {
-                boolean failuresExist = ((result.getTestContext().getFailedTests().size() > 0) || (result.getTestContext().getFailedConfigurations().size() > 0));
-                if (onlyShowFailures && !failuresExist)
+                boolean failuresExist = result.getTestContext().getFailedTests().size() > 0
+                                        || result.getTestContext().getFailedConfigurations().size() > 0;
+                if (!onlyShowFailures || failuresExist)
                 {
-                    //onlyShowFailures is true and this result doesn't have any failed tests or configurations, so skip file creation
-                    ++index2; //increment the suite number because the velocity template will
-                    continue;
+                    VelocityContext context = createContext();
+                    context.put(RESULT_KEY, result);
+                    context.put(FAILED_CONFIG_KEY, sortByTestClass(result.getTestContext().getFailedConfigurations()));
+                    context.put(SKIPPED_CONFIG_KEY, sortByTestClass(result.getTestContext().getSkippedConfigurations()));
+                    context.put(FAILED_TESTS_KEY, sortByTestClass(result.getTestContext().getFailedTests()));
+                    context.put(SKIPPED_TESTS_KEY, sortByTestClass(result.getTestContext().getSkippedTests()));
+                    context.put(PASSED_TESTS_KEY, sortByTestClass(result.getTestContext().getPassedTests()));
+                    String fileName = String.format("suite%d_test%d_%s", index, index2, RESULTS_FILE);
+                    generateFile(new File(outputDirectory, fileName),
+                                 RESULTS_FILE + TEMPLATE_EXTENSION,
+                                 context);
                 }
-
-                VelocityContext context = createContext();
-                context.put(RESULT_KEY, result);
-                context.put(FAILED_CONFIG_KEY, sortByTestClass(result.getTestContext().getFailedConfigurations()));
-                context.put(SKIPPED_CONFIG_KEY, sortByTestClass(result.getTestContext().getSkippedConfigurations()));
-                context.put(FAILED_TESTS_KEY, sortByTestClass(result.getTestContext().getFailedTests()));
-                context.put(SKIPPED_TESTS_KEY, sortByTestClass(result.getTestContext().getSkippedTests()));
-                context.put(PASSED_TESTS_KEY, sortByTestClass(result.getTestContext().getPassedTests()));
-                String fileName = String.format("suite%d_test%d_%s", index, index2, RESULTS_FILE);
-                generateFile(new File(outputDirectory, fileName),
-                             RESULTS_FILE + TEMPLATE_EXTENSION,
-                             context);
                 ++index2;
             }
             ++index;
