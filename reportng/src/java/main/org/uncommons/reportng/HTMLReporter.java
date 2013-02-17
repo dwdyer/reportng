@@ -79,7 +79,7 @@ public class HTMLReporter extends AbstractReporter
         super(TEMPLATES_PATH);
     }
 
-    
+
     /**
      * Generates a set of HTML files that contain data about the outcome of
      * the specified test suites.
@@ -91,11 +91,14 @@ public class HTMLReporter extends AbstractReporter
                                String outputDirectoryName)
     {
         removeEmptyDirectories(new File(outputDirectoryName));
-        
+
         boolean useFrames = System.getProperty(FRAMES_PROPERTY, "true").equals("true");
 
         File outputDirectory = new File(outputDirectoryName, REPORT_DIRECTORY);
-        outputDirectory.mkdir();
+        boolean created = outputDirectory.mkdirs();
+        if (!created) {
+            throw new ReportNGException("Failed to create output directory " + outputDirectory.getAbsolutePath());
+        }
 
         try
         {
@@ -213,7 +216,7 @@ public class HTMLReporter extends AbstractReporter
 
     /**
      * Group test methods by class and sort alphabetically.
-     */ 
+     */
     private SortedMap<IClass, List<ITestResult>> sortByTestClass(IResultMap results)
     {
         SortedMap<IClass, List<ITestResult>> sortedResults = new TreeMap<IClass, List<ITestResult>>(CLASS_COMPARATOR);
@@ -256,7 +259,7 @@ public class HTMLReporter extends AbstractReporter
                 String fileName = String.format("suite%d_%s", index, GROUPS_FILE);
                 generateFile(new File(outputDirectory, fileName),
                              GROUPS_FILE + TEMPLATE_EXTENSION,
-                             context);                
+                             context);
             }
             ++index;
         }
