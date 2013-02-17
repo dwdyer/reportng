@@ -35,7 +35,7 @@ import org.testng.xml.XmlSuite;
  * @author Daniel Dyer
  */
 public class JUnitXMLReporter extends AbstractReporter
-{                             
+{
     private static final String RESULTS_KEY = "results";
 
     private static final String TEMPLATES_PATH = "org/uncommons/reportng/templates/xml/";
@@ -61,9 +61,12 @@ public class JUnitXMLReporter extends AbstractReporter
                                String outputDirectoryName)
     {
         removeEmptyDirectories(new File(outputDirectoryName));
-        
+
         File outputDirectory = new File(outputDirectoryName, REPORT_DIRECTORY);
-        outputDirectory.mkdir();
+        boolean created = outputDirectory.mkdirs();
+        if (!created) {
+            throw new ReportNGException("Failed to create output directory " + outputDirectory.getAbsolutePath());
+        }
 
         Collection<TestClassResults> flattenedResults = flattenResults(suites);
 
@@ -102,7 +105,7 @@ public class JUnitXMLReporter extends AbstractReporter
                 organiseByClass(suiteResult.getTestContext().getFailedConfigurations().getAllResults(), flattenedResults);
                 organiseByClass(suiteResult.getTestContext().getSkippedConfigurations().getAllResults(), flattenedResults);
                 // Successful configuration methods are not included.
-                
+
                 organiseByClass(suiteResult.getTestContext().getFailedTests().getAllResults(), flattenedResults);
                 organiseByClass(suiteResult.getTestContext().getSkippedTests().getAllResults(), flattenedResults);
                 organiseByClass(suiteResult.getTestContext().getPassedTests().getAllResults(), flattenedResults);
@@ -207,7 +210,7 @@ public class JUnitXMLReporter extends AbstractReporter
             return skippedTests;
         }
 
-        
+
         public Collection<ITestResult> getPassedTests()
         {
             return passedTests;
