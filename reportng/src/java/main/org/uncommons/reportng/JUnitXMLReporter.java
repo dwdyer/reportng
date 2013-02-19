@@ -63,7 +63,7 @@ public class JUnitXMLReporter extends AbstractReporter
         removeEmptyDirectories(new File(outputDirectoryName));
         
         File outputDirectory = new File(outputDirectoryName, REPORT_DIRECTORY);
-        outputDirectory.mkdir();
+        outputDirectory.mkdirs();
 
         Collection<TestClassResults> flattenedResults = flattenResults(suites);
 

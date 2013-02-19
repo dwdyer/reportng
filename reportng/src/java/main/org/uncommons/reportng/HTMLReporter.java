@@ -100,7 +100,7 @@ public class HTMLReporter extends AbstractReporter
         boolean onlyFailures = System.getProperty(ONLY_FAILURES_PROPERTY, "false").equals("true");
 
         File outputDirectory = new File(outputDirectoryName, REPORT_DIRECTORY);
-        outputDirectory.mkdir();
+        outputDirectory.mkdirs();
 
         try
         {
