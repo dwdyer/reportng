@@ -18,24 +18,26 @@ package org.uncommons.reportng;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.Comparator;
-import java.util.ArrayList;
-import java.util.Collections;
 import org.apache.velocity.VelocityContext;
+import org.testng.IClass;
+import org.testng.IInvokedMethod;
+import org.testng.IResultMap;
 import org.testng.ISuite;
 import org.testng.ISuiteResult;
 import org.testng.ITestNGMethod;
-import org.testng.Reporter;
-import org.testng.IClass;
 import org.testng.ITestResult;
-import org.testng.IResultMap;
+import org.testng.Reporter;
 import org.testng.xml.XmlSuite;
 
 /**
@@ -46,6 +48,7 @@ import org.testng.xml.XmlSuite;
 public class HTMLReporter extends AbstractReporter
 {
     private static final String FRAMES_PROPERTY = "org.uncommons.reportng.frames";
+    private static final String ONLY_FAILURES_PROPERTY = "org.uncommons.reportng.failures-only";
 
     private static final String TEMPLATES_PATH = "org/uncommons/reportng/templates/html/";
     private static final String INDEX_FILE = "index.html";
@@ -67,6 +70,7 @@ public class HTMLReporter extends AbstractReporter
     private static final String SKIPPED_TESTS_KEY = "skippedTests";
     private static final String PASSED_TESTS_KEY = "passedTests";
     private static final String METHODS_KEY = "methods";
+    private static final String ONLY_FAILURES_KEY = "onlyReportFailures";
 
     private static final String REPORT_DIRECTORY = "html";
 
@@ -93,9 +97,10 @@ public class HTMLReporter extends AbstractReporter
         removeEmptyDirectories(new File(outputDirectoryName));
         
         boolean useFrames = System.getProperty(FRAMES_PROPERTY, "true").equals("true");
+        boolean onlyFailures = System.getProperty(ONLY_FAILURES_PROPERTY, "false").equals("true");
 
         File outputDirectory = new File(outputDirectoryName, REPORT_DIRECTORY);
-        outputDirectory.mkdir();
+        outputDirectory.mkdirs();
 
         try
         {
@@ -103,13 +108,13 @@ public class HTMLReporter extends AbstractReporter
             {
                 createFrameset(outputDirectory);
             }
-            createOverview(suites, outputDirectory, !useFrames);
-            createSuiteList(suites, outputDirectory);
+            createOverview(suites, outputDirectory, !useFrames, onlyFailures);
+            createSuiteList(suites, outputDirectory, onlyFailures);
             createGroups(suites, outputDirectory);
-            createResults(suites, outputDirectory);
+            createResults(suites, outputDirectory, onlyFailures);
             // Chronology disabled until I figure out how to make it less nonsensical.
             //createChronology(suites, outputDirectory);
-            createLog(outputDirectory);
+            createLog(outputDirectory, onlyFailures);
             copyResources(outputDirectory);
         }
         catch (Exception ex)
@@ -134,10 +139,12 @@ public class HTMLReporter extends AbstractReporter
 
     private void createOverview(List<ISuite> suites,
                                 File outputDirectory,
-                                boolean isIndex) throws Exception
+                                boolean isIndex,
+                                boolean onlyFailures) throws Exception
     {
         VelocityContext context = createContext();
         context.put(SUITES_KEY, suites);
+        context.put(ONLY_FAILURES_KEY, onlyFailures);
         generateFile(new File(outputDirectory, isIndex ? INDEX_FILE : OVERVIEW_FILE),
                      OVERVIEW_FILE + TEMPLATE_EXTENSION,
                      context);
@@ -149,10 +156,12 @@ public class HTMLReporter extends AbstractReporter
      * @param outputDirectory The target directory for the generated file(s).
      */
     private void createSuiteList(List<ISuite> suites,
-                                 File outputDirectory) throws Exception
+                                 File outputDirectory,
+                                 boolean onlyFailures) throws Exception
     {
         VelocityContext context = createContext();
         context.put(SUITES_KEY, suites);
+        context.put(ONLY_FAILURES_KEY, onlyFailures);
         generateFile(new File(outputDirectory, SUITES_FILE),
                      SUITES_FILE + TEMPLATE_EXTENSION,
                      context);
@@ -164,7 +173,8 @@ public class HTMLReporter extends AbstractReporter
      * @param outputDirectory The target directory for the generated file(s).
      */
     private void createResults(List<ISuite> suites,
-                               File outputDirectory) throws Exception
+                               File outputDirectory,
+                               boolean onlyShowFailures) throws Exception
     {
         int index = 1;
         for (ISuite suite : suites)
@@ -172,17 +182,22 @@ public class HTMLReporter extends AbstractReporter
             int index2 = 1;
             for (ISuiteResult result : suite.getResults().values())
             {
-                VelocityContext context = createContext();
-                context.put(RESULT_KEY, result);
-                context.put(FAILED_CONFIG_KEY, sortByTestClass(result.getTestContext().getFailedConfigurations()));
-                context.put(SKIPPED_CONFIG_KEY, sortByTestClass(result.getTestContext().getSkippedConfigurations()));
-                context.put(FAILED_TESTS_KEY, sortByTestClass(result.getTestContext().getFailedTests()));
-                context.put(SKIPPED_TESTS_KEY, sortByTestClass(result.getTestContext().getSkippedTests()));
-                context.put(PASSED_TESTS_KEY, sortByTestClass(result.getTestContext().getPassedTests()));
-                String fileName = String.format("suite%d_test%d_%s", index, index2, RESULTS_FILE);
-                generateFile(new File(outputDirectory, fileName),
-                             RESULTS_FILE + TEMPLATE_EXTENSION,
-                             context);
+                boolean failuresExist = result.getTestContext().getFailedTests().size() > 0
+                                        || result.getTestContext().getFailedConfigurations().size() > 0;
+                if (!onlyShowFailures || failuresExist)
+                {
+                    VelocityContext context = createContext();
+                    context.put(RESULT_KEY, result);
+                    context.put(FAILED_CONFIG_KEY, sortByTestClass(result.getTestContext().getFailedConfigurations()));
+                    context.put(SKIPPED_CONFIG_KEY, sortByTestClass(result.getTestContext().getSkippedConfigurations()));
+                    context.put(FAILED_TESTS_KEY, sortByTestClass(result.getTestContext().getFailedTests()));
+                    context.put(SKIPPED_TESTS_KEY, sortByTestClass(result.getTestContext().getSkippedTests()));
+                    context.put(PASSED_TESTS_KEY, sortByTestClass(result.getTestContext().getPassedTests()));
+                    String fileName = String.format("suite%d_test%d_%s", index, index2, RESULTS_FILE);
+                    generateFile(new File(outputDirectory, fileName),
+                                 RESULTS_FILE + TEMPLATE_EXTENSION,
+                                 context);
+                }
                 ++index2;
             }
             ++index;
@@ -195,7 +210,7 @@ public class HTMLReporter extends AbstractReporter
         int index = 1;
         for (ISuite suite : suites)
         {
-            List<ITestNGMethod> methods = new ArrayList<ITestNGMethod>(suite.getInvokedMethods());
+            List<IInvokedMethod> methods = suite.getAllInvokedMethods();
             if (!methods.isEmpty())
             {
                 VelocityContext context = createContext();
@@ -267,11 +282,12 @@ public class HTMLReporter extends AbstractReporter
      * Generate a groups list for each suite.
      * @param outputDirectory The target directory for the generated file(s).
      */
-    private void createLog(File outputDirectory) throws Exception
+    private void createLog(File outputDirectory, boolean onlyFailures) throws Exception
     {
         if (!Reporter.getOutput().isEmpty())
         {
             VelocityContext context = createContext();
+            context.put(ONLY_FAILURES_KEY, onlyFailures);
             generateFile(new File(outputDirectory, OUTPUT_FILE),
                          OUTPUT_FILE + TEMPLATE_EXTENSION,
                          context);
@@ -309,9 +325,23 @@ public class HTMLReporter extends AbstractReporter
         copyClasspathResource(outputDirectory, "sorttable.js", "sorttable.js");
         // If there is a custom stylesheet, copy that.
         File customStylesheet = META.getStylesheetPath();
+
         if (customStylesheet != null)
         {
-            copyFile(outputDirectory, customStylesheet, CUSTOM_STYLE_FILE);
+            if (customStylesheet.exists())
+            {
+                copyFile(outputDirectory, customStylesheet, CUSTOM_STYLE_FILE);
+            }
+            else
+            {
+                // If not found, try to read the file as a resource on the classpath
+                // useful when reportng is called by a jarred up library
+                InputStream stream = ClassLoader.getSystemClassLoader().getResourceAsStream(customStylesheet.getPath());
+                if (stream != null)
+                {
+                    copyStream(outputDirectory, stream, CUSTOM_STYLE_FILE);
+                }
+            }
         }
     }
 }

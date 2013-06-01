@@ -16,16 +16,16 @@
 package org.uncommons.reportng;
 
 import java.io.File;
-import java.util.List;
 import java.util.Collection;
-import java.util.Map;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.apache.velocity.VelocityContext;
+import org.testng.IClass;
 import org.testng.ISuite;
 import org.testng.ISuiteResult;
-import org.testng.IClass;
 import org.testng.ITestResult;
 import org.testng.xml.XmlSuite;
 
@@ -63,7 +63,7 @@ public class JUnitXMLReporter extends AbstractReporter
         removeEmptyDirectories(new File(outputDirectoryName));
         
         File outputDirectory = new File(outputDirectoryName, REPORT_DIRECTORY);
-        outputDirectory.mkdir();
+        outputDirectory.mkdirs();
 
         Collection<TestClassResults> flattenedResults = flattenResults(suites);
 

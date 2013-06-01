@@ -13,19 +13,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //=============================================================================
-package org.uncommons.reportng;
 
-import java.util.Comparator;
-import org.testng.IClass;
+package org.uncommons.reportng.sample;
+
+import org.testng.ITest;
+import org.testng.annotations.Test;
 
 /**
- * Comparator for sorting classes alphabetically by fully-qualified name.
+ * Test for named tests.
  * @author Daniel Dyer
  */
-class TestClassComparator implements Comparator<IClass>
+public class NamedTest implements ITest
 {
-    public int compare(IClass class1, IClass class2)
+    public String getTestName()
     {
-        return class1.getName().compareTo(class2.getName());
+        return "NamedTest";
+    }
+
+
+    @Test
+    public void testNamed()
+    {
+        // Do nothing, will pass.
     }
 }

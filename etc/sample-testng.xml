@@ -9,9 +9,10 @@
   </test>
 
   <!-- Use the same tests again. -->
-  <test name="Only Successful Tests" >
+  <test name="Only Unsuccessful Tests" >
     <classes>
-      <class name="org.uncommons.reportng.sample.SuccessfulTests" />
+      <class name="org.uncommons.reportng.sample.FailedTests" />
+      <class name="org.uncommons.reportng.sample.SkippedTests" />
     </classes>
   </test>
 

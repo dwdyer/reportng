@@ -1,7 +1,5 @@
-===============================================================================
-ReportNG
- (https://reportng.dev.java.net)
-Copyright 2006-2010 Daniel W. Dyer (http://www.dandyer.co.uk)
+ReportNG (http://reportng.uncommons.org)
+Copyright 2006-2011 Daniel W. Dyer (http://www.dandyer.co.uk)
 
 Acknowledgements:
 -----------------

@@ -1,7 +1,21 @@
+Changes in version 1.1.3
+------------------------
+
+* Merged in Jeff Weiss' patch to allow custom stylesheets to be loaded from the
+  classpath (GitHub issue #10).
+
+* Fix for TestNG version dependency in Maven POM (GitHub issue #12).
+
+* Don't generate a Velocity log file unless explicitly requested by setting a
+  system property (GitHub issue #13).
+
+
 Changes in version 1.1.2
 ------------------------
 
 * Fix for NullPointerException when directory does not exist.
+
+* Patch for test instance names in TestNG 5.13.1.
 
 
 Changes in version 1.1.1

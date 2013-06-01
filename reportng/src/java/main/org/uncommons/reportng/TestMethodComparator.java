@@ -15,8 +15,8 @@
 //=============================================================================
 package org.uncommons.reportng;
 
-import org.testng.ITestNGMethod;
 import java.util.Comparator;
+import org.testng.ITestNGMethod;
 
 /**
  * Comparator for sorting TestNG test methods.  Sorts method alphabeticaly

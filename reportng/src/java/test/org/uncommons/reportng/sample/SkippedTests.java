@@ -22,6 +22,7 @@ import org.testng.annotations.Test;
  * another class.
  * @author Daniel Dyer
  */
+@Test(groups = "should-skip")
 public class SkippedTests
 {
     @Test(dependsOnGroups = "should-fail")
