@@ -1,15 +1,16 @@
-Unreleased Changes
-------------------
+Changes in version 1.1.4
+------------------------
 
-* Merged Kayla Nimis's patch to add Skip reason to the test report
+* Merged Kayla Nimis's patch to add Skip reason to the test report.
 
-* Updated TestNG version version to 6.2 from 5.13.1
+* Updated TestNG version version to 6.2 from 5.13.1.
 
-* Merged criccio's patch to skip Suite file creation based on property
+* Merged criccio's patch to skip Suite file creation based on property.
 
-* Merged criccio's patch for implementation of onlyShowFailures
+* Merged criccio's patch for implementation of onlyShowFailures.
 
-* Merged Arcadie's patch to create report output directory if it doesn't exist
+* Merged Arcadie's patch to create report output directory if it doesn't exist.
+
 
 Changes in version 1.1.3
 ------------------------
