@@ -1,6 +1,11 @@
 How to use ReportNG
 ===================
 
+Download latest version of ReportNG from either of the following:
+
+https://dl.dropboxusercontent.com/u/14133069/reportng-1.1.4.tgz
+https://dl.dropboxusercontent.com/u/14133069/reportng-1.1.4.zip
+
 To use the reporting plug-in, set the "listeners" attribute of the "testng"
 element in your Ant build file.  This attribute takes a comma-separated list of
 reporter class names.  The class names for the ReportNG reporters are:
