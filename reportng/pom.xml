@@ -7,7 +7,8 @@
   <name>ReportNG</name>
   <groupId>org.uncommons</groupId>
   <artifactId>reportng</artifactId>
-  <version>@VERSION@</version>
+  <!--<version>@VERSION@</version>--> <!-- chris commented out -->
+  <version>1.1.4-JIVE</version> <!-- chris added -->
   <packaging>jar</packaging>
   <url>https://reportng.dev.java.net/</url>
 
@@ -18,12 +19,13 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-  
+
   <dependencies>
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
-      <version>[5.0,)</version>
+      <!--<version>[5.0,)</version>-->
+      <version>6.8.5</version> <!-- chris added -->
     </dependency>
     <dependency>
       <groupId>velocity</groupId>
@@ -31,5 +33,43 @@
       <version>1.4</version>
     </dependency>
   </dependencies>
-  
+
+    <!-- chris added -->
+    <build>
+        <plugins>
+            <!-- chris added to get around problem of non-standard src directory hierarchy -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${basedir}/src/java/main</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- chris added so we can compile with maven instead of ant -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <includes>
+                        <include>org/uncommons/reportng/*.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
