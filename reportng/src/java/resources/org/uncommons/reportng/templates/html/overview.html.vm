@@ -115,14 +115,14 @@
       #end
 
       ## There are two corner cases we have to treat separately:
-      ## Corner case #1: don't round up to 100%, since that suggests there are no failures when in fact there are
-      #if (($passRateRounded == 100) && ($failed > 0))
-      #set ($passRateRounded = 99)
+      ## Corner case #1: don't round up to 100%, since that suggests there are no failures/skips when in fact there are
+      #if (($passRateRounded == 100) && ($notPassedTests > 0))
+        #set ($passRateRounded = 99)
       #end
 
       ## Corner case #2: don't round down to 0%, since that suggests there are no passes when in fact there are
       #if (($passRateRounded == 0) && ($passed > 0))
-      #set ($passRateRounded = 1)
+        #set ($passRateRounded = 1)
       #end
 
       $passRateRounded%
@@ -169,8 +169,8 @@
         #set ($totalPassRateRounded = ($totalPassRateUnrounded))
       #end
 
-      ## Corner case #1: don't round up to 100%, since that suggests there are no failures when in fact there are
-      #if (($totalPassRateRounded == 100) && ($totalFailed > 0))
+      ## Corner case #1: don't round up to 100%, since that suggests there are no failures/skips when in fact there are
+      #if (($totalPassRateRounded == 100) && ($totalFailed + $totalSkipped > 0))
         #set ($totalPassRateRounded = 99)
       #end
 
