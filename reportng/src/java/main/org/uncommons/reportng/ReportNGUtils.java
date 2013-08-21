@@ -437,4 +437,33 @@ public class ReportNGUtils
         }
         throw new IllegalStateException("Could not find matching end time.");
     }
+
+    /**
+     * Returns rounded pass Rate. rounded to zero decimals.
+     *
+     * @param totalTests Number of tests that where executed.
+     * @param notPassedTests Number of tests not passed.
+     * @return The rounded pass Rate.
+     */
+    public long getPassRate(int totalTests, int notPassedTests)
+    {
+        int passedTests = totalTests - notPassedTests;
+
+        double passRateUnrounded = (passedTests * 100.0) / totalTests;
+        long passRateRounded = Math.round(passRateUnrounded);
+
+        // Corner Case #1 : Don't round up to 100% since that suggests there are no failure when in fact there are.
+        if ((passRateRounded == 100) && (notPassedTests > 0))
+        {
+            passRateRounded = 99;
+        }
+
+        // Corner case #2 : Don't down to 0%, since that suggest there are no passes when in fact there are.
+        if ((passRateRounded == 0) && (passedTests > 0))
+        {
+            passRateRounded = 1;
+        }
+        return passRateRounded;
+  }
+
 }

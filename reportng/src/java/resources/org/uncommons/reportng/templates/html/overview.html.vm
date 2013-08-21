@@ -36,7 +36,7 @@
   #set ($totalSkipped = 0)
   #set ($totalFailed = 0)
   <tr>
-    <th colspan="6" class="header suite">
+    <th colspan="7" class="header suite">
       <div class="suiteLinks">
         #if (!$suite.invokedMethods.empty)
         ##<a href="suite${suiteId}_chronology.html">$messages.getString("chronology")</a>
@@ -54,7 +54,8 @@
     <th>$messages.getString("passed")</th>
     <th>$messages.getString("skipped")</th>
     <th>$messages.getString("failed")</th>
-    <th>$messages.getString("passRate")</th>
+    <th>$messages.getString("passRateSkipAsPass")</th>
+    <th>$messages.getString("passRateSkipAsFail")</th>
   </tr>
   #foreach ($result in $suite.results)
   #set ($notPassedTests = $result.testContext.skippedTests.size() + $result.testContext.failedTests.size())
@@ -94,38 +95,14 @@
 
     <td class="passRate">
       #if ($total > 0)
-      ## Use math trickery to avoid rounding errors that happen with Velocity's integer math.
-      ## For example, when 48 out of 49 tests pass, the actual pass rate is 97.96%, but integer math
-      ## incorrectly rounds that down to 97%, when we want it to be rounded up to 98%.
-      ## The workaround is to scale everything up so we're not dealing with decimals, and inspect
-      ## integer remainders (instead of digits to the right of the decimal point) to determine
-      ## whether to round up or round down.
-      #set ($passed = ($total - $notPassedTests))
-      #set ($passedScaledUp = ($passed * 10000))
-      #set ($passRateScaledUp = ($passedScaledUp / $total))
-      #set ($passRateUnrounded = ($passRateScaledUp / 100))
-      #set ($passRateRemainder = $passRateScaledUp % 100)
-
-      ## X.50+% gets rounded up to X+1%, and X.49-% gets rounded down to X%
-      ## For example, 23.53% gets rounded up to 24%, and 23.46% gets rounded down to 23%
-      #if ($passRateRemainder > 49)
-        #set ($passRateRounded = ($passRateUnrounded + 1))
+      $utils.getPassRate($total, $notPassedTests)%
       #else
-        #set ($passRateRounded = ($passRateUnrounded))
+      $messages.getString("notApplicable")
       #end
-
-      ## There are two corner cases we have to treat separately:
-      ## Corner case #1: don't round up to 100%, since that suggests there are no failures/skips when in fact there are
-      #if (($passRateRounded == 100) && ($notPassedTests > 0))
-        #set ($passRateRounded = 99)
-      #end
-
-      ## Corner case #2: don't round down to 0%, since that suggests there are no passes when in fact there are
-      #if (($passRateRounded == 0) && ($passed > 0))
-        #set ($passRateRounded = 1)
-      #end
-
-      $passRateRounded%
+    </td>
+    <td class="passRate">
+      #if ($total > 0)
+      $utils.getPassRate($total, $result.testContext.failedTests.size())%
       #else
       $messages.getString("notApplicable")
       #end
@@ -157,35 +134,20 @@
 
     <td class="passRate suite">
       #if ($totalTests > 0)
-      ## Use the same math trickery here for total stats as we used above for per-suite stats.
-      #set ($totalPassed = ($totalTests - $totalSkipped - $totalFailed))
-      #set ($totalPassedScaledUp = ($totalPassed * 10000))
-      #set ($totalPassRateScaledUp = ($totalPassedScaledUp / $totalTests))
-      #set ($totalPassRateUnrounded = ($totalPassRateScaledUp / 100))
-      #set ($totalPassRateRemainder = $totalPassRateScaledUp % 100)
-      #if ($totalPassRateRemainder > 49)
-        #set ($totalPassRateRounded = ($totalPassRateUnrounded + 1))
-      #else
-        #set ($totalPassRateRounded = ($totalPassRateUnrounded))
-      #end
-
-      ## Corner case #1: don't round up to 100%, since that suggests there are no failures/skips when in fact there are
-      #if (($totalPassRateRounded == 100) && ($totalFailed + $totalSkipped > 0))
-        #set ($totalPassRateRounded = 99)
-      #end
-
-      ## Corner case #2: don't round down to 0%, since that suggests there are no passes when in fact there are
-      #if (($totalPassRateRounded == 0) && ($totalPassed > 0))
-        #set ($totalPassRateRounded = 1)
-      #end
-
-      $totalPassRateRounded%
-
+      #set ($totalNotPassed = ($totalSkipped + $totalFailed))
+      $utils.getPassRate($totalTests, $totalNotPassed)%
       #else
       $messages.getString("notApplicable")
       #end
     </td>
 
+    <td class="passRate suite">
+      #if ($totalTests > 0)
+      $utils.getPassRate($totalTests, $totalFailed)%
+      #else
+      $messages.getString("notApplicable")
+      #end
+    </td>
   </tr>
 </table>
 #end
