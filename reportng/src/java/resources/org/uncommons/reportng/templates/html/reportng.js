@@ -1,28 +1,14 @@
 function toggleElement(elementId, displayStyle)
 {
-    var current = getStyle(elementId, 'display');
-    document.getElementById(elementId).style.display = (current == 'none' ? displayStyle : 'none');
-}
-
-
-function getStyle(elementId, property)
-{
     var element = document.getElementById(elementId);
-    return element.currentStyle ? element.currentStyle[property]
-           : document.defaultView.getComputedStyle(element, null).getPropertyValue(property);
+    var current = element.currentStyle
+                ? element.currentStyle['display']
+                : document.defaultView.getComputedStyle(element, null).getPropertyValue('display');
+    element.style.display = (current == 'none' ? displayStyle : 'none');
 }
-
 
 function toggle(toggleId)
 {
-    var toggle;
-    if (document.getElementById)
-    {
-        toggle = document.getElementById(toggleId);
-    }
-    else if (document.all)
-    {
-        toggle = document.all[toggleId];
-    }
+    var toggle = document.getElementById ? document.getElementById(toggleId) : document.all[toggleId];
     toggle.textContent = toggle.innerHTML == '\u25b6' ? '\u25bc' : '\u25b6';
 }
