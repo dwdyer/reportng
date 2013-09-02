@@ -36,14 +36,14 @@
   #set ($totalSkipped = 0)
   #set ($totalFailed = 0)
   <tr>
-    <th colspan="6" class="header suite">
+    <th colspan="7" class="header suite">
       <div class="suiteLinks">
         #if (!$suite.invokedMethods.empty)
         ##<a href="suite${suiteId}_chronology.html">$messages.getString("chronology")</a>
         #end
         #if ($utils.hasGroups($suite))
         <a href="suite${suiteId}_groups.html">$messages.getString("groups")</a>
-        #end        
+        #end
       </div>
       ${suite.name}
     </th>
@@ -54,7 +54,8 @@
     <th>$messages.getString("passed")</th>
     <th>$messages.getString("skipped")</th>
     <th>$messages.getString("failed")</th>
-    <th>$messages.getString("passRate")</th>
+    <th>$messages.getString("passRateSkipAsPass")</th>
+    <th>$messages.getString("passRateSkipAsFail")</th>
   </tr>
   #foreach ($result in $suite.results)
   #set ($notPassedTests = $result.testContext.skippedTests.size() + $result.testContext.failedTests.size())
@@ -94,8 +95,14 @@
 
     <td class="passRate">
       #if ($total > 0)
-      #set ($passRate = (($total - $notPassedTests) * 100 / $total))
-      $passRate%
+      $utils.getPassRate($total, $notPassedTests)%
+      #else
+      $messages.getString("notApplicable")
+      #end
+    </td>
+    <td class="passRate">
+      #if ($total > 0)
+      $utils.getPassRate($total, $result.testContext.failedTests.size())%
       #else
       $messages.getString("notApplicable")
       #end
@@ -127,13 +134,20 @@
 
     <td class="passRate suite">
       #if ($totalTests > 0)
-      #set ($passRate = (($totalTests - $totalSkipped - $totalFailed) * 100 / $totalTests))
-      $passRate%
+      #set ($totalNotPassed = ($totalSkipped + $totalFailed))
+      $utils.getPassRate($totalTests, $totalNotPassed)%
       #else
       $messages.getString("notApplicable")
       #end
     </td>
 
+    <td class="passRate suite">
+      #if ($totalTests > 0)
+      $utils.getPassRate($totalTests, $totalFailed)%
+      #else
+      $messages.getString("notApplicable")
+      #end
+    </td>
   </tr>
 </table>
 #end
