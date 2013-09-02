@@ -42,6 +42,7 @@ import org.testng.SkipException;
 public class ReportNGUtils
 {
     private static final NumberFormat DURATION_FORMAT = new DecimalFormat("#0.000");
+    private static final NumberFormat PERCENTAGE_FORMAT = new DecimalFormat("#0.00%");
 
     /**
      * Returns the aggregate of the elapsed times for each test result.
@@ -436,5 +437,11 @@ public class ReportNGUtils
             }
         }
         throw new IllegalStateException("Could not find matching end time.");
+    }
+
+
+    public String formatPercentage(int numerator, int denominator)
+    {
+        return PERCENTAGE_FORMAT.format(numerator / (double) denominator);
     }
 }

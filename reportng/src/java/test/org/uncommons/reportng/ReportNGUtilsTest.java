@@ -64,4 +64,20 @@ public class ReportNGUtilsTest
         escapedString = utils.escapeHTMLString(originalString);
 		assert escapedString.equals("&nbsp;&nbsp;&nbsp; ") : "Wrong escaping: " + escapedString;
 	}
+
+
+    @Test
+    public void testFormatIntegerPercentage()
+    {
+        String percentage = utils.formatPercentage(10, 100);
+        assert "10.00%".equals(percentage) : "Wrongly formatted percentage: " + percentage;
+    }
+
+
+    @Test
+    public void testFormatFractionalPercentage()
+    {
+        String percentage = utils.formatPercentage(2, 3);
+        assert "66.67%".equals(percentage) : "Wrongly formatted percentage: " + percentage;
+    }
 }

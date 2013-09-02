@@ -94,8 +94,8 @@
 
     <td class="passRate">
       #if ($total > 0)
-      #set ($passRate = (($total - $notPassedTests) * 100 / $total))
-      $passRate%
+      #set ($passes = $total - $notPassedTests)
+      $utils.formatPercentage($passes, $total)
       #else
       $messages.getString("notApplicable")
       #end
@@ -127,8 +127,8 @@
 
     <td class="passRate suite">
       #if ($totalTests > 0)
-      #set ($passRate = (($totalTests - $totalSkipped - $totalFailed) * 100 / $totalTests))
-      $passRate%
+      #set ($totalPasses = $totalTests - $totalSkipped - $totalFailed)
+      $utils.formatPercentage($totalPasses, $totalTests)
       #else
       $messages.getString("notApplicable")
       #end
