@@ -26,7 +26,7 @@
            resource="org/uncommons/antlib/antlib.xml"
            classpathref="tool.path"/>
 
-  <property name="version" value="1.1.4"/>
+  <property name="version" value="1.1.5"/>
   <property name="artifact.identifier" value="reportng-${version}"/>
 
   <!-- This is the minimum coverage percentage (for both lines and
@@ -83,17 +83,6 @@
         <tarfileset dir="reportng/${src.dir}/css" prefix="${artifact.identifier}/stylesheets" includes="*.css" />
       </additionalcontents>
     </uncommons:release>
-  </target>
-
-
-  <target name="release-maven"
-          depends="clean, dist"
-          description="Deploys the software to the Java.net Maven repository.">
-    <uncommons:maven-deploy module="reportng"
-                            version="${version}"
-                            repository="svn:https://svn.java.net/svn/maven2-repository~svn/trunk/repository/"
-                            username="${maven.user}"
-                            password="${maven.password}"/>
   </target>
 
 
