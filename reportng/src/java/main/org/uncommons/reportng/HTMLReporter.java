@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright 2006-2010 Daniel W. Dyer
+// Copyright 2006-2013 Daniel W. Dyer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -31,7 +31,6 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import org.apache.velocity.VelocityContext;
 import org.testng.IClass;
-import org.testng.IInvokedMethod;
 import org.testng.IResultMap;
 import org.testng.ISuite;
 import org.testng.ISuiteResult;
@@ -56,7 +55,6 @@ public class HTMLReporter extends AbstractReporter
     private static final String OVERVIEW_FILE = "overview.html";
     private static final String GROUPS_FILE = "groups.html";
     private static final String RESULTS_FILE = "results.html";
-    private static final String CHRONOLOGY_FILE = "chronology.html";
     private static final String OUTPUT_FILE = "output.html";
     private static final String CUSTOM_STYLE_FILE = "custom.css";
 
@@ -69,7 +67,6 @@ public class HTMLReporter extends AbstractReporter
     private static final String FAILED_TESTS_KEY = "failedTests";
     private static final String SKIPPED_TESTS_KEY = "skippedTests";
     private static final String PASSED_TESTS_KEY = "passedTests";
-    private static final String METHODS_KEY = "methods";
     private static final String ONLY_FAILURES_KEY = "onlyReportFailures";
 
     private static final String REPORT_DIRECTORY = "html";
@@ -112,8 +109,6 @@ public class HTMLReporter extends AbstractReporter
             createSuiteList(suites, outputDirectory, onlyFailures);
             createGroups(suites, outputDirectory);
             createResults(suites, outputDirectory, onlyFailures);
-            // Chronology disabled until I figure out how to make it less nonsensical.
-            //createChronology(suites, outputDirectory);
             createLog(outputDirectory, onlyFailures);
             copyResources(outputDirectory);
         }
@@ -199,27 +194,6 @@ public class HTMLReporter extends AbstractReporter
                                  context);
                 }
                 ++index2;
-            }
-            ++index;
-        }
-    }
-
-
-    private void createChronology(List<ISuite> suites, File outputDirectory) throws Exception
-    {
-        int index = 1;
-        for (ISuite suite : suites)
-        {
-            List<IInvokedMethod> methods = suite.getAllInvokedMethods();
-            if (!methods.isEmpty())
-            {
-                VelocityContext context = createContext();
-                context.put(SUITE_KEY, suite);
-                context.put(METHODS_KEY, methods);
-                String fileName = String.format("suite%d_%s", index, CHRONOLOGY_FILE);
-                generateFile(new File(outputDirectory, fileName),
-                             CHRONOLOGY_FILE + TEMPLATE_EXTENSION,
-                             context);
             }
             ++index;
         }
@@ -322,7 +296,6 @@ public class HTMLReporter extends AbstractReporter
     {
         copyClasspathResource(outputDirectory, "reportng.css", "reportng.css");
         copyClasspathResource(outputDirectory, "reportng.js", "reportng.js");
-        copyClasspathResource(outputDirectory, "sorttable.js", "sorttable.js");
         // If there is a custom stylesheet, copy that.
         File customStylesheet = META.getStylesheetPath();
 

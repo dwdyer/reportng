@@ -1,5 +1,5 @@
 ReportNG (http://reportng.uncommons.org)
-Copyright 2006-2011 Daniel W. Dyer (http://www.dandyer.co.uk)
+Copyright 2006-2013 Daniel W. Dyer (http://www.dandyer.co.uk)
 
 Acknowledgements:
 -----------------
