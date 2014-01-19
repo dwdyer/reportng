@@ -1,5 +1,6 @@
 <project name="reportng"
          xmlns:uncommons="antlib:org.uncommons.antlib"
+         xmlns:artifact="antlib:org.apache.maven.artifact.ant"
          default="dist"
          basedir=".">
   <description>Reporting plug-in for TestNG.</description>
@@ -26,8 +27,27 @@
            resource="org/uncommons/antlib/antlib.xml"
            classpathref="tool.path"/>
 
-  <property name="version" value="1.1.5"/>
-  <property name="artifact.identifier" value="reportng-${version}"/>
+  <typedef uri="antlib:org.apache.maven.artifact.ant"
+           resource="org/apache/maven/artifact/ant/antlib.xml"
+           classpathref="tool.path" />
+
+  <!-- define Maven coordinates -->
+  <property name="version" value="1.1.5-SNAPSHOT"/>
+  <property name="groupId" value="org.uncommons"/>
+  <property name="artifactId" value="reportng"/>
+  <property name="artifact.identifier" value="${artifactId}-${version}"/>
+
+  <!-- define artifacts' name, which follows the convention of Maven -->
+  <property name="maven-jar" value="${artifactId}-${version}.jar" />
+  <property name="maven-javadoc-jar" value="${artifactId}-${version}-javadoc.jar" />
+  <property name="maven-sources-jar" value="${artifactId}-${version}-sources.jar" />
+  <property name="maven-test-sources-jar" value="${artifactId}-${version}-test-sources.jar" />
+
+  <!-- defined maven snapshots and staging repository id and url -->
+  <property name="maven-snapshots-repository-id" value="sonatype-nexus-snapshots" />
+  <property name="maven-snapshots-repository-url" value="https://oss.sonatype.org/content/repositories/snapshots/" />
+  <property name="maven-staging-repository-id" value="sonatype-nexus-staging" />
+  <property name="maven-staging-repository-url" value="https://oss.sonatype.org/service/local/staging/deploy/maven2/" />
 
   <!-- This is the minimum coverage percentage (for both lines and
        branches) that will be tolerated.  This is used to prevent
@@ -63,14 +83,32 @@
   <!-- Build application JAR files. -->
   <target name="jar" depends="compile" description="Create the application JAR files.">
     <uncommons:jar module="reportng"
-                   jarfile="${artifact.identifier}.jar"
+                   jarfile="${maven-jar}"
                    classpath="velocity-dep-1.4.jar" />
+    <uncommons:source module="reportng"
+                   jarfile="${maven-sources-jar}" />
+    <uncommons:source module="reportng"
+                   tree="test"
+                   jarfile="${maven-test-sources-jar}" />
+    <uncommons:javadoc title="${artifactId}"
+                   dir="${artifactId}/build/reportng-javadoc"
+                   version="${version}" />
+    <jar jarfile="${artifactId}/build/${maven-javadoc-jar}">
+      <fileset dir="${artifactId}/build/reportng-javadoc" />
+    </jar>
   </target>
 
 
   <!-- Copy all necessary files to deployment directory. -->
   <target name="dist" depends="jar" description="Generate the deployment tree." >
     <uncommons:dist libdir="" />
+    <copy file="${artifactId}/pom.xml" tofile="${dist.dir}/pom.xml" overwrite="true">
+        <filterchain>
+            <replacetokens>
+                <token key="VERSION" value="${version}" />
+            </replacetokens>
+        </filterchain>
+    </copy>
   </target>
 
 
@@ -85,6 +123,62 @@
     </uncommons:release>
   </target>
 
+  <!-- It will deploy files into nexus snapshot server. So version should endswith SNAPSHOT -->
+  <target name="deploy" depends="dist" description="deploy snapshot version to Maven snapshot repository">
+    <artifact:mvn>
+      <arg value="org.apache.maven.plugins:maven-deploy-plugin:2.6:deploy-file" />
+      <arg value="-Durl=${maven-snapshots-repository-url}" />
+      <arg value="-DrepositoryId=${maven-snapshots-repository-id}" />
+      <arg value="-DpomFile=${dist.dir}/pom.xml" />
+      <arg value="-Dfile=${dist.dir}/${maven-jar}" />
+    </artifact:mvn>
+  </target>
+
+  <!-- before this, update project version (both build.xml and pom.xml) from SNAPSHOT to RELEASE -->
+  <target name="stage" depends="dist" description="deploy release version to Maven staging repository">
+    <!-- sign and deploy the main artifact -->
+    <artifact:mvn>
+      <arg value="org.apache.maven.plugins:maven-gpg-plugin:1.3:sign-and-deploy-file" />
+      <arg value="-Durl=${maven-staging-repository-url}" />
+      <arg value="-DrepositoryId=${maven-staging-repository-id}" />
+      <arg value="-DpomFile=${dist.dir}/pom.xml" />
+      <arg value="-Dfile=${dist.dir}/${maven-jar}" />
+      <arg value="-Pgpg" />
+    </artifact:mvn>
+
+    <!-- sign and deploy the sources artifact -->
+    <artifact:mvn>
+      <arg value="org.apache.maven.plugins:maven-gpg-plugin:1.3:sign-and-deploy-file" />
+      <arg value="-Durl=${maven-staging-repository-url}" />
+      <arg value="-DrepositoryId=${maven-staging-repository-id}" />
+      <arg value="-DpomFile=${dist.dir}/pom.xml" />
+      <arg value="-Dfile=${dist.dir}/${maven-sources-jar}" />
+      <arg value="-Dclassifier=sources" />
+      <arg value="-Pgpg" />
+    </artifact:mvn>
+
+    <!-- sign and deploy the javadoc artifact -->
+    <artifact:mvn>
+      <arg value="org.apache.maven.plugins:maven-gpg-plugin:1.3:sign-and-deploy-file" />
+      <arg value="-Durl=${maven-staging-repository-url}" />
+      <arg value="-DrepositoryId=${maven-staging-repository-id}" />
+      <arg value="-DpomFile=${dist.dir}/pom.xml" />
+      <arg value="-Dfile=${dist.dir}/${maven-javadoc-jar}" />
+      <arg value="-Dclassifier=javadoc" />
+      <arg value="-Pgpg" />
+    </artifact:mvn>
+
+    <!-- sign and deploy the javadoc artifact -->
+    <artifact:mvn>
+      <arg value="org.apache.maven.plugins:maven-gpg-plugin:1.3:sign-and-deploy-file" />
+      <arg value="-Durl=${maven-staging-repository-url}" />
+      <arg value="-DrepositoryId=${maven-staging-repository-id}" />
+      <arg value="-DpomFile=${dist.dir}/pom.xml" />
+      <arg value="-Dfile=${dist.dir}/${maven-test-sources-jar}" />
+      <arg value="-Dclassifier=tests" />
+      <arg value="-Pgpg" />
+    </artifact:mvn>
+  </target>
 
   <target name="test" depends="jar" description="Run the unit tests.">
     <uncommons:test suites="${conf.dir}/testng.xml"
