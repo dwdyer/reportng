@@ -10,6 +10,7 @@
   #if ($meta.stylesheetPath)
   <link href="custom.css" rel="stylesheet" type="text/css" />
   #end
+  <script type="text/javascript" src="reportng.js"></script>
 </head>
 <body>
 <div id="meta">
