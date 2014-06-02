@@ -23,7 +23,7 @@ import org.testng.ITestNGMethod;
  * (first by fully-qualified class name, then by method name).
  * @author Daniel Dyer
  */
-class TestMethodComparator implements Comparator<ITestNGMethod>
+public class TestMethodComparator implements Comparator<ITestNGMethod>
 {
     public int compare(ITestNGMethod method1,
                        ITestNGMethod method2)

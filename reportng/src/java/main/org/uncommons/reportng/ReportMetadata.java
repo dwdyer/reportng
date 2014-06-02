@@ -40,14 +40,14 @@ public final class ReportMetadata
     static final String LOCALE_KEY = PROPERTY_KEY_PREFIX + "locale";
     static final String VELOCITY_LOG_KEY = PROPERTY_KEY_PREFIX + "velocity-log";
 
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("EEEE dd MMMM yyyy");
-    private static final DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm z");
+    protected static final DateFormat DATE_FORMAT = new SimpleDateFormat("EEEE dd MMMM yyyy");
+    protected static final DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm z");
     
 
     /**
      * The date/time at which this report is being generated.
      */
-    private final Date reportTime = new Date();
+    protected final Date reportTime = new Date();
 
 
     /**

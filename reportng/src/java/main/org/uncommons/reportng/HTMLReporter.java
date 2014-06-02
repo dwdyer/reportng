@@ -46,34 +46,34 @@ import org.testng.xml.XmlSuite;
  */
 public class HTMLReporter extends AbstractReporter
 {
-    private static final String FRAMES_PROPERTY = "org.uncommons.reportng.frames";
-    private static final String ONLY_FAILURES_PROPERTY = "org.uncommons.reportng.failures-only";
+    protected static final String FRAMES_PROPERTY = "org.uncommons.reportng.frames";
+    protected static final String ONLY_FAILURES_PROPERTY = "org.uncommons.reportng.failures-only";
 
-    private static final String TEMPLATES_PATH = "org/uncommons/reportng/templates/html/";
-    private static final String INDEX_FILE = "index.html";
-    private static final String SUITES_FILE = "suites.html";
-    private static final String OVERVIEW_FILE = "overview.html";
-    private static final String GROUPS_FILE = "groups.html";
-    private static final String RESULTS_FILE = "results.html";
-    private static final String OUTPUT_FILE = "output.html";
-    private static final String CUSTOM_STYLE_FILE = "custom.css";
+    protected static final String TEMPLATES_PATH = "org/uncommons/reportng/templates/html/";
+    protected static final String INDEX_FILE = "index.html";
+    protected static final String SUITES_FILE = "suites.html";
+    protected static final String OVERVIEW_FILE = "overview.html";
+    protected static final String GROUPS_FILE = "groups.html";
+    protected static final String RESULTS_FILE = "results.html";
+    protected static final String OUTPUT_FILE = "output.html";
+    protected static final String CUSTOM_STYLE_FILE = "custom.css";
 
-    private static final String SUITE_KEY = "suite";
-    private static final String SUITES_KEY = "suites";
-    private static final String GROUPS_KEY = "groups";
-    private static final String RESULT_KEY = "result";
-    private static final String FAILED_CONFIG_KEY = "failedConfigurations";
-    private static final String SKIPPED_CONFIG_KEY = "skippedConfigurations";
-    private static final String FAILED_TESTS_KEY = "failedTests";
-    private static final String SKIPPED_TESTS_KEY = "skippedTests";
-    private static final String PASSED_TESTS_KEY = "passedTests";
-    private static final String ONLY_FAILURES_KEY = "onlyReportFailures";
+    protected static final String SUITE_KEY = "suite";
+    protected static final String SUITES_KEY = "suites";
+    protected static final String GROUPS_KEY = "groups";
+    protected static final String RESULT_KEY = "result";
+    protected static final String FAILED_CONFIG_KEY = "failedConfigurations";
+    protected static final String SKIPPED_CONFIG_KEY = "skippedConfigurations";
+    protected static final String FAILED_TESTS_KEY = "failedTests";
+    protected static final String SKIPPED_TESTS_KEY = "skippedTests";
+    protected static final String PASSED_TESTS_KEY = "passedTests";
+    protected static final String ONLY_FAILURES_KEY = "onlyReportFailures";
 
-    private static final String REPORT_DIRECTORY = "html";
+    protected static final String REPORT_DIRECTORY = "html";
 
-    private static final Comparator<ITestNGMethod> METHOD_COMPARATOR = new TestMethodComparator();
-    private static final Comparator<ITestResult> RESULT_COMPARATOR = new TestResultComparator();
-    private static final Comparator<IClass> CLASS_COMPARATOR = new TestClassComparator();
+    protected static final Comparator<ITestNGMethod> METHOD_COMPARATOR = new TestMethodComparator();
+    protected static final Comparator<ITestResult> RESULT_COMPARATOR = new TestResultComparator();
+    protected static final Comparator<IClass> CLASS_COMPARATOR = new TestClassComparator();
 
     public HTMLReporter()
     {
@@ -123,7 +123,7 @@ public class HTMLReporter extends AbstractReporter
      * Create the index file that sets up the frameset.
      * @param outputDirectory The target directory for the generated file(s).
      */
-    private void createFrameset(File outputDirectory) throws Exception
+    protected void createFrameset(File outputDirectory) throws Exception
     {
         VelocityContext context = createContext();
         generateFile(new File(outputDirectory, INDEX_FILE),
@@ -132,7 +132,7 @@ public class HTMLReporter extends AbstractReporter
     }
 
 
-    private void createOverview(List<ISuite> suites,
+    protected void createOverview(List<ISuite> suites,
                                 File outputDirectory,
                                 boolean isIndex,
                                 boolean onlyFailures) throws Exception
@@ -150,7 +150,7 @@ public class HTMLReporter extends AbstractReporter
      * Create the navigation frame.
      * @param outputDirectory The target directory for the generated file(s).
      */
-    private void createSuiteList(List<ISuite> suites,
+    protected void createSuiteList(List<ISuite> suites,
                                  File outputDirectory,
                                  boolean onlyFailures) throws Exception
     {
@@ -167,7 +167,7 @@ public class HTMLReporter extends AbstractReporter
      * Generate a results file for each test in each suite.
      * @param outputDirectory The target directory for the generated file(s).
      */
-    private void createResults(List<ISuite> suites,
+    protected void createResults(List<ISuite> suites,
                                File outputDirectory,
                                boolean onlyShowFailures) throws Exception
     {
@@ -203,7 +203,7 @@ public class HTMLReporter extends AbstractReporter
     /**
      * Group test methods by class and sort alphabetically.
      */ 
-    private SortedMap<IClass, List<ITestResult>> sortByTestClass(IResultMap results)
+    protected SortedMap<IClass, List<ITestResult>> sortByTestClass(IResultMap results)
     {
         SortedMap<IClass, List<ITestResult>> sortedResults = new TreeMap<IClass, List<ITestResult>>(CLASS_COMPARATOR);
         for (ITestResult result : results.getAllResults())
@@ -230,7 +230,7 @@ public class HTMLReporter extends AbstractReporter
      * Generate a groups list for each suite.
      * @param outputDirectory The target directory for the generated file(s).
      */
-    private void createGroups(List<ISuite> suites,
+    protected void createGroups(List<ISuite> suites,
                               File outputDirectory) throws Exception
     {
         int index = 1;
@@ -256,7 +256,7 @@ public class HTMLReporter extends AbstractReporter
      * Generate a groups list for each suite.
      * @param outputDirectory The target directory for the generated file(s).
      */
-    private void createLog(File outputDirectory, boolean onlyFailures) throws Exception
+    protected void createLog(File outputDirectory, boolean onlyFailures) throws Exception
     {
         if (!Reporter.getOutput().isEmpty())
         {
@@ -273,7 +273,7 @@ public class HTMLReporter extends AbstractReporter
      * Sorts groups alphabetically and also sorts methods within groups alphabetically
      * (class name first, then method name).  Also eliminates duplicate entries.
      */
-    private SortedMap<String, SortedSet<ITestNGMethod>> sortGroups(Map<String, Collection<ITestNGMethod>> groups)
+    protected SortedMap<String, SortedSet<ITestNGMethod>> sortGroups(Map<String, Collection<ITestNGMethod>> groups)
     {
         SortedMap<String, SortedSet<ITestNGMethod>> sortedGroups = new TreeMap<String, SortedSet<ITestNGMethod>>();
         for (Map.Entry<String, Collection<ITestNGMethod>> entry : groups.entrySet())
@@ -292,7 +292,7 @@ public class HTMLReporter extends AbstractReporter
      * @param outputDirectory Where to put the resources.
      * @throws IOException If the resources can't be read or written.
      */
-    private void copyResources(File outputDirectory) throws IOException
+    protected void copyResources(File outputDirectory) throws IOException
     {
         copyClasspathResource(outputDirectory, "reportng.css", "reportng.css");
         copyClasspathResource(outputDirectory, "reportng.js", "reportng.js");

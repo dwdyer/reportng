@@ -38,19 +38,19 @@ import org.testng.IReporter;
  */
 public abstract class AbstractReporter implements IReporter
 {
-    private static final String ENCODING = "UTF-8";
+    protected static final String ENCODING = "UTF-8";
 
     protected static final String TEMPLATE_EXTENSION = ".vm";
 
-    private static final String META_KEY ="meta";
+    protected static final String META_KEY ="meta";
     protected static final ReportMetadata META = new ReportMetadata();
-    private static final String UTILS_KEY ="utils";
-    private static final ReportNGUtils UTILS = new ReportNGUtils();
-    private static final String MESSAGES_KEY ="messages";
-    private static final ResourceBundle MESSAGES = ResourceBundle.getBundle("org.uncommons.reportng.messages.reportng",
+    protected static final String UTILS_KEY ="utils";
+    protected static final ReportNGUtils UTILS = new ReportNGUtils();
+    protected static final String MESSAGES_KEY ="messages";
+    protected static final ResourceBundle MESSAGES = ResourceBundle.getBundle("org.uncommons.reportng.messages.reportng",
                                                                             META.getLocale());
 
-    private final String classpathPrefix;
+    protected final String classpathPrefix;
 
 
     /**
@@ -220,7 +220,7 @@ public abstract class AbstractReporter implements IReporter
     }
 
 
-    private static final class EmptyDirectoryFilter implements FileFilter
+    protected static final class EmptyDirectoryFilter implements FileFilter
     {
         public boolean accept(File file)
         {
