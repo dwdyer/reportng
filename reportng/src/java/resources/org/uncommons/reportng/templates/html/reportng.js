@@ -14,12 +14,12 @@ function toggle(toggleId) {
 
 function loadExternal(elementID, src) {
 	var element = document.getElementById(elementID)
-	if (element.innerHTML === "") {
+	if ("".indexOf(element.innerHTML) == 0) {
 		element.innerHTML = "Loading...";
 		var client = new XMLHttpRequest();
 		client.open('GET', src);
 		client.onreadystatechange = function() {
-			element.innerHTML = client.responseText;
+			element.innerHTML = "<pre>" + client.responseText +"</pre>";
 		}
 		client.send();
 	}
