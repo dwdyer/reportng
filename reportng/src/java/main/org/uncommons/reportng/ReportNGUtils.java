@@ -51,32 +51,10 @@ public class ReportNGUtils
      */
     public long getDuration(ITestContext context)
     {
-        long duration = getDuration(context.getPassedConfigurations().getAllResults());
-        duration += getDuration(context.getPassedTests().getAllResults());
-        // You would expect skipped tests to have durations of zero, but apparently not.
-        duration += getDuration(context.getSkippedConfigurations().getAllResults());
-        duration += getDuration(context.getSkippedTests().getAllResults());
-        duration += getDuration(context.getFailedConfigurations().getAllResults());
-        duration += getDuration(context.getFailedTests().getAllResults());
+        long duration = context.getEndDate().getTime() - context.getStartDate().getTime();
         return duration;
     }
-
-
-    /**
-     * Returns the aggregate of the elapsed times for each test result.
-     * @param results A set of test results.
-     * @return The sum of the test durations.
-     */
-    private long getDuration(Set<ITestResult> results)
-    {
-        long duration = 0;
-        for (ITestResult result : results)
-        {
-            duration += (result.getEndMillis() - result.getStartMillis());
-        }
-        return duration;
-    }
-
+    
 
     public String formatDuration(long startMillis, long endMillis)
     {
@@ -87,8 +65,25 @@ public class ReportNGUtils
 
     public String formatDuration(long elapsed)
     {
+
+        String timeDuration = "";
+
         double seconds = (double) elapsed / 1000;
-        return DURATION_FORMAT.format(seconds);
+        double secRemaining = seconds % 60;
+        int minutes = (int) (seconds / 60);
+        int hours = (int) (seconds / 3600);
+
+        if (hours != 0) {
+            timeDuration += hours + "hrs ";
+        }
+        
+        if(minutes !=0){
+            timeDuration += minutes + "mins ";
+        }
+
+        timeDuration += DURATION_SEC_FORMAT.format(secRemaining);
+        
+        return timeDuration;
     }
 
 
