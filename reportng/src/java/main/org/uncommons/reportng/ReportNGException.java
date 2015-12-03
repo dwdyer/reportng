@@ -22,7 +22,13 @@ package org.uncommons.reportng;
  */
 public class ReportNGException extends RuntimeException
 {
-    public ReportNGException(String string)
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8734055063318321976L;
+
+	public ReportNGException(String string)
     {
         super(string);
     }

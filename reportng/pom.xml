@@ -5,12 +5,28 @@
 
 <modelVersion>4.0.0</modelVersion>
   <name>ReportNG</name>
-  <groupId>org.uncommons</groupId>
+  <groupId>il.co.topq.integframework</groupId>
   <artifactId>reportng</artifactId>
-  <version>@VERSION@</version>
+  <version>1.1.41</version>
   <packaging>jar</packaging>
   <url>https://reportng.dev.java.net/</url>
 
+<build>
+	<sourceDirectory>src/java/main/</sourceDirectory>
+	<resources>
+	<resource><directory>src/java/resources</directory></resource>
+	<resource><directory>css/java/resources</directory></resource>
+	</resources>
+	<plugins><plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin></plugins>
+</build>
   <licenses>
     <license>
       <name>Apache License, Version 2.0</name>
