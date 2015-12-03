@@ -102,6 +102,10 @@ public abstract class AbstractReporter implements IReporter
                                 String templateName,
                                 VelocityContext context) throws Exception
     {
+        /*System.out.println("generateFile() " + file.getName() + "/" + templateName);
+        for (Object o : context.getKeys()) {
+            System.out.println("   " + o + "=" + context.get((String) o));
+        }*/
         Writer writer = new BufferedWriter(new FileWriter(file));
         try
         {
@@ -110,6 +114,9 @@ public abstract class AbstractReporter implements IReporter
                                    context,
                                    writer);
             writer.flush();
+        } catch (Exception ex) {
+            System.out.println("Failed to generate file " + file.getName() + " template=" + templateName);
+            throw ex;
         }
         finally
         {

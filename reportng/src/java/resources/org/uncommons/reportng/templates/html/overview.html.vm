@@ -34,16 +34,17 @@
   #set ($totalTests = 0)
   #set ($totalPassed = 0)
   #set ($totalSkipped = 0)
+  #set ($totalFailedOk = 0)
   #set ($totalFailed = 0)
   <tr>
-    <th colspan="6" class="header suite">
+    <th colspan="7" class="header suite">
       <div class="suiteLinks">
         #if (!$suite.invokedMethods.empty)
         ##<a href="suite${suiteId}_chronology.html">$messages.getString("chronology")</a>
         #end
         #if ($utils.hasGroups($suite))
         <a href="suite${suiteId}_groups.html">$messages.getString("groups")</a>
-        #end        
+        #end
       </div>
       ${suite.name}
     </th>
@@ -52,15 +53,17 @@
     <td>&nbsp;</td>
     <th>$messages.getString("duration")</th>
     <th>$messages.getString("passed")</th>
+    <th>$messages.getString("failedOk")</th>
     <th>$messages.getString("skipped")</th>
     <th>$messages.getString("failed")</th>
     <th>$messages.getString("passRate")</th>
   </tr>
   #foreach ($result in $suite.results)
   #set ($notPassedTests = $result.testContext.skippedTests.size() + $result.testContext.failedTests.size())
-  #set ($total = $result.testContext.passedTests.size() + $notPassedTests)
+  #set ($total = $result.testContext.passedTests.size() + $result.testContext.failedButWithinSuccessPercentageTests.size() + $notPassedTests)
   #set ($totalTests = $totalTests + $total)
   #set ($totalPassed = $totalPassed + $result.testContext.passedTests.size())
+  #set ($totalFailedOk = $totalFailedOk + $result.testContext.failedButWithinSuccessPercentageTests.size())
   #set ($totalSkipped = $totalSkipped + $result.testContext.skippedTests.size())
   #set ($totalFailed = $totalFailed + $result.testContext.failedTests.size())
   #set ($failuresExist = $result.testContext.failedTests.size()>0 || $result.testContext.failedConfigurations.size()>0)
@@ -76,6 +79,12 @@
 
     #if ($result.testContext.passedTests.size() > 0)
     <td class="passed number">$result.testContext.passedTests.size()</td>
+    #else
+    <td class="zero number">0</td>
+    #end
+
+    #if ($result.testContext.failedButWithinSuccessPercentageTests.size() > 0)
+    <td class="failedOk number">$result.testContext.failedButWithinSuccessPercentageTests.size()</td>
     #else
     <td class="zero number">0</td>
     #end
@@ -109,6 +118,12 @@
 
     #if ($totalPassed > 0)
     <td class="passed number">$totalPassed</td>
+    #else
+    <td class="zero number">0</td>
+    #end
+
+    #if ($totalFailedOk > 0)
+    <td class="failedOk number">$totalFailedOk</td>
     #else
     <td class="zero number">0</td>
     #end

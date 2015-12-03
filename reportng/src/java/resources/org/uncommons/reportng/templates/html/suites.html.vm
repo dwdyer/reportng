@@ -32,6 +32,9 @@
     <tr>
       <th class="header suite" onclick="toggleElement('tests-${velocityCount}', 'table-row-group'); toggle('toggle-${velocityCount}')">
         <span id="toggle-${velocityCount}" class="toggle">&#x25bc;</span>${suite.name}
+        #if ($suite.getAttribute("TEST_VERSION") && $suite.getAttribute("TEST_VERSION") != '')
+        &#x28;$suite.getAttribute("TEST_VERSION")&#x29;
+        #end
       </th>
     </tr>
   </thead>

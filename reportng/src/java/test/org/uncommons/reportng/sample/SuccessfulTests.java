@@ -15,6 +15,10 @@
 //=============================================================================
 package org.uncommons.reportng.sample;
 
+import java.util.Random;
+
+import org.testng.Assert;
+import org.testng.ITestContext;
 import org.testng.Reporter;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
@@ -28,6 +32,17 @@ import org.testng.annotations.Test;
 @Test(groups = "should-pass")
 public class SuccessfulTests
 {
+    private static int count = 0;
+
+    @Test
+    public void setSuiteVersion(ITestContext ctx) {
+        if (ctx.getSuite().getAttribute("TEST_VERSION") == null) {
+            if (++count % 2 == 1) {
+                ctx.getSuite().setAttribute("TEST_VERSION", "1." + count + "." + new Random().nextInt(50));
+            }
+        }
+    }
+
     @Test
     public void test()
     {
@@ -59,6 +74,17 @@ public class SuccessfulTests
         assert true;
     }
 
+    private int i = 0;
+
+    @Test(successPercentage=80, invocationCount=5)
+    public void testSuccessPercentage() {
+        i++;
+        Reporter.log("testSuccessPercentage test method, invocation count: " + i);
+        if (i == 1 || i == 2) {
+            Reporter.log("fail testSuccessPercentage");
+            Assert.assertEquals(i, 10);
+        }
+    }
 
     @AfterMethod
     public void afterMethod()

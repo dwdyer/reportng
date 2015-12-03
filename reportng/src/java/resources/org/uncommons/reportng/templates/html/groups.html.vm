@@ -21,7 +21,7 @@
     </tr>
     #foreach ($test in $groups.get($group))
     <tr>
-      <td>${test.realClass.name}.<b>${test.methodName}</b></td>    
+      <td>${test.realClass.name}.<b>${test.methodName}</b></td>
     </tr>
     #end
   #end

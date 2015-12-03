@@ -27,7 +27,7 @@ public class ReportNGException extends RuntimeException
         super(string);
     }
 
-    
+
     public ReportNGException(String string, Throwable throwable)
     {
         super(string, throwable);

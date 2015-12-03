@@ -12,6 +12,7 @@ td.totalLabel       {border-bottom: 0; border-left: 0;}
 .passed             {background-color: inherit; color: #3465a4; font-weight: bold;}
 .skipped            {background-color: inherit; color: #ddbb00; font-weight: bold;}
 .failed             {background-color: inherit; color: #ef2929; font-weight: bold;}
+.failedOk           {background-color: inherit; color: #ffe4b3; font-weight: bold;}
 .failedConfig       {background-color: #ef2929; font-weight: bold; color: #ffffff}
 .skippedConfig      {background-color: #ddbb00; font-weight: bold; color: #ffffff}
 
@@ -25,6 +26,7 @@ td.totalLabel       {border-bottom: 0; border-left: 0;}
 .test .passed       {background-color: inherit;}
 .test .skipped      {background-color: inherit;}
 .test .failed       {background-color: inherit;}
+.test .failedOk     {background-color: inherit;}
 
 .header.suite       {border: 1px #b0b0b0 solid; margin-top: 0;}
 #suites .test       {border: 1px #b0b0b0 solid; margin-top: 0;}

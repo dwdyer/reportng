@@ -9,8 +9,9 @@ td                       {font-size: 1.3em;}
 
 .header                  {font-size: 1.4em; font-weight: bold; text-align: left;}
 .passed                  {background-color: #44aa44;}
-.skipped                 {background-color: #ffaa00;}
+.skipped                 {background-color: #33bbff;}
 .failed                  {background-color: #ff4444;}
+.failedOk                {background-color: #ffa500;}
 .failedConfig            {background-color: #800000; color: #ffffff}
 .skippedConfig           {background-color: #cc6600; color: #ffffff}
 .totalLabel              {font-weight: bold; background-color: #ffffff;}
@@ -18,8 +19,9 @@ td                       {font-size: 1.3em;}
 .suite                   {background-color: #999999; font-weight: bold;}
 .test                    {background-color: #eeeeee; padding-left: 2em;}
 .test .passed            {background-color: #88ee88;}
-.test .skipped           {background-color: #ffff77;}
+.test .skipped           {background-color: #b3e6ff;}
 .test .failed            {background-color: #ff8888;}
+.test .failedOk          {background-color: #ffffb3;}
 .group                   {background-color: #cccccc; color: #000000; font-weight: bold;}
 .suiteLinks              {float: right; font-weight: normal; vertical-align: middle;}
 .suiteLinks a            {color: #ffffff; margin-left: .5em;}

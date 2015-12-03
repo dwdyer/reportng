@@ -17,7 +17,7 @@
       <failure type="$testResult.throwable.class.name"
         #if ($testResult.throwable.message)
           message="$utils.escapeString($testResult.throwable.message)"
-        #else 
+        #else
           message="(null)"
         #end
       >

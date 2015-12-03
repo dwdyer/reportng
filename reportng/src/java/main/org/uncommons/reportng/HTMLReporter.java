@@ -67,6 +67,7 @@ public class HTMLReporter extends AbstractReporter
     private static final String FAILED_TESTS_KEY = "failedTests";
     private static final String SKIPPED_TESTS_KEY = "skippedTests";
     private static final String PASSED_TESTS_KEY = "passedTests";
+    private static final String SUCCESS_PERCENT_FAIL_KEY = "failedOkTests";
     private static final String ONLY_FAILURES_KEY = "onlyReportFailures";
 
     private static final String REPORT_DIRECTORY = "html";
@@ -80,7 +81,7 @@ public class HTMLReporter extends AbstractReporter
         super(TEMPLATES_PATH);
     }
 
-    
+
     /**
      * Generates a set of HTML files that contain data about the outcome of
      * the specified test suites.
@@ -92,7 +93,7 @@ public class HTMLReporter extends AbstractReporter
                                String outputDirectoryName)
     {
         removeEmptyDirectories(new File(outputDirectoryName));
-        
+
         boolean useFrames = System.getProperty(FRAMES_PROPERTY, "true").equals("true");
         boolean onlyFailures = System.getProperty(ONLY_FAILURES_PROPERTY, "false").equals("true");
 
@@ -171,6 +172,7 @@ public class HTMLReporter extends AbstractReporter
                                File outputDirectory,
                                boolean onlyShowFailures) throws Exception
     {
+        // System.out.println("createResults() " + onlyShowFailures);
         int index = 1;
         for (ISuite suite : suites)
         {
@@ -188,6 +190,8 @@ public class HTMLReporter extends AbstractReporter
                     context.put(FAILED_TESTS_KEY, sortByTestClass(result.getTestContext().getFailedTests()));
                     context.put(SKIPPED_TESTS_KEY, sortByTestClass(result.getTestContext().getSkippedTests()));
                     context.put(PASSED_TESTS_KEY, sortByTestClass(result.getTestContext().getPassedTests()));
+                    // System.out.println("Putting " + SUCCESS_PERCENT_FAIL_KEY + " into context");
+                    context.put(SUCCESS_PERCENT_FAIL_KEY, sortByTestClass(result.getTestContext().getFailedButWithinSuccessPercentageTests()));
                     String fileName = String.format("suite%d_test%d_%s", index, index2, RESULTS_FILE);
                     generateFile(new File(outputDirectory, fileName),
                                  RESULTS_FILE + TEMPLATE_EXTENSION,
@@ -202,7 +206,7 @@ public class HTMLReporter extends AbstractReporter
 
     /**
      * Group test methods by class and sort alphabetically.
-     */ 
+     */
     private SortedMap<IClass, List<ITestResult>> sortByTestClass(IResultMap results)
     {
         SortedMap<IClass, List<ITestResult>> sortedResults = new TreeMap<IClass, List<ITestResult>>(CLASS_COMPARATOR);
@@ -245,7 +249,7 @@ public class HTMLReporter extends AbstractReporter
                 String fileName = String.format("suite%d_%s", index, GROUPS_FILE);
                 generateFile(new File(outputDirectory, fileName),
                              GROUPS_FILE + TEMPLATE_EXTENSION,
-                             context);                
+                             context);
             }
             ++index;
         }

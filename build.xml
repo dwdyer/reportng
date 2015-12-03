@@ -4,11 +4,11 @@
          basedir=".">
   <description>Reporting plug-in for TestNG.</description>
 
-  
+
 <!-- ==================================================================
      GLOBAL BUILD PROPERTIES
 =================================================================== -->
-  
+
   <!-- Project-global locations. -->
   <property name="conf.dir" value="etc" />
   <property name="lib.dir" value="lib" />
@@ -26,7 +26,7 @@
            resource="org/uncommons/antlib/antlib.xml"
            classpathref="tool.path"/>
 
-  <property name="version" value="1.1.5"/>
+  <property name="version" value="1.1.7"/>
   <property name="artifact.identifier" value="reportng-${version}"/>
 
   <!-- This is the minimum coverage percentage (for both lines and
@@ -41,9 +41,9 @@
 =================================================================== -->
 
   <!-- Builds everything from scratch. -->
-  <target name="all" depends="clean, dist" description="Builds everything, excluding docs, from scratch."/>  
-  
-  
+  <target name="all" depends="clean, dist" description="Builds everything, excluding docs, from scratch."/>
+
+
   <!-- Deletes all directories and files created by the build process. -->
   <target name="clean" description="Remove all files created by the build process." >
     <delete dir="${docs.dir}" />
@@ -51,9 +51,9 @@
     <delete dir="${release.dir}" />
     <delete dir="${temp.dir}" />
     <uncommons:clean module="reportng" />
-  </target>    
-  
-  
+  </target>
+
+
   <!-- Build all Java code. -->
   <target name="compile" description="Compile the source." >
     <uncommons:compile module="reportng" />
@@ -109,6 +109,6 @@
       <report format="frames" todir="${docs.dir}/sample/xslt"/>
     </junitreport>
   </target>
-  
-  
+
+
 </project>
