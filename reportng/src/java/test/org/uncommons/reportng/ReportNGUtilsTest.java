@@ -24,15 +24,15 @@ import org.testng.annotations.Test;
  */
 public class ReportNGUtilsTest
 {
-	private final ReportNGUtils utils = new ReportNGUtils();
+    private final ReportNGUtils utils = new ReportNGUtils();
 
-	@Test
-	public void testEscapeTags()
+    @Test
+    public void testEscapeTags()
     {
-		final String originalString = "</ns1:ErrorCode>";
-		String escapedString = utils.escapeString(originalString);
-		assert escapedString.equals("&lt;/ns1:ErrorCode&gt;") : "Wrong escaping: " + escapedString;
-	}
+        final String originalString = "</ns1:ErrorCode>";
+        String escapedString = utils.escapeString(originalString);
+        assert escapedString.equals("&lt;/ns1:ErrorCode&gt;") : "Wrong escaping: " + escapedString;
+    }
 
 
     @Test
@@ -49,21 +49,21 @@ public class ReportNGUtilsTest
     {
         final String originalString = "&&";
         String escapedString = utils.escapeString(originalString);
-        assert escapedString.equals("&amp;&amp;") : "Wrong escaping: " + escapedString;        
+        assert escapedString.equals("&amp;&amp;") : "Wrong escaping: " + escapedString;
     }
 
 
     @Test
-	public void testEscapeSpaces()
+    public void testEscapeSpaces()
     {
-		final String originalString = "    ";
+        final String originalString = "    ";
         // Spaces should not be escaped in XML...
         String escapedString = utils.escapeString(originalString);
         assert escapedString.equals(originalString) : "Wrong escaping: " + escapedString;
         // ...only in HTML.
         escapedString = utils.escapeHTMLString(originalString);
-		assert escapedString.equals("&nbsp;&nbsp;&nbsp; ") : "Wrong escaping: " + escapedString;
-	}
+        assert escapedString.equals("&nbsp;&nbsp;&nbsp; ") : "Wrong escaping: " + escapedString;
+    }
 
 
     @Test

@@ -94,7 +94,7 @@ public class ReportNGUtils
 
     /**
      * Convert a Throwable into a list containing all of its causes.
-     * @param t The throwable for which the causes are to be returned. 
+     * @param t The throwable for which the causes are to be returned.
      * @return A (possibly empty) list of {@link Throwable}s.
      */
     public List<Throwable> getCauses(Throwable t)
@@ -219,15 +219,15 @@ public class ReportNGUtils
         String[] methods = result.getMethod().getMethodsDependedUpon();
         return commaSeparate(Arrays.asList(methods));
     }
-    
-    
-    public boolean hasSkipException(ITestResult result) 
+
+
+    public boolean hasSkipException(ITestResult result)
     {
-    	return result.getThrowable() instanceof SkipException;
+        return result.getThrowable() instanceof SkipException;
     }
-    
-    
-    public String getSkipExceptionMessage(ITestResult result) 
+
+
+    public String getSkipExceptionMessage(ITestResult result)
     {
         return hasSkipException(result) ? result.getThrowable().getMessage() : "";
     }
@@ -276,7 +276,7 @@ public class ReportNGUtils
         {
             return null;
         }
-        
+
         StringBuilder buffer = new StringBuilder();
         for(int i = 0; i < s.length(); i++)
         {
@@ -309,7 +309,7 @@ public class ReportNGUtils
 
     /**
      * Works like {@link #escapeString(String)} but also replaces line breaks with
-     * &lt;br /&gt; tags and preserves significant whitespace. 
+     * &lt;br /&gt; tags and preserves significant whitespace.
      * @param s The String to escape.
      * @return The escaped String.
      */
@@ -319,7 +319,7 @@ public class ReportNGUtils
         {
             return null;
         }
-        
+
         StringBuilder buffer = new StringBuilder();
         for(int i = 0; i < s.length(); i++)
         {
@@ -404,7 +404,7 @@ public class ReportNGUtils
      * Returns the timestamp for the time at which the suite finished executing.
      * This is determined by finding the latest end time for each of the individual
      * tests in the suite.
-     * @param suite The suite to find the end time of. 
+     * @param suite The suite to find the end time of.
      * @return The end time (as a number of milliseconds since 00:00 1st January 1970 UTC).
      */
     private long getEndTime(ISuite suite, IInvokedMethod method)

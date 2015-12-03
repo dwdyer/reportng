@@ -6,3 +6,7 @@ docs
 website
 release
 temp
+.classpath
+.project
+.settings
+target

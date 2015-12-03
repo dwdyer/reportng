@@ -18,7 +18,7 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-  
+
   <dependencies>
     <dependency>
       <groupId>org.testng</groupId>
@@ -31,5 +31,5 @@
       <version>1.4</version>
     </dependency>
   </dependencies>
-  
+
 </project>

@@ -15,6 +15,7 @@
 //=============================================================================
 package org.uncommons.reportng.sample;
 
+import org.testng.Assert;
 import org.testng.Reporter;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
@@ -59,6 +60,17 @@ public class SuccessfulTests
         assert true;
     }
 
+    private int i = 0;
+
+    @Test(successPercentage=80, invocationCount=5)
+    public void testSuccessPercentage() {
+        i++;
+        Reporter.log("testSuccessPercentage test method, invocation count: " + i);
+        if (i == 1 || i == 2) {
+            Reporter.log("fail testSuccessPercentage");
+            Assert.assertEquals(i, 10);
+        }
+    }
 
     @AfterMethod
     public void afterMethod()

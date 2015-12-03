@@ -42,7 +42,7 @@ public final class ReportMetadata
 
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("EEEE dd MMMM yyyy");
     private static final DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm z");
-    
+
 
     /**
      * The date/time at which this report is being generated.
@@ -190,7 +190,7 @@ public final class ReportMetadata
                 case 1: return new Locale(locale);
                 case 2: return new Locale(components[0], components[1]);
                 case 3: return new Locale(components[0], components[1], components[2]);
-                default: System.err.println("Invalid locale specified: " + locale);  
+                default: System.err.println("Invalid locale specified: " + locale);
             }
         }
         return Locale.getDefault();

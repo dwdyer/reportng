@@ -14,7 +14,7 @@
 <body>
   <h1>$messages.getString("logOutput")</h1>
   <p>
-    $messages.getString("logOutput.description")    
+    $messages.getString("logOutput.description")
   </p>
 
   <div id="log">

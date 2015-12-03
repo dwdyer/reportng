@@ -73,6 +73,19 @@
   </table>
 #end
 
+#if ($failedOkTests.size() > 0)
+  <table class="resultsTable">
+    <tr><th colspan="3" class="header failedOk">$messages.getString("failedOkTests")</th></tr>
+    #foreach ($testClass in $failedOkTests.keySet())
+      <tr>
+        <td colspan="3" class="group">$testClass.name</td>
+      </tr>
+      #set ($classResults = $failedOkTests.get($testClass))
+      #parse ("org/uncommons/reportng/templates/html/class-results.html.vm")
+    #end
+  </table>
+#end
+
 #if ($passedTests.size() > 0)
   <table class="resultsTable">
     <tr><th colspan="3" class="header passed">$messages.getString("passedTests")</th></tr>
@@ -85,6 +98,6 @@
     #end
   </table>
 #end
-  
+
 </body>
 </html>
