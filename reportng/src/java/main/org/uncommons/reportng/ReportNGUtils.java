@@ -41,8 +41,8 @@ import org.testng.SkipException;
  */
 public class ReportNGUtils
 {
-    private static final NumberFormat DURATION_FORMAT = new DecimalFormat("#0.000");
-    private static final NumberFormat PERCENTAGE_FORMAT = new DecimalFormat("#0.00%");
+    protected static final NumberFormat DURATION_FORMAT = new DecimalFormat("#0.000");
+    protected static final NumberFormat PERCENTAGE_FORMAT = new DecimalFormat("#0.00%");
 
     /**
      * Returns the aggregate of the elapsed times for each test result.
@@ -67,7 +67,7 @@ public class ReportNGUtils
      * @param results A set of test results.
      * @return The sum of the test durations.
      */
-    private long getDuration(Set<ITestResult> results)
+    protected long getDuration(Set<ITestResult> results)
     {
         long duration = 0;
         for (ITestResult result : results)
@@ -156,7 +156,7 @@ public class ReportNGUtils
      * @param argument The argument to render.
      * @return The string representation of the argument.
      */
-    private String renderArgument(Object argument)
+    protected String renderArgument(Object argument)
     {
         if (argument == null)
         {
@@ -245,7 +245,7 @@ public class ReportNGUtils
      * @param strings The Strings to combine.
      * @return The combined, comma-separated, String.
      */
-    private String commaSeparate(Collection<String> strings)
+    protected String commaSeparate(Collection<String> strings)
     {
         StringBuilder buffer = new StringBuilder();
         Iterator<String> iterator = strings.iterator();
@@ -293,7 +293,7 @@ public class ReportNGUtils
      * @return An XML entity representing the character (or a String containing
      * just the character if it does not need to be escaped).
      */
-    private String escapeChar(char character)
+    protected String escapeChar(char character)
     {
         switch (character)
         {
@@ -407,7 +407,7 @@ public class ReportNGUtils
      * @param suite The suite to find the end time of. 
      * @return The end time (as a number of milliseconds since 00:00 1st January 1970 UTC).
      */
-    private long getEndTime(ISuite suite, IInvokedMethod method)
+    protected long getEndTime(ISuite suite, IInvokedMethod method)
     {
         // Find the latest end time for all tests in the suite.
         for (Map.Entry<String, ISuiteResult> entry : suite.getResults().entrySet())

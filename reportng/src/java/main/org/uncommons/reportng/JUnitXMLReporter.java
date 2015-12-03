@@ -36,12 +36,12 @@ import org.testng.xml.XmlSuite;
  */
 public class JUnitXMLReporter extends AbstractReporter
 {                             
-    private static final String RESULTS_KEY = "results";
+    protected static final String RESULTS_KEY = "results";
 
-    private static final String TEMPLATES_PATH = "org/uncommons/reportng/templates/xml/";
-    private static final String RESULTS_FILE = "results.xml";
+    protected static final String TEMPLATES_PATH = "org/uncommons/reportng/templates/xml/";
+    protected static final String RESULTS_FILE = "results.xml";
 
-    private static final String REPORT_DIRECTORY = "xml";
+    protected static final String REPORT_DIRECTORY = "xml";
 
 
     public JUnitXMLReporter()
@@ -91,7 +91,7 @@ public class JUnitXMLReporter extends AbstractReporter
      * This method basically strips away the TestNG way of organising tests and arranges
      * the results by test class.
      */
-    private Collection<TestClassResults> flattenResults(List<ISuite> suites)
+    protected Collection<TestClassResults> flattenResults(List<ISuite> suites)
     {
         Map<IClass, TestClassResults> flattenedResults = new HashMap<IClass, TestClassResults>();
         for (ISuite suite : suites)
@@ -112,7 +112,7 @@ public class JUnitXMLReporter extends AbstractReporter
     }
 
 
-    private void organiseByClass(Set<ITestResult> testResults,
+    protected void organiseByClass(Set<ITestResult> testResults,
                                  Map<IClass, TestClassResults> flattenedResults)
     {
         for (ITestResult testResult : testResults)
@@ -125,7 +125,7 @@ public class JUnitXMLReporter extends AbstractReporter
     /**
      * Look-up the results data for a particular test class.
      */
-    private TestClassResults getResultsForClass(Map<IClass, TestClassResults> flattenedResults,
+    protected TestClassResults getResultsForClass(Map<IClass, TestClassResults> flattenedResults,
                                                 ITestResult testResult)
     {
         TestClassResults resultsForClass = flattenedResults.get(testResult.getTestClass());
@@ -144,15 +144,15 @@ public class JUnitXMLReporter extends AbstractReporter
      */
     public static final class TestClassResults
     {
-        private final IClass testClass;
-        private final Collection<ITestResult> failedTests = new LinkedList<ITestResult>();
-        private final Collection<ITestResult> skippedTests = new LinkedList<ITestResult>();
-        private final Collection<ITestResult> passedTests = new LinkedList<ITestResult>();
+        protected final IClass testClass;
+        protected final Collection<ITestResult> failedTests = new LinkedList<ITestResult>();
+        protected final Collection<ITestResult> skippedTests = new LinkedList<ITestResult>();
+        protected final Collection<ITestResult> passedTests = new LinkedList<ITestResult>();
 
-        private long duration = 0;
+        protected long duration = 0;
 
 
-        private TestClassResults(IClass testClass)
+        protected TestClassResults(IClass testClass)
         {
             this.testClass = testClass;
         }
