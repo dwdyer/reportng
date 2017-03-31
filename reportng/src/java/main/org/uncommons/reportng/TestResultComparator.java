@@ -26,6 +26,12 @@ class TestResultComparator implements Comparator<ITestResult>
 {
     public int compare(ITestResult result1, ITestResult result2)
     {
-        return result1.getName().compareTo(result2.getName());
+        	  int longresutl2 = 0;
+	  if(result1.getStartMillis() < result2.getStartMillis()){
+		  longresutl2 = -1;
+	  }else{
+		  longresutl2 = 1;
+	  }
+	  return longresutl2;
     }
 }

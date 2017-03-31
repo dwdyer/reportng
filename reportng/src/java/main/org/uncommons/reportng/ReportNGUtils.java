@@ -444,4 +444,23 @@ public class ReportNGUtils
     {
         return PERCENTAGE_FORMAT.format(numerator / (double) denominator);
     }
+    
+    public String getImageString(String s)
+{
+    String regex = "(<img(.*?)/>)";
+    Pattern pattern = Pattern.compile(regex);
+    Matcher matcher = pattern.matcher(s);
+    while (matcher.find()) {
+        String group = matcher.group(1);
+        //可根据实际情况多个图片 全部一起return
+        return group;
+    }
+    return "";
+}
+
+
+public String removeImage(String s)
+{
+    return  s.replaceAll("<img(.*?)/>","");
+}
 }
