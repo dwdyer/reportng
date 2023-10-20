@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="" lang="">
+<head>
+  <title>ReportNG Sample Report - Only Unsuccessful Tests</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta name="description" content="TestNG unit test results." />
+  <link href="reportng.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="reportng.js"></script>
+</head>
+<body>
+<h1>Only Unsuccessful Tests</h1>
+<p>
+  Test duration: 0.000s
+</p>
+
+
+
+  <table class="resultsTable">
+    <tr><th colspan="3" class="header failed">Failed Tests</th></tr>
+          <tr>
+        <td colspan="3" class="group">org.uncommons.reportng.sample.FailedTests</td>
+      </tr>
+            
+<tr>
+  <td class="method">
+                  assertionFailure
+      </td>
+  <td class="duration">
+    0.000s
+  </td>
+  <td class="result">
+        
+    
+        
+
+        <a href="javascript:toggleElement('exception-0', 'block')" title="Click to expand/collapse"><b>java.lang.AssertionError: This test failed.</b></a><br />
+    <div class="stackTrace" id="exception-0">
+              org.uncommons.reportng.sample.FailedTests.assertionFailure(FailedTests.java:31)<br />
+              sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)<br />
+              sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)<br />
+              sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)<br />
+              java.lang.reflect.Method.invoke(Method.java:597)<br />
+              org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)<br />
+              org.testng.internal.Invoker.invokeMethod(Invoker.java:714)<br />
+              org.testng.internal.Invoker.invokeTestMethod(Invoker.java:901)<br />
+              org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1231)<br />
+              org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:127)<br />
+              org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:111)<br />
+              org.testng.TestRunner.privateRun(TestRunner.java:767)<br />
+              org.testng.TestRunner.run(TestRunner.java:617)<br />
+              org.testng.SuiteRunner.runTest(SuiteRunner.java:334)<br />
+              org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)<br />
+              org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)<br />
+              org.testng.SuiteRunner.run(SuiteRunner.java:240)<br />
+              org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)<br />
+              org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)<br />
+              org.testng.TestNG.runSuitesSequentially(TestNG.java:1198)<br />
+              org.testng.TestNG.runSuitesLocally(TestNG.java:1123)<br />
+              org.testng.TestNG.run(TestNG.java:1031)<br />
+              org.testng.TestNG.privateMain(TestNG.java:1338)<br />
+              org.testng.TestNG.main(TestNG.java:1307)<br />
+                </div>
+      </td>
+</tr>
+<tr>
+  <td class="method">
+                  assertionFailureWithMultilineMessage
+      </td>
+  <td class="duration">
+    0.000s
+  </td>
+  <td class="result">
+        
+    
+        
+
+        <a href="javascript:toggleElement('exception-1', 'block')" title="Click to expand/collapse"><b>java.lang.AssertionError: This test failed.<br/>
+Its message is on multiple lines.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp; The last one has leading whitespace.</b></a><br />
+    <div class="stackTrace" id="exception-1">
+              org.uncommons.reportng.sample.FailedTests.assertionFailureWithMultilineMessage(FailedTests.java:38)<br />
+              sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)<br />
+              sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)<br />
+              sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)<br />
+              java.lang.reflect.Method.invoke(Method.java:597)<br />
+              org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)<br />
+              org.testng.internal.Invoker.invokeMethod(Invoker.java:714)<br />
+              org.testng.internal.Invoker.invokeTestMethod(Invoker.java:901)<br />
+              org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1231)<br />
+              org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:127)<br />
+              org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:111)<br />
+              org.testng.TestRunner.privateRun(TestRunner.java:767)<br />
+              org.testng.TestRunner.run(TestRunner.java:617)<br />
+              org.testng.SuiteRunner.runTest(SuiteRunner.java:334)<br />
+              org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)<br />
+              org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)<br />
+              org.testng.SuiteRunner.run(SuiteRunner.java:240)<br />
+              org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)<br />
+              org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)<br />
+              org.testng.TestNG.runSuitesSequentially(TestNG.java:1198)<br />
+              org.testng.TestNG.runSuitesLocally(TestNG.java:1123)<br />
+              org.testng.TestNG.run(TestNG.java:1031)<br />
+              org.testng.TestNG.privateMain(TestNG.java:1338)<br />
+              org.testng.TestNG.main(TestNG.java:1307)<br />
+                </div>
+      </td>
+</tr>
+<tr>
+  <td class="method">
+                  assertionFailureWithOutput
+      </td>
+  <td class="duration">
+    0.000s
+  </td>
+  <td class="result">
+        
+    
+            <div class="testOutput">
+                        Here is some output from an unsuccessful test.<br />
+                  </div>
+    
+
+        <a href="javascript:toggleElement('exception-2', 'block')" title="Click to expand/collapse"><b>java.lang.AssertionError: This test failed.</b></a><br />
+    <div class="stackTrace" id="exception-2">
+              org.uncommons.reportng.sample.FailedTests.assertionFailureWithOutput(FailedTests.java:46)<br />
+              sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)<br />
+              sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)<br />
+              sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)<br />
+              java.lang.reflect.Method.invoke(Method.java:597)<br />
+              org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)<br />
+              org.testng.internal.Invoker.invokeMethod(Invoker.java:714)<br />
+              org.testng.internal.Invoker.invokeTestMethod(Invoker.java:901)<br />
+              org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1231)<br />
+              org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:127)<br />
+              org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:111)<br />
+              org.testng.TestRunner.privateRun(TestRunner.java:767)<br />
+              org.testng.TestRunner.run(TestRunner.java:617)<br />
+              org.testng.SuiteRunner.runTest(SuiteRunner.java:334)<br />
+              org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)<br />
+              org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)<br />
+              org.testng.SuiteRunner.run(SuiteRunner.java:240)<br />
+              org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)<br />
+              org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)<br />
+              org.testng.TestNG.runSuitesSequentially(TestNG.java:1198)<br />
+              org.testng.TestNG.runSuitesLocally(TestNG.java:1123)<br />
+              org.testng.TestNG.run(TestNG.java:1031)<br />
+              org.testng.TestNG.privateMain(TestNG.java:1338)<br />
+              org.testng.TestNG.main(TestNG.java:1307)<br />
+                </div>
+      </td>
+</tr>
+<tr>
+  <td class="method">
+                  exceptionThrown
+      </td>
+  <td class="duration">
+    0.000s
+  </td>
+  <td class="result">
+        
+    
+        
+
+        <a href="javascript:toggleElement('exception-3', 'block')" title="Click to expand/collapse"><b>java.lang.IllegalStateException: Test failed.</b></a><br />
+    <div class="stackTrace" id="exception-3">
+              org.uncommons.reportng.sample.FailedTests.exceptionThrown(FailedTests.java:53)<br />
+              sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)<br />
+              sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)<br />
+              sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)<br />
+              java.lang.reflect.Method.invoke(Method.java:597)<br />
+              org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)<br />
+              org.testng.internal.Invoker.invokeMethod(Invoker.java:714)<br />
+              org.testng.internal.Invoker.invokeTestMethod(Invoker.java:901)<br />
+              org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1231)<br />
+              org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:127)<br />
+              org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:111)<br />
+              org.testng.TestRunner.privateRun(TestRunner.java:767)<br />
+              org.testng.TestRunner.run(TestRunner.java:617)<br />
+              org.testng.SuiteRunner.runTest(SuiteRunner.java:334)<br />
+              org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)<br />
+              org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)<br />
+              org.testng.SuiteRunner.run(SuiteRunner.java:240)<br />
+              org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)<br />
+              org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)<br />
+              org.testng.TestNG.runSuitesSequentially(TestNG.java:1198)<br />
+              org.testng.TestNG.runSuitesLocally(TestNG.java:1123)<br />
+              org.testng.TestNG.run(TestNG.java:1031)<br />
+              org.testng.TestNG.privateMain(TestNG.java:1338)<br />
+              org.testng.TestNG.main(TestNG.java:1307)<br />
+                    <b>Caused by: </b> <a href="javascript:toggleElement('exception-4', 'block')" title="Click to expand/collapse">java.lang.UnsupportedOperationException</a><br />
+        <div class="stackTrace" id="exception-4">
+                      org.uncommons.reportng.sample.FailedTests.exceptionThrown(FailedTests.java:53)<br />
+                      sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)<br />
+                      sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)<br />
+                      sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)<br />
+                      java.lang.reflect.Method.invoke(Method.java:597)<br />
+                      org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)<br />
+                      org.testng.internal.Invoker.invokeMethod(Invoker.java:714)<br />
+                      org.testng.internal.Invoker.invokeTestMethod(Invoker.java:901)<br />
+                      org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1231)<br />
+                      org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:127)<br />
+                      org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:111)<br />
+                      org.testng.TestRunner.privateRun(TestRunner.java:767)<br />
+                      org.testng.TestRunner.run(TestRunner.java:617)<br />
+                      org.testng.SuiteRunner.runTest(SuiteRunner.java:334)<br />
+                      org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)<br />
+                      org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)<br />
+                      org.testng.SuiteRunner.run(SuiteRunner.java:240)<br />
+                      org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)<br />
+                      org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)<br />
+                      org.testng.TestNG.runSuitesSequentially(TestNG.java:1198)<br />
+                      org.testng.TestNG.runSuitesLocally(TestNG.java:1123)<br />
+                      org.testng.TestNG.run(TestNG.java:1031)<br />
+                      org.testng.TestNG.privateMain(TestNG.java:1338)<br />
+                      org.testng.TestNG.main(TestNG.java:1307)<br />
+                  </div>
+          </div>
+      </td>
+</tr>
+      </table>
+
+  <table class="resultsTable" width="100%">
+    <tr><th colspan="3" class="header skipped">Skipped Tests</th></tr>
+          <tr>
+        <td colspan="3" class="group">org.uncommons.reportng.sample.SkippedTests</td>
+      </tr>
+            
+<tr>
+  <td class="method">
+                  skippedDueToDependentGroup
+      </td>
+  <td class="duration">
+    0.000s
+  </td>
+  <td class="result">
+                       <i>Depends on group(s): </i>
+        <span class="dependency">should-fail</span>
+        <br />
+                      
+    
+        
+
+      </td>
+</tr>
+<tr>
+  <td class="method">
+                  skippedDueToDependentMethod
+      </td>
+  <td class="duration">
+    0.000s
+  </td>
+  <td class="result">
+                             <i>Depends on method(s): </i>
+        <span class="dependency">org.uncommons.reportng.sample.SkippedTests.skippedDueToDependentGroup</span>
+                
+    
+        
+
+      </td>
+</tr>
+      </table>
+
+  
+</body>
+</html>

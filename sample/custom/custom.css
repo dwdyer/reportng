@@ -1,0 +1,55 @@
+a                   {color: #204a87;}
+a:visited           {color: #5c3566;}
+body                {font-family: Verdana, Helvetica, sans-serif;}
+h1                  {font-family: Verdana, Helvetica, sans-serif;}
+h2                  {font-family: Verdana, Helvetica, sans-serif;}
+
+.header             {font-weight: bold; background-color: #f0f0f0;}
+
+.totalLabel         {font-weight: bold; background-color: #ffffff;}
+td.totalLabel       {border-bottom: 0; border-left: 0;}
+
+.passed             {background-color: inherit; color: #3465a4; font-weight: bold;}
+.skipped            {background-color: inherit; color: #ddbb00; font-weight: bold;}
+.failed             {background-color: inherit; color: #ef2929; font-weight: bold;}
+.failedConfig       {background-color: #ef2929; font-weight: bold; color: #ffffff}
+.skippedConfig      {background-color: #ddbb00; font-weight: bold; color: #ffffff}
+
+.suite              {background-color: #f0f0f0;}
+.test               {background-color: inherit;}
+.group              {background-color: #f0f0f0; color: #000000; font-weight: bold;}
+.suiteLinks         {font-size: 0.9em; font-weight: normal;}
+.suiteLinks a       {color: #204a87; margin-left: .5em;}
+.suiteLinks a:visited {color: #5c3566; margin-left: .5em;}
+
+.test .passed       {background-color: inherit;}
+.test .skipped      {background-color: inherit;}
+.test .failed       {background-color: inherit;}
+
+.header.suite       {border: 1px #b0b0b0 solid; margin-top: 0;}
+#suites .test       {border: 1px #b0b0b0 solid; margin-top: 0;}
+
+#suites             {border-collapse: collapse; border: 0;}
+#suites tr          {border-collapse: collapse; border: 0;}
+#suites td          {border-collapse: collapse; border: 1px #b0b0b0 solid;}
+#suites th          {border-collapse: collapse; border: 1px #b0b0b0 solid;}
+
+.zero               {background-color: inherit;}
+
+.resultsTable       {border-collapse: collapse; border: 0;}
+.resultsTable tr    {border: 1px #b0b0b0 solid; border-collapse: collapse;}
+.resultsTable td    {vertical-align: top;}
+
+.configTable        {border: 1px solid #800000; background: #ffffdd; color: #800000; margin-bottom: 1.5em;}
+
+
+.successIndicator   {color: #3465a4;}
+
+/* Reporter log output (individual test ouput is styled by "testOutput" above). */
+#log                {font-family: Courier New, monospace;}
+
+.overviewTable      {border-collapse: collapse; border: 0;}
+.overviewTable tr   {border-collapse: collapse; border: 0;}
+.overviewTable td   {border-collapse: collapse; border: 1px #b0b0b0 solid;}
+.overviewTable th   {border-collapse: collapse; border: 1px #b0b0b0 solid;}
+
